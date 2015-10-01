@@ -1,11 +1,9 @@
 package edu.udacity.android.popularmovies;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,11 +14,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean handleMessage(Message message) {
             PopularMoviesApplication application = (PopularMoviesApplication) getApplication();
-            String prefOrder = readSortOrderFromPreference();
-            String currentSortOrder = application.getCurrentSortOrder();
 
-            if (!prefOrder.equals(currentSortOrder)) {
-                application.setCurrentSortOrder(prefOrder);
+            if (application.isSortPreferenceChanged()) {
                 recreate();
             }
 
@@ -62,10 +57,5 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         handler.sendEmptyMessageDelayed(1, 100);
-    }
-
-    private String readSortOrderFromPreference() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return preferences.getString("sort_order", "popularity.desc");
     }
 }
