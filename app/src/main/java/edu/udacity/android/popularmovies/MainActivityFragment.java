@@ -110,7 +110,7 @@ public class MainActivityFragment extends Fragment {
     private Uri buildSearchUri(String sortOrder, Properties properties) {
         String scheme = properties.getProperty("tmdb.api.scheme");
         String authority = properties.getProperty("tmdb.api.authority");
-        String path = properties.getProperty("tmdb.api.path");
+        String path = properties.getProperty("tmdb.api.discover.path");
         String apiKey = properties.getProperty("tmdb.api.key");
 
         Uri searchUri = new Uri.Builder()
