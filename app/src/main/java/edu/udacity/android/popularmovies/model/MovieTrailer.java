@@ -55,6 +55,11 @@ public class MovieTrailer implements Parcelable {
         dest.writeStringArray(new String[]{id, key, name, site});
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     public static final Parcelable.Creator<MovieTrailer> CREATOR = new Parcelable.Creator<MovieTrailer>() {
 
         @Override

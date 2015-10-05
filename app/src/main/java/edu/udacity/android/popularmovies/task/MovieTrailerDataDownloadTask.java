@@ -1,8 +1,13 @@
 package edu.udacity.android.popularmovies.task;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,17 +23,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.udacity.android.popularmovies.adapter.MovieTrailerAdapter;
+import edu.udacity.android.popularmovies.R;
 import edu.udacity.android.popularmovies.util.IOUtils;
 import edu.udacity.android.popularmovies.model.MovieTrailer;
 
 public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<MovieTrailer>> {
     private static final String TAG = MovieTrailerDataDownloadTask.class.getSimpleName();
 
-    private final MovieTrailerAdapter adapter;
+    private final Activity activity;
 
-    public MovieTrailerDataDownloadTask(MovieTrailerAdapter adapter) {
-        this.adapter = adapter;
+    public MovieTrailerDataDownloadTask(Activity activity) {
+        this.activity = activity;
     }
 
     @Override
@@ -78,7 +83,14 @@ public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Movi
     }
 
     protected void onPostExecute(List<MovieTrailer> trailerList) {
-        adapter.clear();
-        adapter.addAll(trailerList);
+        LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.movie_details_layout);
+        LayoutInflater inflater = activity.getLayoutInflater();
+
+        for (MovieTrailer trailer : trailerList) {
+            View view = inflater.inflate(R.layout.movie_trailer, linearLayout, false);
+            TextView trailerNameView = (TextView) view.findViewById(R.id.movie_trailer_name);
+            trailerNameView.setText(trailer.getName());
+            linearLayout.addView(trailerNameView);
+        }
     }
 }

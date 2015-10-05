@@ -19,9 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import edu.udacity.android.popularmovies.adapter.MovieTrailerAdapter;
 import edu.udacity.android.popularmovies.model.Movie;
-import edu.udacity.android.popularmovies.task.MovieDataDownloadTask;
 import edu.udacity.android.popularmovies.task.MovieTrailerDataDownloadTask;
 import edu.udacity.android.popularmovies.util.Constants;
 import edu.udacity.android.popularmovies.util.MathUtils;
@@ -75,8 +73,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void startTrailerDataDownload() {
-        MovieTrailerAdapter trailerAdapter = new MovieTrailerAdapter(this);
-        MovieTrailerDataDownloadTask trailerDownloadTask = new MovieTrailerDataDownloadTask(trailerAdapter);
+        MovieTrailerDataDownloadTask trailerDownloadTask = new MovieTrailerDataDownloadTask(this);
 
         Uri trailerUri = Uri.parse("http://api.themoviedb.org/3/movie/135397/videos");
         trailerDownloadTask.execute(trailerUri);
