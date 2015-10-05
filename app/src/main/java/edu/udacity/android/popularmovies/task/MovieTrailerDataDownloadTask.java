@@ -6,8 +6,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,8 +89,8 @@ public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Movi
 
         for (MovieTrailer trailer : trailerList) {
             View view = inflater.inflate(R.layout.movie_trailer, linearLayout, false);
-            TextView trailerNameView = (TextView) view.findViewById(R.id.movie_trailer_name);
-            trailerNameView.setText(trailer.getName());
+            Button trailerButton = (Button) view.findViewById(R.id.movie_trailer_item);
+            trailerButton.setText(trailer.getName());
             linearLayout.addView(view);
         }
     }

@@ -1,26 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/movie_trailer_item"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp">
-
-    <ImageView android:id="@+id/trailer_icon"
-               android:layout_width="30dp"
-               android:layout_height="30sp"
-               android:src="@drawable/play_button"
-               android:contentDescription="@string/play_button_message"
-               android:scaleType="fitStart"
-               android:layout_marginRight="5dp"
-               android:layout_marginEnd="5dp"/>
-
-    <TextView android:id="@+id/movie_trailer_name"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:textSize="@dimen/font_size_small"
-              android:layout_toRightOf="@+id/trailer_icon"
-              android:layout_toEndOf="@+id/trailer_icon"/>
-</RelativeLayout>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/movie_trailer_item"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/play_button"
+        android:drawableStart="@drawable/play_button"
+        android:gravity="start|center_vertical"/>
