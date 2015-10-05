@@ -76,10 +76,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
         MovieTrailerDataDownloadTask trailerDownloadTask = new MovieTrailerDataDownloadTask(this);
         PopularMoviesApplication application = (PopularMoviesApplication) getApplication();
 
-        String scheme = application.getConfigurationValue("tmdb.api.scheme");
-        String authority = application.getConfigurationValue("tmdb.api.authority");
-        String videoPath = application.getConfigurationValue("tmdb.api.videos.path", movie.getId().toString());
-        String apiKey = application.getConfigurationValue("tmdb.api.key");
+        String scheme = application.getConfigurationProperty("tmdb.api.scheme");
+        String authority = application.getConfigurationProperty("tmdb.api.authority");
+        String videoPath = application.getConfigurationProperty("tmdb.api.videos.path", movie.getId().toString());
+        String apiKey = application.getConfigurationProperty("tmdb.api.key");
 
         Uri trailerUri = new Uri.Builder().scheme(scheme)
                 .authority(authority)

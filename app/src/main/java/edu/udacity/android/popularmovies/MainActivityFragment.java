@@ -1,7 +1,6 @@
 package edu.udacity.android.popularmovies;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -98,20 +97,19 @@ public class MainActivityFragment extends Fragment {
         outState.putParcelableArray(Constants.MOVIE_ARRAY_ATTRIBUTE_NAME, movieList.toArray(new Movie[count]));
     }
 
-    private void startMovieDataDownloadTask(Application application, GridView gridView) {
+    private void startMovieDataDownloadTask(PopularMoviesApplication application, GridView gridView) {
         String sortOrder = AndroidUtils.readSortOrderFromPreference(application.getApplicationContext());
-        Properties properties = readProperties();
-        Uri searchUri = buildSearchUri(sortOrder, properties);
-        Uri posterBaseUri = buildImageBaseUri(properties);
+        Uri searchUri = buildSearchUri(application, sortOrder);
+        Uri posterBaseUri = buildImageBaseUri(application);
         MovieDataDownloadTask task = new MovieDataDownloadTask(gridView);
         task.execute(searchUri, posterBaseUri);
     }
 
-    private Uri buildSearchUri(String sortOrder, Properties properties) {
-        String scheme = properties.getProperty("tmdb.api.scheme");
-        String authority = properties.getProperty("tmdb.api.authority");
-        String path = properties.getProperty("tmdb.api.discover.path");
-        String apiKey = properties.getProperty("tmdb.api.key");
+    private Uri buildSearchUri(PopularMoviesApplication application, String sortOrder) {
+        String scheme = application.getConfigurationProperty("tmdb.api.scheme");
+        String authority = application.getConfigurationProperty("tmdb.api.authority");
+        String path = application.getConfigurationProperty("tmdb.api.discover.path");
+        String apiKey = application.getConfigurationProperty("tmdb.api.key");
 
         Uri searchUri = new Uri.Builder()
                 .scheme(scheme)
@@ -126,10 +124,10 @@ public class MainActivityFragment extends Fragment {
         return searchUri;
     }
 
-    private Uri buildImageBaseUri(Properties properties) {
-        String scheme = properties.getProperty("tmdb.image.scheme");
-        String authority = properties.getProperty("tmdb.image.authority");
-        String path = properties.getProperty("tmdb.image.path");
+    private Uri buildImageBaseUri(PopularMoviesApplication application) {
+        String scheme = application.getConfigurationProperty("tmdb.image.scheme");
+        String authority = application.getConfigurationProperty("tmdb.image.authority");
+        String path = application.getConfigurationProperty("tmdb.image.path");
 
         Uri imageBaseUri = new Uri.Builder()
                 .scheme(scheme)

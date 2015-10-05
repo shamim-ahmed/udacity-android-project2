@@ -54,7 +54,7 @@ public class PopularMoviesApplication extends Application {
         return numberOfColumnsInGrid;
     }
 
-    public String getConfigurationValue(String key, String... substitutes) {
+    public String getConfigurationProperty(String key, String... substitutes) {
         String configValue = configProperties.getProperty(key);
 
         for (int i = 0; i < substitutes.length; i++) {
