@@ -1,6 +1,7 @@
 package edu.udacity.android.popularmovies;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,7 +19,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import edu.udacity.android.popularmovies.adapter.MovieTrailerAdapter;
 import edu.udacity.android.popularmovies.model.Movie;
+import edu.udacity.android.popularmovies.task.MovieDataDownloadTask;
+import edu.udacity.android.popularmovies.task.MovieTrailerDataDownloadTask;
 import edu.udacity.android.popularmovies.util.Constants;
 import edu.udacity.android.popularmovies.util.MathUtils;
 import edu.udacity.android.popularmovies.util.StringUtils;
@@ -45,16 +49,22 @@ public class MovieDetailsActivity extends AppCompatActivity {
             return;
         }
 
+        // display the poster
         Picasso.with(this)
                 .load(selectedMovie.getPosterUri())
                 .noFade()
                 .placeholder(R.drawable.movie_placeholder)
                 .into(posterView);
 
+        // display various metadata
         titleView.setText(selectedMovie.getTitle());
         yearView.setText(generateFormattedYear(selectedMovie.getReleaseDate()));
         ratingView.setText(generateFormattedRating(selectedMovie.getVoteAverage()));
 
+        // populate the trailer list
+        startTrailerDataDownload();
+
+        // display synopsis
         String synopsis = selectedMovie.getSynopsis();
 
         if (StringUtils.isBlank(synopsis)) {
@@ -62,6 +72,15 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }
 
         synopsisView.setText(synopsis);
+    }
+
+    private void startTrailerDataDownload() {
+        MovieTrailerAdapter trailerAdapter = new MovieTrailerAdapter(this);
+        MovieTrailerDataDownloadTask trailerDownloadTask = new MovieTrailerDataDownloadTask(trailerAdapter);
+
+        Uri trailerUri = Uri.parse("http://api.themoviedb.org/3/movie/135397/videos");
+        trailerDownloadTask.execute(trailerUri);
+
     }
 
     @Override

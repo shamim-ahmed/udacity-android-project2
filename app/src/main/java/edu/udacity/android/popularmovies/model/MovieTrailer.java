@@ -1,4 +1,4 @@
-package edu.udacity.android.popularmovies.util;
+package edu.udacity.android.popularmovies.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -27,6 +27,23 @@ public class MovieTrailer implements Parcelable {
         name = values[2];
         site = values[3];
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
 
     @Override
     public int describeContents() {

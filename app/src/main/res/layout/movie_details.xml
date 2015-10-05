@@ -60,6 +60,10 @@
             </LinearLayout>
         </LinearLayout>
 
+        <ListView android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/movie_trailers"/>
+
         <TextView
                 android:id="@+id/movie_details_synopsis"
                 android:layout_width="fill_parent"
