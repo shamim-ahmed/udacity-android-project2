@@ -91,7 +91,7 @@ public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Movi
             View view = inflater.inflate(R.layout.movie_trailer, linearLayout, false);
             TextView trailerNameView = (TextView) view.findViewById(R.id.movie_trailer_name);
             trailerNameView.setText(trailer.getName());
-            linearLayout.addView(trailerNameView);
+            linearLayout.addView(view);
         }
     }
 }

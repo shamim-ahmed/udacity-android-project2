@@ -9,6 +9,7 @@
     <string name="unknown_release_date_message">Unknown release date</string>
     <string name="unknown_rating_message">Unknown rating</string>
     <string name="unknown_synopsis_message">No synopsis available</string>
+    <string name="play_button_message">Play Trailer</string>
 
     <string-array name="sort_option_labels" translatable="false">
         <item>Most Popular</item>
