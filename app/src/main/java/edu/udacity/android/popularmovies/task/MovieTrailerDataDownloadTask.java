@@ -38,7 +38,7 @@ public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Movi
 
     @Override
     protected List<MovieTrailer> doInBackground(Uri... params) {
-        if (params.length < 1) {
+        if (params.length == 0) {
             Log.e(TAG, "No Uri provided for trailer data download");
             return Collections.emptyList();
         }
@@ -46,9 +46,10 @@ public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Movi
         BufferedReader reader = null;
         StringBuilder jsonBuilder = new StringBuilder();
         List<MovieTrailer> trailerList = new ArrayList<>();
+        String urlString = params[0].toString();
 
         try {
-            URL url = new URL(params[0].toString());
+            URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
@@ -70,11 +71,11 @@ public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Movi
                 }
             }
         } catch (MalformedURLException ex) {
-            Log.e(TAG, String.format("Malformed URL : %s", params[0]));
+            Log.e(TAG, String.format("Malformed URL : %s", urlString));
         } catch (IOException ex) {
-            Log.e(TAG, String.format("An error occurred while fetching data from URL %s", params[0]));
+            Log.e(TAG, String.format("An error occurred while fetching data from URL %s", urlString));
         } catch (JSONException ex) {
-            Log.e(TAG, String.format("An error occurred while parsing json data returned from %s", params[0]));
+            Log.e(TAG, String.format("An error occurred while parsing json data returned from %s", urlString));
         } finally {
             IOUtils.close(reader);
         }
