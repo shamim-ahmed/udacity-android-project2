@@ -60,7 +60,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         ratingView.setText(generateFormattedRating(selectedMovie.getVoteAverage()));
 
         // populate the trailer list
-        startTrailerDataDownload();
+        startTrailerDataDownload(selectedMovie);
 
         // display synopsis
         String synopsis = selectedMovie.getSynopsis();
@@ -72,12 +72,23 @@ public class MovieDetailsActivity extends AppCompatActivity {
         synopsisView.setText(synopsis);
     }
 
-    private void startTrailerDataDownload() {
+    private void startTrailerDataDownload(Movie movie) {
         MovieTrailerDataDownloadTask trailerDownloadTask = new MovieTrailerDataDownloadTask(this);
+        PopularMoviesApplication application = (PopularMoviesApplication) getApplication();
 
-        Uri trailerUri = Uri.parse("http://api.themoviedb.org/3/movie/135397/videos");
+        String scheme = application.getConfigurationValue("tmdb.api.scheme");
+        String authority = application.getConfigurationValue("tmdb.api.authority");
+        String videoPath = application.getConfigurationValue("tmdb.api.videos.path", movie.getId().toString());
+        String apiKey = application.getConfigurationValue("tmdb.api.key");
+
+        Uri trailerUri = new Uri.Builder().scheme(scheme)
+                .authority(authority)
+                .path(videoPath)
+                .appendQueryParameter("api_key", apiKey)
+                .build();
+
+        Log.i(TAG, String.format("The trailer Uri is : %s", trailerUri.toString()));
         trailerDownloadTask.execute(trailerUri);
-
     }
 
     @Override

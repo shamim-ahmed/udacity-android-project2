@@ -3,6 +3,8 @@ package edu.udacity.android.popularmovies;
 import android.app.Application;
 import android.content.Context;
 
+import java.util.Properties;
+
 import edu.udacity.android.popularmovies.util.AndroidUtils;
 import edu.udacity.android.popularmovies.util.Constants;
 
@@ -10,6 +12,7 @@ public class PopularMoviesApplication extends Application {
     private String activeSortPreference;
     private boolean sortPreferenceChanged;
     private int numberOfColumnsInGrid;
+    private Properties configProperties;
 
     @Override
     public void onCreate() {
@@ -24,6 +27,7 @@ public class PopularMoviesApplication extends Application {
         }
 
         activeSortPreference = AndroidUtils.readSortOrderFromPreference(context);
+        configProperties = AndroidUtils.readConfiguration(context);
     }
 
     public synchronized String getActiveSortPreference() {
@@ -48,5 +52,15 @@ public class PopularMoviesApplication extends Application {
 
     public synchronized int getNumberOfColumnsInGrid() {
         return numberOfColumnsInGrid;
+    }
+
+    public String getConfigurationValue(String key, String... substitutes) {
+        String configValue = configProperties.getProperty(key);
+
+        for (int i = 0; i < substitutes.length; i++) {
+            configValue = configValue.replaceAll(String.format("\\{%d\\}", i), substitutes[i]);
+        }
+
+        return configValue;
     }
 }
