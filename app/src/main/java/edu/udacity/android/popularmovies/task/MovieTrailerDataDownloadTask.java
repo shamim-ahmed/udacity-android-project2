@@ -1,6 +1,7 @@
 package edu.udacity.android.popularmovies.task;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.udacity.android.popularmovies.PopularMoviesApplication;
 import edu.udacity.android.popularmovies.R;
 import edu.udacity.android.popularmovies.util.IOUtils;
 import edu.udacity.android.popularmovies.model.MovieTrailer;
@@ -91,7 +93,35 @@ public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Movi
             View view = inflater.inflate(R.layout.movie_trailer, linearLayout, false);
             Button trailerButton = (Button) view.findViewById(R.id.movie_trailer_item);
             trailerButton.setText(trailer.getName());
+            trailerButton.setOnClickListener(new MovieTrailerOnClickListener(trailer.getKey()));
             linearLayout.addView(view);
+        }
+    }
+
+    private class MovieTrailerOnClickListener implements View.OnClickListener {
+
+        private final String trailerKey;
+
+        public MovieTrailerOnClickListener(String trailerKey) {
+            this.trailerKey = trailerKey;
+        }
+
+        @Override
+        public void onClick(View v) {
+            PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
+            String scheme = application.getConfigurationProperty("youtube.video.scheme");
+            String authority = application.getConfigurationProperty("youtube.video.authority");
+            String path = application.getConfigurationProperty("youtube.video.path");
+
+            Uri trailerUri = new Uri.Builder()
+                    .scheme(scheme)
+                    .authority(authority)
+                    .path(path)
+                    .appendQueryParameter("v", trailerKey)
+                    .build();
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, trailerUri);
+            activity.startActivity(intent);
         }
     }
 }
