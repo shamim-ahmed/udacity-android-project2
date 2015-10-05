@@ -83,7 +83,7 @@ public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Movi
     }
 
     protected void onPostExecute(List<MovieTrailer> trailerList) {
-        LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.movie_details_layout);
+        LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.movie_trailers);
         LayoutInflater inflater = activity.getLayoutInflater();
 
         for (MovieTrailer trailer : trailerList) {
