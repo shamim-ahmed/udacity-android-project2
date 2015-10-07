@@ -11,6 +11,10 @@
             android:theme="@style/AppTheme"
             android:name=".PopularMoviesApplication">
 
+        <provider
+                android:authorities="edu.udacity.android.popularmovies.db.MovieProvider"
+                android:name=".db.MovieProvider"/>
+
         <activity
                 android:name=".MainActivity"
                 android:label="@string/app_name">
