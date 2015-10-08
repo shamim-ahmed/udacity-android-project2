@@ -6,12 +6,11 @@ import android.database.Cursor;
 import android.net.Uri;
 
 public class MovieProvider extends ContentProvider {
-    public static final String DATABASE_FILE_NAME = "movie.db";
     private MovieDbHelper dbHelper;
 
     @Override
     public boolean onCreate() {
-        dbHelper = new MovieDbHelper(getContext(), DATABASE_FILE_NAME, 1);
+        dbHelper = new MovieDbHelper(getContext());
         return true;
     }
 
