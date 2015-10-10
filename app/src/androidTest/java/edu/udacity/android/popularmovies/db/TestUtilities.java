@@ -2,14 +2,13 @@ package edu.udacity.android.popularmovies.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.test.AndroidTestCase;
 
 import java.util.Map;
 import java.util.Set;
 
-import edu.udacity.android.popularmovies.db.MovieContract;
+import static junit.framework.Assert.*;
 
-public class TestUtilities extends AndroidTestCase {
+public class TestUtilities {
 
     public static ContentValues createMovieValues() {
         ContentValues values = new ContentValues();
@@ -18,7 +17,6 @@ public class TestUtilities extends AndroidTestCase {
         values.put(MovieContract.MovieEntry.COLUMN_POSTER_URI, "http://image.tmdb.org/t/p/w185/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg");
         values.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, "2010-07-16");
         values.put(MovieContract.MovieEntry.COLUMN_SYNOPSIS, "Cobb, a skilled thief who commits corporate espionage by infiltrating the subconscious of his targets is offered a chance to regain his old life as payment for a task considered to be impossible");
-        //values.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, Double.valueOf("6.498498"));
 
         return values;
     }
