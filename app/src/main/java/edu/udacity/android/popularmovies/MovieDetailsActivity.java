@@ -22,6 +22,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import edu.udacity.android.popularmovies.model.Movie;
+import edu.udacity.android.popularmovies.model.MovieReview;
+import edu.udacity.android.popularmovies.task.MovieReviewDataDownloadTask;
 import edu.udacity.android.popularmovies.task.MovieTrailerDataDownloadTask;
 import edu.udacity.android.popularmovies.util.Constants;
 import edu.udacity.android.popularmovies.util.MathUtils;
@@ -64,6 +66,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
         // populate the trailer list
         startTrailerDataDownload(selectedMovie);
 
+        // populate the review list
+        startReviewDataDownload(selectedMovie);
+
         // display synopsis
         String synopsis = selectedMovie.getSynopsis();
 
@@ -85,7 +90,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void startTrailerDataDownload(Movie movie) {
-        MovieTrailerDataDownloadTask trailerDownloadTask = new MovieTrailerDataDownloadTask(this);
         PopularMoviesApplication application = (PopularMoviesApplication) getApplication();
 
         String scheme = application.getConfigurationProperty("tmdb.api.scheme");
@@ -100,7 +104,28 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 .build();
 
         Log.i(TAG, String.format("The trailer Uri is : %s", trailerUri.toString()));
+
+        MovieTrailerDataDownloadTask trailerDownloadTask = new MovieTrailerDataDownloadTask(this);
         trailerDownloadTask.execute(trailerUri);
+    }
+
+    private void startReviewDataDownload(Movie movie) {
+        PopularMoviesApplication application = (PopularMoviesApplication) getApplication();
+        String scheme = application.getConfigurationProperty("tmdb.api.scheme");
+        String authority = application.getConfigurationProperty("tmdb.api.authority");
+        String path = application.getConfigurationProperty("tmdb.api.reviews.path", movie.getId().toString());
+        String apiKey = application.getConfigurationProperty("tmdb.api.key");
+
+        Uri reviewDataUri = new Uri.Builder().scheme(scheme)
+                .authority(authority)
+                .path(path)
+                .appendQueryParameter("api_key", apiKey)
+                .build();
+
+        Log.i(TAG, String.format("The review URI is : %s", reviewDataUri.toString()));
+
+        MovieReviewDataDownloadTask task = new MovieReviewDataDownloadTask(this);
+        task.execute(reviewDataUri);
     }
 
     @Override
