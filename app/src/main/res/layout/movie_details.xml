@@ -57,6 +57,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/font_size_small"/>
+
+                <ImageButton
+                        android:id="@+id/favorite_button"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/star"
+                        android:background="#00ffffff"
+                        android:contentDescription="@string/favorite_button_text"/>
             </LinearLayout>
         </LinearLayout>
 

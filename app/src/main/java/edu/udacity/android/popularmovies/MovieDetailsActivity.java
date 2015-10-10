@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -70,6 +72,16 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }
 
         synopsisView.setText(synopsis);
+
+        ImageButton favoriteButton = (ImageButton) findViewById(R.id.favorite_button);
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageButton btn = (ImageButton) v;
+                boolean selected = btn.isSelected();
+                btn.setSelected(!selected);
+            }
+        });
     }
 
     private void startTrailerDataDownload(Movie movie) {
