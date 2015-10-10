@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import edu.udacity.android.popularmovies.model.Movie;
-import edu.udacity.android.popularmovies.model.MovieReview;
 import edu.udacity.android.popularmovies.task.MovieReviewDataDownloadTask;
 import edu.udacity.android.popularmovies.task.MovieTrailerDataDownloadTask;
 import edu.udacity.android.popularmovies.util.Constants;
