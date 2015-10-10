@@ -1,5 +1,6 @@
 package edu.udacity.android.popularmovies.db;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
@@ -8,16 +9,23 @@ import java.util.HashSet;
 
 public class TestDb extends AndroidTestCase {
     @Override
-    public void setUp() {
-        deleteDatabase();
+    public void setUp() throws Exception {
+        super.setUp();
+        deleteDataFromTable();
     }
 
-    private void deleteDatabase() {
-        mContext.deleteDatabase(MovieContract.MovieEntry.TABLE_NAME);
+    private void deleteDataFromTable() {
+        MovieDbHelper dbHelper = new MovieDbHelper(mContext);
+        SQLiteDatabase db =  dbHelper.getWritableDatabase();
+
+        try {
+            db.execSQL("DELETE FROM " + MovieContract.MovieEntry.TABLE_NAME);
+        } catch (Exception ex) {
+            // ignore it
+        }
     }
 
-    public void testCreateDb() throws Throwable {
-        mContext.deleteDatabase(MovieContract.DATABASE_NAME);
+    public void testCreateTable() throws Throwable {
         MovieDbHelper dbHelper = new MovieDbHelper(mContext);
         SQLiteDatabase db =  dbHelper.getWritableDatabase();
         assertEquals(true, db.isOpen());
@@ -65,6 +73,28 @@ public class TestDb extends AndroidTestCase {
         // entry columns
         assertTrue("Error: The database doesn't contain all of the required movie entry columns",
                 movieColumnHashSet.isEmpty());
+        c.close();
+        db.close();
+    }
+
+    public void testMovieTable() {
+        MovieDbHelper dbHelper = new MovieDbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        assertTrue("database is not open", db.isOpen());
+
+        ContentValues values = TestUtilities.createMovieValues();
+        long _id = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, values);
+
+        assertTrue("insert in Movie table failed", _id != -1);
+
+        Cursor c = db.query(MovieContract.MovieEntry.TABLE_NAME, null, "_ID = ?", new String[] {Long.toString(_id)}, null, null, null, null);
+
+        assertTrue("the row from Movie table could not be retrieved", c.moveToFirst());
+
+        TestUtilities.validateCursor("retrieved values do not match inserted values", c, values);
+
+        c.close();
         db.close();
     }
 }
