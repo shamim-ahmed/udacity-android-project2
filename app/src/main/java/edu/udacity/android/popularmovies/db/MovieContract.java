@@ -14,6 +14,7 @@ public class MovieContract {
     public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIE).build();
     public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + PATH_MOVIE;
     public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + PATH_MOVIE;
+    public static final String DATABASE_NAME = "popularMovies.db";
 
     public static class MovieEntry implements BaseColumns {
         private static final String TAG = MovieEntry.class.getSimpleName();
@@ -38,6 +39,10 @@ public class MovieContract {
             }
 
             return result;
+        }
+
+        public static Uri buildMovieUri(Long movieId) {
+            return CONTENT_URI.buildUpon().path(movieId.toString()).build();
         }
     }
 }

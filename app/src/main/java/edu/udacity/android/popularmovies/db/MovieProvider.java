@@ -4,6 +4,7 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
@@ -71,12 +72,30 @@ public class MovieProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        return null;
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Uri result = null;
+        long _id = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, values);
+
+        if (_id != -1) {
+            Long movieId = (Long) values.get("movie_id");
+            result = MovieContract.MovieEntry.buildMovieUri(movieId);
+        }
+
+        return result;
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        Long movieId = MovieContract.MovieEntry.getMovieIdFromUri(uri);
+        int result = 0;
+
+        if (movieId != null) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            result = db.delete(MovieContract.MovieEntry.TABLE_NAME, MOVIE_ID_SELECTION, new String[] {movieId.toString()});
+        }
+
+
+        return result;
     }
 
     @Override
