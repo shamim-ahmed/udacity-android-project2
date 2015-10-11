@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
 import java.util.HashSet;
+import java.util.List;
 
 public class TestDb extends AndroidTestCase {
     @Override
@@ -80,18 +81,17 @@ public class TestDb extends AndroidTestCase {
     public void testMovieTable() {
         MovieDbHelper dbHelper = new MovieDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-
         assertTrue("database is not open", db.isOpen());
 
-        ContentValues values = TestUtilities.createMovieValues();
-        long _id = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, values);
+        List<ContentValues> movieDataList = TestUtilities.createMovieValues();
+        assertTrue("no movie data", movieDataList.size() > 0);
 
+        ContentValues values = movieDataList.get(0);
+        long _id = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, values);
         assertTrue("insert in Movie table failed", _id != -1);
 
         Cursor c = db.query(MovieContract.MovieEntry.TABLE_NAME, null, "_ID = ?", new String[] {Long.toString(_id)}, null, null, null, null);
-
         assertTrue("the row from Movie table could not be retrieved", c.moveToFirst());
-
         TestUtilities.validateCursor("retrieved values do not match inserted values", c, values);
 
         c.close();

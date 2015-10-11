@@ -1,9 +1,12 @@
 package edu.udacity.android.popularmovies.db;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.test.ProviderTestCase2;
+
+import java.util.List;
 
 public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
     public MovieProviderTestCase() {
@@ -18,14 +21,48 @@ public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
 
     public void testInsertAndDelete() {
         MovieProvider provider = getProvider();
-        ContentValues values = TestUtilities.createMovieValues();
+        List<ContentValues> movieDataList = TestUtilities.createMovieValues();
+        assertTrue("no test data", movieDataList.size() > 0);
+
+        ContentValues values = movieDataList.get(0);
         Uri resultUri = provider.insert(MovieContract.CONTENT_URI, values);
+        String type = provider.getType(resultUri);
+        assertEquals("Uri type is different than expected", MovieContract.CONTENT_ITEM_TYPE, type);
+
         long movieId = MovieContract.MovieEntry.getMovieIdFromUri(resultUri);
         long expectedId = (Long) values.get("movie_id");
         assertTrue("movieId is different than expected", movieId == expectedId);
 
         int count = provider.delete(resultUri, null, null);
         assertTrue("inserted movie was not deleted successfully", count == 1);
+    }
+
+    public void testQuery() {
+        MovieProvider provider = getProvider();
+        List<ContentValues> movieDataList = TestUtilities.createMovieValues();
+        assertTrue("no test data", movieDataList.size() > 0);
+
+        for (ContentValues values : movieDataList) {
+            Uri resultUri = provider.insert(MovieContract.CONTENT_URI, values);
+            String type = provider.getType(resultUri);
+            assertEquals("Uri type is different than expected", MovieContract.CONTENT_ITEM_TYPE, type);
+
+            long movieId = MovieContract.MovieEntry.getMovieIdFromUri(resultUri);
+            long expectedId = (Long) values.get("movie_id");
+            assertTrue("movieId is different than expected", movieId == expectedId);
+        }
+
+        // retrieve individual movies
+        for (ContentValues values : movieDataList) {
+            long movieId = (Long) values.get("movie_id");
+            Uri queryUri = MovieContract.MovieEntry.buildMovieUri(movieId);
+            Cursor c = provider.query(queryUri, null, null, null, null);
+            assertTrue("movie not found in database", c.moveToFirst());
+            TestUtilities.validateCursor("movie values are different than expected", c, values);
+            c.close();
+        }
+
+
     }
 
     private void clearMovieTable() {
