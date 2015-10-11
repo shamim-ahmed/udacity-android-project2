@@ -3,6 +3,7 @@ package edu.udacity.android.popularmovies;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -105,8 +106,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
         synopsisView.setText(synopsis);
 
         final ContentResolver contentResolver = getContentResolver();
+        final Uri movieUri = MovieContract.MovieEntry.buildMovieUri(selectedMovie.getMovieId());
+        boolean favorite = isFavorite(contentResolver, movieUri);
 
         ImageButton favoriteButton = (ImageButton) findViewById(R.id.favorite_button);
+        favoriteButton.setSelected(favorite);
+
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,8 +122,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     ContentValues values = convertMovie(selectedMovie);
                     contentResolver.insert(MovieContract.CONTENT_URI, values);
                 } else {
-                    Uri uri = MovieContract.MovieEntry.buildMovieUri(selectedMovie.getMovieId());
-                    contentResolver.delete(uri, null, null);
+                    contentResolver.delete(movieUri, null, null);
                 }
 
                 btn.setSelected(!selected);
@@ -211,5 +215,21 @@ public class MovieDetailsActivity extends AppCompatActivity {
         values.put(MovieContract.MovieEntry.COLUMN_SYNOPSIS, movie.getSynopsis());
 
         return values;
+    }
+
+    private boolean isFavorite(ContentResolver contentResolver, Uri movieUri) {
+        boolean result = false;
+        Cursor cursor = null;
+
+        try {
+            cursor = contentResolver.query(movieUri, null, null, null, null);
+            result = cursor.moveToFirst();
+        } finally {
+            if (cursor != null) {
+                cursor.close();;
+            }
+        }
+
+        return result;
     }
 }
