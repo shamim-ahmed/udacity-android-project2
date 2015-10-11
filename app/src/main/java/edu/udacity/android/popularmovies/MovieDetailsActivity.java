@@ -1,5 +1,7 @@
 package edu.udacity.android.popularmovies;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import edu.udacity.android.popularmovies.db.MovieContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.task.MovieReviewDataDownloadTask;
 import edu.udacity.android.popularmovies.task.MovieTrailerDataDownloadTask;
@@ -30,6 +33,30 @@ import edu.udacity.android.popularmovies.util.StringUtils;
 
 public class MovieDetailsActivity extends AppCompatActivity {
     private static final String TAG = MovieDetailsActivity.class.getSimpleName();
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SortPreferenceActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +70,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         TextView synopsisView = (TextView) findViewById(R.id.movie_details_synopsis);
 
         Bundle extras = getIntent().getExtras();
-        Movie selectedMovie = (Movie) extras.get(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME);
+        final Movie selectedMovie = (Movie) extras.get(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME);
 
         if (selectedMovie == null) {
             Log.e(TAG, "No movie found, so cannot display movie details");
@@ -77,12 +104,23 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         synopsisView.setText(synopsis);
 
+        final ContentResolver contentResolver = getContentResolver();
+
         ImageButton favoriteButton = (ImageButton) findViewById(R.id.favorite_button);
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ImageButton btn = (ImageButton) v;
                 boolean selected = btn.isSelected();
+
+                if (!selected) {
+                    ContentValues values = convertMovie(selectedMovie);
+                    contentResolver.insert(MovieContract.CONTENT_URI, values);
+                } else {
+                    Uri uri = MovieContract.MovieEntry.buildMovieUri(selectedMovie.getMovieId());
+                    contentResolver.delete(uri, null, null);
+                }
+
                 btn.setSelected(!selected);
             }
         });
@@ -93,7 +131,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         String scheme = application.getConfigurationProperty("tmdb.api.scheme");
         String authority = application.getConfigurationProperty("tmdb.api.authority");
-        String videoPath = application.getConfigurationProperty("tmdb.api.videos.path", movie.getId().toString());
+        String videoPath = application.getConfigurationProperty("tmdb.api.videos.path", movie.getMovieId().toString());
         String apiKey = application.getConfigurationProperty("tmdb.api.key");
 
         Uri trailerUri = new Uri.Builder().scheme(scheme)
@@ -112,7 +150,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         PopularMoviesApplication application = (PopularMoviesApplication) getApplication();
         String scheme = application.getConfigurationProperty("tmdb.api.scheme");
         String authority = application.getConfigurationProperty("tmdb.api.authority");
-        String path = application.getConfigurationProperty("tmdb.api.reviews.path", movie.getId().toString());
+        String path = application.getConfigurationProperty("tmdb.api.reviews.path", movie.getMovieId().toString());
         String apiKey = application.getConfigurationProperty("tmdb.api.key");
 
         Uri reviewDataUri = new Uri.Builder().scheme(scheme)
@@ -125,30 +163,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         MovieReviewDataDownloadTask task = new MovieReviewDataDownloadTask(this);
         task.execute(reviewDataUri);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SortPreferenceActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private String generateFormattedRating(Double rating) {
@@ -185,5 +199,17 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }
 
         return result;
+    }
+
+    private ContentValues convertMovie(Movie movie) {
+        ContentValues values = new ContentValues();
+        values.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, movie.getMovieId());
+        values.put(MovieContract.MovieEntry.COLUMN_TITLE, movie.getTitle());
+        values.put(MovieContract.MovieEntry.COLUMN_POSTER_URI, movie.getPosterUri().toString());
+        values.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, movie.getReleaseDate());
+        values.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, movie.getVoteAverage());
+        values.put(MovieContract.MovieEntry.COLUMN_SYNOPSIS, movie.getSynopsis());
+
+        return values;
     }
 }

@@ -8,7 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Movie implements Parcelable {
-    private final Long id;
+    private final Long movieId;
     private final String title;
     private final String releaseDate;
     private final Uri posterUri;
@@ -29,7 +29,7 @@ public class Movie implements Parcelable {
     };
 
     public Movie(JSONObject movieData, Uri posterBaseUri) throws JSONException {
-        id = movieData.getLong("id");
+        movieId = movieData.getLong("id");
         title = movieData.getString("title");
         releaseDate = movieData.getString("release_date");
 
@@ -44,7 +44,7 @@ public class Movie implements Parcelable {
 
     public Movie(Parcel in) {
         Object[] values = in.readArray(ClassLoader.getSystemClassLoader());
-        id = (Long) values[0];
+        movieId = (Long) values[0];
         title = (String) values[1];
         releaseDate = (String) values[2];
         posterUri = (Uri) values[3];
@@ -52,8 +52,8 @@ public class Movie implements Parcelable {
         synopsis = (String) values[5];
     }
 
-    public Long getId() {
-        return id;
+    public Long getMovieId() {
+        return movieId;
     }
 
     public String getTitle() {
@@ -88,6 +88,6 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeArray(new Object[]{id, title, releaseDate, posterUri, voteAverage, synopsis});
+        dest.writeArray(new Object[]{movieId, title, releaseDate, posterUri, voteAverage, synopsis});
     }
 }
