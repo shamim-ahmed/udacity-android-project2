@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.test.ProviderTestCase2;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
@@ -43,13 +44,7 @@ public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
         assertTrue("no test data", movieDataList.size() > 0);
 
         for (ContentValues values : movieDataList) {
-            Uri resultUri = provider.insert(MovieContract.CONTENT_URI, values);
-            String type = provider.getType(resultUri);
-            assertEquals("Uri type is different than expected", MovieContract.CONTENT_ITEM_TYPE, type);
-
-            long movieId = MovieContract.MovieEntry.getMovieIdFromUri(resultUri);
-            long expectedId = (Long) values.get("movie_id");
-            assertTrue("movieId is different than expected", movieId == expectedId);
+            provider.insert(MovieContract.CONTENT_URI, values);
         }
 
         // retrieve individual movies
@@ -58,11 +53,30 @@ public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
             Uri queryUri = MovieContract.MovieEntry.buildMovieUri(movieId);
             Cursor c = provider.query(queryUri, null, null, null, null);
             assertTrue("movie not found in database", c.moveToFirst());
-            TestUtilities.validateCursor("movie values are different than expected", c, values);
+            TestUtilities.validateCurrentRecord("movie values are different than expected", c, values);
             c.close();
         }
 
+        // retrieve all movies
+        HashMap<Long, ContentValues> movieDataMap = new HashMap<>();
 
+        for (ContentValues values : movieDataList) {
+            Long movieId = (Long) values.get("movie_id");
+            movieDataMap.put(movieId, values);
+        }
+
+        Cursor cursor = provider.query(MovieContract.CONTENT_URI, null, null, null, null);
+
+        while (cursor.moveToNext()) {
+            int index = cursor.getColumnIndex("movie_id");
+            Long movieId = cursor.getLong(index);
+            ContentValues values = movieDataMap.remove(movieId);
+            TestUtilities.validateCurrentRecord("movie data different than expected", cursor, values);
+        }
+
+        assertTrue("not all movies were retrieved", movieDataMap.isEmpty());
+
+        cursor.close();
     }
 
     private void clearMovieTable() {

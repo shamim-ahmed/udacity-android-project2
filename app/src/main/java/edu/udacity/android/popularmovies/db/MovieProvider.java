@@ -108,14 +108,26 @@ public class MovieProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        Long movieId = MovieContract.MovieEntry.getMovieIdFromUri(uri);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         int result = 0;
 
-        if (movieId != null) {
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            result = db.delete(MovieContract.MovieEntry.TABLE_NAME, MOVIE_ID_SELECTION, new String[] {movieId.toString()});
-        }
+        switch (sUriMatcher.match(uri)) {
+            case MOVIE: {
+                result = db.delete(MovieContract.MovieEntry.TABLE_NAME, null, null);
+                break;
+            }
 
+            case MOVIE_WITH_ID: {
+                Long movieId = MovieContract.MovieEntry.getMovieIdFromUri(uri);
+                result = db.delete(MovieContract.MovieEntry.TABLE_NAME, MOVIE_ID_SELECTION, new String[] {movieId.toString()});
+                break;
+            }
+
+            default: {
+                Log.e(TAG, String.format("Invalid uri for delete : %s", uri.toString()));
+                break;
+            }
+        }
 
         return result;
     }

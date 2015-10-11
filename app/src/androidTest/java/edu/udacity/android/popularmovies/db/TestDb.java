@@ -92,7 +92,7 @@ public class TestDb extends AndroidTestCase {
 
         Cursor c = db.query(MovieContract.MovieEntry.TABLE_NAME, null, "_ID = ?", new String[] {Long.toString(_id)}, null, null, null, null);
         assertTrue("the row from Movie table could not be retrieved", c.moveToFirst());
-        TestUtilities.validateCursor("retrieved values do not match inserted values", c, values);
+        TestUtilities.validateCurrentRecord("retrieved values do not match inserted values", c, values);
 
         c.close();
         db.close();
