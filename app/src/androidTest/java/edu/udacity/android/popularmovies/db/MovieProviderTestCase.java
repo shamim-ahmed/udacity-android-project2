@@ -79,6 +79,19 @@ public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
         cursor.close();
     }
 
+    public void testBulkDelete() {
+        MovieProvider provider = getProvider();
+        List<ContentValues> movieDataList = TestUtilities.createMovieValues();
+        assertTrue("no test data", movieDataList.size() > 0);
+
+        for (ContentValues values : movieDataList) {
+            provider.insert(MovieContract.CONTENT_URI, values);
+        }
+
+        int n = provider.delete(MovieContract.CONTENT_URI, null, null);
+        assertTrue("all movies were not deleted", n == movieDataList.size());
+    }
+
     private void clearMovieTable() {
         MovieProvider provider = getProvider();
         MovieDbHelper dbHelper = provider.getMovieDbHelper();
