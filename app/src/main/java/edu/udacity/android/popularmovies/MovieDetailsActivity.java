@@ -1,9 +1,7 @@
 package edu.udacity.android.popularmovies;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +24,9 @@ import java.util.Locale;
 
 import edu.udacity.android.popularmovies.db.MovieContract;
 import edu.udacity.android.popularmovies.model.Movie;
+import edu.udacity.android.popularmovies.task.FavoriteMovieDeleteTask;
+import edu.udacity.android.popularmovies.task.FavoriteMovieInsertTask;
+import edu.udacity.android.popularmovies.task.FavoriteMovieSingleQueryTask;
 import edu.udacity.android.popularmovies.task.MovieReviewDataDownloadTask;
 import edu.udacity.android.popularmovies.task.MovieTrailerDataDownloadTask;
 import edu.udacity.android.popularmovies.util.Constants;
@@ -105,12 +106,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         synopsisView.setText(synopsis);
 
-        final ContentResolver contentResolver = getContentResolver();
+        final PopularMoviesApplication application = (PopularMoviesApplication) getApplication();
         final Uri movieUri = MovieContract.MovieEntry.buildMovieUri(selectedMovie.getMovieId());
-        boolean favorite = isFavorite(contentResolver, movieUri);
+        FavoriteMovieSingleQueryTask queryTask = new FavoriteMovieSingleQueryTask(this);
+        queryTask.execute(movieUri);
 
         ImageButton favoriteButton = (ImageButton) findViewById(R.id.favorite_button);
-        favoriteButton.setSelected(favorite);
 
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,12 +121,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
                 if (!selected) {
                     ContentValues values = convertMovie(selectedMovie);
-                    contentResolver.insert(MovieContract.CONTENT_URI, values);
+                    FavoriteMovieInsertTask insertTask = new FavoriteMovieInsertTask(application, MovieDetailsActivity.this, values);
+                    insertTask.execute(MovieContract.CONTENT_URI);
                 } else {
-                    contentResolver.delete(movieUri, null, null);
+                    FavoriteMovieDeleteTask deleteTask = new FavoriteMovieDeleteTask(application, MovieDetailsActivity.this);
+                    deleteTask.execute(movieUri);
                 }
-
-                btn.setSelected(!selected);
             }
         });
     }
@@ -215,21 +216,5 @@ public class MovieDetailsActivity extends AppCompatActivity {
         values.put(MovieContract.MovieEntry.COLUMN_SYNOPSIS, movie.getSynopsis());
 
         return values;
-    }
-
-    private boolean isFavorite(ContentResolver contentResolver, Uri movieUri) {
-        boolean result = false;
-        Cursor cursor = null;
-
-        try {
-            cursor = contentResolver.query(movieUri, null, null, null, null);
-            result = cursor.moveToFirst();
-        } finally {
-            if (cursor != null) {
-                cursor.close();;
-            }
-        }
-
-        return result;
     }
 }

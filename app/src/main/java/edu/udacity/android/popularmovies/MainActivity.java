@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean handleMessage(Message message) {
             PopularMoviesApplication application = (PopularMoviesApplication) getApplication();
 
-            if (application.isSortPreferenceChanged()) {
+            if (application.isReloadFlag()) {
                 recreate();
             }
 

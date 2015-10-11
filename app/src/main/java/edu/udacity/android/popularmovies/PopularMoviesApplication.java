@@ -10,7 +10,7 @@ import edu.udacity.android.popularmovies.util.Constants;
 
 public class PopularMoviesApplication extends Application {
     private String activeSortPreference;
-    private boolean sortPreferenceChanged;
+    private boolean reloadFlag;
     private int numberOfColumnsInGrid;
     private Properties configProperties;
 
@@ -38,16 +38,16 @@ public class PopularMoviesApplication extends Application {
         this.activeSortPreference = activeSortPreference;
     }
 
-    public synchronized boolean isSortPreferenceChanged() {
-        return sortPreferenceChanged;
+    public synchronized boolean isReloadFlag() {
+        return reloadFlag;
     }
 
-    public synchronized void setSortPreferenceChanged(boolean sortPreferenceChanged) {
-        this.sortPreferenceChanged = sortPreferenceChanged;
+    public synchronized void setReloadFlag(boolean reloadFlag) {
+        this.reloadFlag = reloadFlag;
     }
 
     public synchronized void clearSortPreferenceChanged() {
-        setSortPreferenceChanged(false);
+        setReloadFlag(false);
     }
 
     public synchronized int getNumberOfColumnsInGrid() {

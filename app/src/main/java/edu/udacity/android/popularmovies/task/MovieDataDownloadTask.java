@@ -22,7 +22,7 @@ import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.adapter.MovieGridAdapter;
 import edu.udacity.android.popularmovies.util.IOUtils;
 
-public class MovieDataDownloadTask extends AsyncTask<Uri, String, List<Movie>> {
+public class MovieDataDownloadTask extends AsyncTask<Uri, Void, List<Movie>> {
     private static final String TAG = MovieDataDownloadTask.class.getSimpleName();
 
     private final GridView gridView;

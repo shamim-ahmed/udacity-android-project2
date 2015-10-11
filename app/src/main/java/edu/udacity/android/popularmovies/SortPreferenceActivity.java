@@ -42,7 +42,7 @@ public class SortPreferenceActivity extends PreferenceActivity implements Prefer
         if (!chosenValue.equals(activeValue)) {
             Log.i(TAG, String.format("Sort preference value changed to %s", chosenValue));
             application.setActiveSortPreference(chosenValue);
-            application.setSortPreferenceChanged(true);
+            application.setReloadFlag(true);
         }
 
         if (preference instanceof ListPreference) {

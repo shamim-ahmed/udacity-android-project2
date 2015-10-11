@@ -12,17 +12,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import edu.udacity.android.popularmovies.task.MovieDataDownloadTask;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.adapter.MovieGridAdapter;
 import edu.udacity.android.popularmovies.util.AndroidUtils;
-import edu.udacity.android.popularmovies.util.IOUtils;
 import edu.udacity.android.popularmovies.util.Constants;
 
 public class MainActivityFragment extends Fragment {
@@ -61,12 +57,23 @@ public class MainActivityFragment extends Fragment {
             savedInstanceState.clear();
         }
 
-        if (application.isSortPreferenceChanged()) {
-            startMovieDataDownloadTask(application, gridView);
+        String sortPreference = AndroidUtils.readSortOrderFromPreference(application.getApplicationContext());
+
+        if (application.isReloadFlag()) {
+            if (Constants.SORT_FAVORITE.equals(sortPreference)) {
+                startFavoriteMovieQueryTask(application, gridView);
+            } else {
+                startMovieDataDownloadTask(application, gridView, sortPreference);
+            }
+
             // it is absolutely crucial to reset the flag here
             application.clearSortPreferenceChanged();
         } else if (movieArray == null || movieArray.length == 0) {
-            startMovieDataDownloadTask(application, gridView);
+            if (Constants.SORT_FAVORITE.equals(sortPreference)) {
+                startFavoriteMovieQueryTask(application, gridView);
+            } else {
+                startMovieDataDownloadTask(application, gridView, sortPreference);
+            }
         } else {
             adapter.clear();
             adapter.addAll(movieArray);
@@ -97,15 +104,18 @@ public class MainActivityFragment extends Fragment {
         outState.putParcelableArray(Constants.MOVIE_ARRAY_ATTRIBUTE_NAME, movieList.toArray(new Movie[count]));
     }
 
-    private void startMovieDataDownloadTask(PopularMoviesApplication application, GridView gridView) {
-        String sortOrder = AndroidUtils.readSortOrderFromPreference(application.getApplicationContext());
-        Uri searchUri = buildSearchUri(application, sortOrder);
+    private void startMovieDataDownloadTask(PopularMoviesApplication application, GridView gridView, String sortPreference) {
+        Uri searchUri = buildSearchUri(application, sortPreference);
         Uri posterBaseUri = buildImageBaseUri(application);
         MovieDataDownloadTask task = new MovieDataDownloadTask(gridView);
         task.execute(searchUri, posterBaseUri);
     }
 
-    private Uri buildSearchUri(PopularMoviesApplication application, String sortOrder) {
+    private void startFavoriteMovieQueryTask(PopularMoviesApplication application, GridView gridView) {
+
+    }
+
+    private Uri buildSearchUri(PopularMoviesApplication application, String sortPreference) {
         String scheme = application.getConfigurationProperty("tmdb.api.scheme");
         String authority = application.getConfigurationProperty("tmdb.api.authority");
         String path = application.getConfigurationProperty("tmdb.api.discover.path");
@@ -116,7 +126,7 @@ public class MainActivityFragment extends Fragment {
                 .authority(authority)
                 .path(path)
                 .appendQueryParameter(Constants.API_KEY_QUERY_PARAM_NAME, apiKey)
-                .appendQueryParameter(Constants.SORT_BY_QUERY_PARAM_NAME, sortOrder)
+                .appendQueryParameter(Constants.SORT_BY_QUERY_PARAM_NAME, sortPreference)
                 .build();
 
         Log.i(TAG, String.format("The search URI is %s", searchUri.toString()));
@@ -138,21 +148,5 @@ public class MainActivityFragment extends Fragment {
         Log.i(TAG, String.format("The base URI for poster is %s", imageBaseUri.toString()));
 
         return imageBaseUri;
-    }
-
-    private Properties readProperties() {
-        InputStream inStream = null;
-        Properties properties = new Properties();
-
-        try {
-            inStream = getResources().openRawResource(R.raw.config);
-            properties.load(inStream);
-        } catch (IOException ex) {
-            Log.e(TAG, "Error while reading config.properties");
-        } finally {
-            IOUtils.close(inStream);
-        }
-
-        return properties;
     }
 }
