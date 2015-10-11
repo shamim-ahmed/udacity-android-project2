@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class MovieDbHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "movie.db";
+    public static final String DATABASE_NAME = "popularMovies.db";
     public static final int DATABASE_VERSION = 1;
 
     private static final String CREATE_TABLE_SQL = "CREATE TABLE " + MovieContract.MovieEntry.TABLE_NAME + "("

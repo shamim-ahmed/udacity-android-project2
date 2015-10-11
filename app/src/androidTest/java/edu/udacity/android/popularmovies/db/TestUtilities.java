@@ -12,7 +12,7 @@ public class TestUtilities {
 
     public static ContentValues createMovieValues() {
         ContentValues values = new ContentValues();
-        values.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, 27205);
+        values.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, 27205L);
         values.put(MovieContract.MovieEntry.COLUMN_TITLE, "Inception");
         values.put(MovieContract.MovieEntry.COLUMN_POSTER_URI, "http://image.tmdb.org/t/p/w185/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg");
         values.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, "2010-07-16");

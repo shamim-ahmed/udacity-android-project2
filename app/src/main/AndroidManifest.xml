@@ -12,7 +12,7 @@
             android:name=".PopularMoviesApplication">
 
         <provider
-                android:authorities="edu.udacity.android.popularmovies.db"
+                android:authorities="edu.udacity.android.popularmovies"
                 android:name=".db.MovieProvider"
                 android:exported="true"
                 android:grantUriPermissions="true"/>

@@ -39,6 +39,10 @@ public class MovieProvider extends ContentProvider {
         return true;
     }
 
+    MovieDbHelper getMovieDbHelper() {
+        return dbHelper;
+    }
+
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Cursor result = null;
@@ -67,11 +71,29 @@ public class MovieProvider extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        return null;
+        String result = null;
+
+        switch (sUriMatcher.match(uri)) {
+            case MOVIE:
+                result = MovieContract.CONTENT_TYPE;
+                break;
+            case MOVIE_WITH_ID:
+                result = MovieContract.CONTENT_ITEM_TYPE;
+                break;
+            default:
+                Log.e(TAG, String.format("unknown type for uri : %s", uri.toString()));
+        }
+
+        return result;
     }
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
+        if (sUriMatcher.match(uri) != MOVIE) {
+            Log.e(TAG, String.format("Invalid URI : %s", uri.toString()));
+            return null;
+        }
+
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Uri result = null;
         long _id = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, values);
