@@ -1,4 +1,4 @@
-package edu.udacity.android.popularmovies.task;
+package edu.udacity.android.popularmovies.task.db;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -9,7 +9,6 @@ import android.util.Log;
 import android.widget.ImageButton;
 
 import edu.udacity.android.popularmovies.R;
-import edu.udacity.android.popularmovies.model.Movie;
 
 public class FavoriteMovieSingleQueryTask extends AsyncTask<Uri, Void, Boolean> {
     private static final String TAG = FavoriteMovieSingleQueryTask.class.getSimpleName();

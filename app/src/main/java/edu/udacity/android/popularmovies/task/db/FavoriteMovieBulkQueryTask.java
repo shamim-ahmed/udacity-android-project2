@@ -1,4 +1,4 @@
-package edu.udacity.android.popularmovies.task;
+package edu.udacity.android.popularmovies.task.db;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 import edu.udacity.android.popularmovies.model.Movie;
-import edu.udacity.android.popularmovies.util.AndroidUtils;
+import edu.udacity.android.popularmovies.util.AppUtils;
 
 public class FavoriteMovieBulkQueryTask extends AsyncTask<Uri, Void, List<Movie>> {
     private static final String TAG = FavoriteMovieBulkQueryTask.class.getSimpleName();
@@ -43,7 +43,7 @@ public class FavoriteMovieBulkQueryTask extends AsyncTask<Uri, Void, List<Movie>
             cursor = contentResolver.query(targetUri, null, null, null, null);
 
             while (cursor.moveToNext()) {
-                ContentValues values = AndroidUtils.readCursor(cursor);
+                ContentValues values = AppUtils.readCursor(cursor);
                 movieList.add(new Movie(values));
             }
         } finally {

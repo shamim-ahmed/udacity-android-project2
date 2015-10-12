@@ -14,8 +14,8 @@ import java.util.Properties;
 import edu.udacity.android.popularmovies.R;
 import edu.udacity.android.popularmovies.db.MovieContract;
 
-public class AndroidUtils {
-    private static final String TAG = AndroidUtils.class.getSimpleName();
+public class AppUtils {
+    private static final String TAG = AppUtils.class.getSimpleName();
 
     public static boolean isTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout
@@ -76,6 +76,6 @@ public class AndroidUtils {
     }
 
     // private constructor to prevent instantiation
-    private AndroidUtils() {
+    private AppUtils() {
     }
 }

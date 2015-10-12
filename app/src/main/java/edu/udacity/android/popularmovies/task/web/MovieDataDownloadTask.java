@@ -1,4 +1,4 @@
-package edu.udacity.android.popularmovies.task;
+package edu.udacity.android.popularmovies.task.web;
 
 import android.net.Uri;
 import android.os.AsyncTask;

@@ -5,7 +5,7 @@ import android.content.Context;
 
 import java.util.Properties;
 
-import edu.udacity.android.popularmovies.util.AndroidUtils;
+import edu.udacity.android.popularmovies.util.AppUtils;
 import edu.udacity.android.popularmovies.util.Constants;
 
 public class PopularMoviesApplication extends Application {
@@ -20,14 +20,14 @@ public class PopularMoviesApplication extends Application {
 
         Context context = getApplicationContext();
 
-        if (AndroidUtils.isTablet(context)) {
+        if (AppUtils.isTablet(context)) {
             numberOfColumnsInGrid = Constants.TABLET_COLUMN_COUNT;
         } else {
             numberOfColumnsInGrid = Constants.MOBILE_COLUMN_COUNT;
         }
 
-        activeSortPreference = AndroidUtils.readSortOrderFromPreference(context);
-        configProperties = AndroidUtils.readConfiguration(context);
+        activeSortPreference = AppUtils.readSortOrderFromPreference(context);
+        configProperties = AppUtils.readConfiguration(context);
     }
 
     public synchronized String getActiveSortPreference() {

@@ -24,11 +24,11 @@ import java.util.Locale;
 
 import edu.udacity.android.popularmovies.db.MovieContract;
 import edu.udacity.android.popularmovies.model.Movie;
-import edu.udacity.android.popularmovies.task.FavoriteMovieDeleteTask;
-import edu.udacity.android.popularmovies.task.FavoriteMovieInsertTask;
-import edu.udacity.android.popularmovies.task.FavoriteMovieSingleQueryTask;
-import edu.udacity.android.popularmovies.task.MovieReviewDataDownloadTask;
-import edu.udacity.android.popularmovies.task.MovieTrailerDataDownloadTask;
+import edu.udacity.android.popularmovies.task.db.FavoriteMovieDeleteTask;
+import edu.udacity.android.popularmovies.task.db.FavoriteMovieInsertTask;
+import edu.udacity.android.popularmovies.task.db.FavoriteMovieSingleQueryTask;
+import edu.udacity.android.popularmovies.task.web.MovieReviewDataDownloadTask;
+import edu.udacity.android.popularmovies.task.web.MovieTrailerDataDownloadTask;
 import edu.udacity.android.popularmovies.util.Constants;
 import edu.udacity.android.popularmovies.util.MathUtils;
 import edu.udacity.android.popularmovies.util.StringUtils;

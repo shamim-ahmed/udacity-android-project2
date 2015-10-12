@@ -16,11 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.udacity.android.popularmovies.db.MovieContract;
-import edu.udacity.android.popularmovies.task.FavoriteMovieBulkQueryTask;
-import edu.udacity.android.popularmovies.task.MovieDataDownloadTask;
+import edu.udacity.android.popularmovies.task.db.FavoriteMovieBulkQueryTask;
+import edu.udacity.android.popularmovies.task.web.MovieDataDownloadTask;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.adapter.MovieGridAdapter;
-import edu.udacity.android.popularmovies.util.AndroidUtils;
+import edu.udacity.android.popularmovies.util.AppUtils;
 import edu.udacity.android.popularmovies.util.Constants;
 
 public class MainActivityFragment extends Fragment {
@@ -59,7 +59,7 @@ public class MainActivityFragment extends Fragment {
             savedInstanceState.clear();
         }
 
-        String sortPreference = AndroidUtils.readSortOrderFromPreference(application.getApplicationContext());
+        String sortPreference = AppUtils.readSortOrderFromPreference(application.getApplicationContext());
 
         if (application.isReloadFlag()) {
             if (Constants.SORT_FAVORITE.equals(sortPreference)) {
