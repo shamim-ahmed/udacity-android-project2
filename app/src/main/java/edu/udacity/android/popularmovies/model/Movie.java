@@ -1,6 +1,6 @@
 package edu.udacity.android.popularmovies.model;
 
-import android.database.Cursor;
+import android.content.ContentValues;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -41,6 +41,17 @@ public class Movie implements Parcelable {
         voteAverage = voteStr != null ? Double.valueOf(voteStr) : null;
 
         synopsis = movieData.getString("overview");
+    }
+
+    public Movie(ContentValues values) {
+        movieId = values.getAsLong("movie_id");
+        title = values.getAsString("title");
+        releaseDate = values.getAsString("release_date");
+
+        String pUriStr = values.getAsString("posterUri");
+        posterUri = pUriStr != null ? Uri.parse(pUriStr) : null;
+        voteAverage = values.getAsDouble("vote_average");
+        synopsis = values.getAsString("synopsis");
     }
 
     public Movie(Parcel in) {

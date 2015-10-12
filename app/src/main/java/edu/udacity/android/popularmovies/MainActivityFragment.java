@@ -15,6 +15,8 @@ import android.widget.GridView;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.udacity.android.popularmovies.db.MovieContract;
+import edu.udacity.android.popularmovies.task.FavoriteMovieBulkQueryTask;
 import edu.udacity.android.popularmovies.task.MovieDataDownloadTask;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.adapter.MovieGridAdapter;
@@ -61,7 +63,7 @@ public class MainActivityFragment extends Fragment {
 
         if (application.isReloadFlag()) {
             if (Constants.SORT_FAVORITE.equals(sortPreference)) {
-                startFavoriteMovieQueryTask(application, gridView);
+                startFavoriteMovieQueryTask(gridView);
             } else {
                 startMovieDataDownloadTask(application, gridView, sortPreference);
             }
@@ -70,7 +72,7 @@ public class MainActivityFragment extends Fragment {
             application.clearSortPreferenceChanged();
         } else if (movieArray == null || movieArray.length == 0) {
             if (Constants.SORT_FAVORITE.equals(sortPreference)) {
-                startFavoriteMovieQueryTask(application, gridView);
+                startFavoriteMovieQueryTask(gridView);
             } else {
                 startMovieDataDownloadTask(application, gridView, sortPreference);
             }
@@ -111,8 +113,10 @@ public class MainActivityFragment extends Fragment {
         task.execute(searchUri, posterBaseUri);
     }
 
-    private void startFavoriteMovieQueryTask(PopularMoviesApplication application, GridView gridView) {
-
+    private void startFavoriteMovieQueryTask(GridView gridView) {
+        MovieGridAdapter adapter = (MovieGridAdapter) gridView.getAdapter();
+        FavoriteMovieBulkQueryTask queryTask = new FavoriteMovieBulkQueryTask(getActivity(), adapter);
+        queryTask.execute(MovieContract.CONTENT_URI);
     }
 
     private Uri buildSearchUri(PopularMoviesApplication application, String sortPreference) {
