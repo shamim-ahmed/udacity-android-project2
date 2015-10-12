@@ -48,7 +48,7 @@ public class Movie implements Parcelable {
         title = values.getAsString("title");
         releaseDate = values.getAsString("release_date");
 
-        String pUriStr = values.getAsString("posterUri");
+        String pUriStr = values.getAsString("poster_uri");
         posterUri = pUriStr != null ? Uri.parse(pUriStr) : null;
         voteAverage = values.getAsDouble("vote_average");
         synopsis = values.getAsString("synopsis");
