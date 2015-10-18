@@ -75,7 +75,7 @@
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 android:paddingBottom="30dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
         <LinearLayout android:id="@+id/movie_trailers"
                       android:layout_width="fill_parent"
