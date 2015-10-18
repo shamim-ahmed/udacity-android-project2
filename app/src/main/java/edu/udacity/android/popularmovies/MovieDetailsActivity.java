@@ -83,7 +83,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         Picasso.with(this)
                 .load(selectedMovie.getPosterUri())
                 .noFade()
-                .placeholder(R.drawable.movie_placeholder)
+                .placeholder(R.drawable.movie_placeholder_small)
                 .into(posterView);
 
         // display various metadata
