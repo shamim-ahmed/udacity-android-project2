@@ -68,14 +68,27 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-                android:id="@+id/movie_details_synopsis"
+        <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginBottom="25dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"/>
+                android:layout_marginBottom="25dp">
+
+            <TextView
+                    style="?android:attr/listSeparatorTextViewStyle"
+                    android:text="@string/synopsis_title_text"
+                    android:layout_marginBottom="7.5dp"/>
+
+            <TextView
+                    android:id="@+id/movie_details_synopsis"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"/>
+        </LinearLayout>
 
         <LinearLayout android:id="@+id/movie_trailers"
                       android:layout_width="fill_parent"
