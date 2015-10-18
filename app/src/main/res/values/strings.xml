@@ -11,6 +11,8 @@
     <string name="unknown_synopsis_message">No synopsis available</string>
     <string name="play_button_message">Play Trailer</string>
     <string name="favorite_button_text">Add to favorites</string>
+    <string name="trailers_title_text">Trailers</string>
+    <string name="reviews_title_text">Reviews</string>
 
     <string-array name="sort_option_labels" translatable="false">
         <item>Most Popular</item>

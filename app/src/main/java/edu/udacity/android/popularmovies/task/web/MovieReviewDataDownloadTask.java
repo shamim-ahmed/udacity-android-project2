@@ -78,6 +78,11 @@ public class MovieReviewDataDownloadTask extends AsyncTask<Uri, Void, List<Movie
         LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.movie_reviews);
         LayoutInflater inflater = activity.getLayoutInflater();
 
+        if (reviewList.size() > 0) {
+            View titleView = inflater.inflate(R.layout.movie_reviews_title, linearLayout, false);
+            linearLayout.addView(titleView);
+        }
+
         for (MovieReview review : reviewList) {
             View view = inflater.inflate(R.layout.movie_review, linearLayout, false);
             TextView reviewContentView = (TextView) view.findViewById(R.id.movie_review_content);
