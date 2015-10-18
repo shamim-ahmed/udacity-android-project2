@@ -10,10 +10,12 @@
     <string name="unknown_rating_message">Unknown rating</string>
     <string name="unknown_synopsis_message">No synopsis available</string>
     <string name="play_button_message">Play Trailer</string>
-    <string name="favorite_button_text">Add to favorites</string>
+    <string name="favorite_button_text">Favorites button</string>
     <string name="synopsis_title_text">Synopsis</string>
     <string name="trailers_title_text">Trailers</string>
     <string name="reviews_title_text">Reviews</string>
+    <string name="favorite_button_add_text">Add to &#10;Favorites</string>
+    <string name="favorite_button_remove_text">Remove from &#10;Favorites</string>
 
     <string-array name="sort_option_labels" translatable="false">
         <item>Most Popular</item>

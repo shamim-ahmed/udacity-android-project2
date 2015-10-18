@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 
 import edu.udacity.android.popularmovies.R;
 
@@ -45,8 +45,15 @@ public class FavoriteMovieSingleQueryTask extends AsyncTask<Uri, Void, Boolean> 
 
     @Override
     protected void onPostExecute(Boolean result) {
-        ImageButton favoriteButton = (ImageButton) activity.findViewById(R.id.favorite_button);
+        Button favoriteButton = (Button) activity.findViewById(R.id.favorite_button);
         favoriteButton.setSelected(result);
+
+        if (result) {
+            favoriteButton.setText(R.string.favorite_button_remove_text);
+        } else {
+            favoriteButton.setText(R.string.favorite_button_add_text);
+        }
+
         favoriteButton.setVisibility(View.VISIBLE);
     }
 }

@@ -5,7 +5,7 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ImageButton;
+import android.widget.Button;
 
 import edu.udacity.android.popularmovies.PopularMoviesApplication;
 import edu.udacity.android.popularmovies.R;
@@ -42,7 +42,8 @@ public class FavoriteMovieDeleteTask extends AsyncTask<Uri, Void, Integer> {
         }
 
         // set the state of the star button to un-selected
-        ImageButton favoriteButton = (ImageButton) activity.findViewById(R.id.favorite_button);
+        Button favoriteButton = (Button) activity.findViewById(R.id.favorite_button);
+        favoriteButton.setText(R.string.favorite_button_add_text);
         favoriteButton.setSelected(false);
 
         // if main grid shows favorite movies,set the reload flag
