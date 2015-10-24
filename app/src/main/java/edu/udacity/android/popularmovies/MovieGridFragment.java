@@ -25,18 +25,9 @@ import edu.udacity.android.popularmovies.util.Constants;
 
 public class MovieGridFragment extends Fragment {
     private static final String TAG = MovieGridFragment.class.getSimpleName();
-    private boolean towPaneRederMode;
-
-    public boolean isTowPaneRederMode() {
-        return towPaneRederMode;
-    }
-
-    public void setTowPaneRederMode(boolean towPaneRederMode) {
-        this.towPaneRederMode = towPaneRederMode;
-    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         final Activity activity = getActivity();
         View view = inflater.inflate(R.layout.fragment_movie_grid, container, false);
@@ -46,9 +37,7 @@ public class MovieGridFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Movie movie = (Movie) parent.getItemAtPosition(position);
-                Intent intent = new Intent(activity.getApplicationContext(), MovieDetailsActivity.class);
-                intent.putExtra(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME, movie);
-                startActivity(intent);
+                ((Callback) activity).onItemSelected(movie);
             }
         });
 
@@ -161,5 +150,9 @@ public class MovieGridFragment extends Fragment {
         Log.i(TAG, String.format("The base URI for poster is %s", imageBaseUri.toString()));
 
         return imageBaseUri;
+    }
+
+    public static interface Callback {
+        public void onItemSelected(Movie selectedMovie);
     }
 }

@@ -9,7 +9,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import edu.udacity.android.popularmovies.model.Movie;
+import edu.udacity.android.popularmovies.util.Constants;
+
+public class MainActivity extends AppCompatActivity implements MovieGridFragment.Callback {
     private static final String TAG = MainActivity.class.getSimpleName();
     private boolean twoPaneRenderMode;
 
@@ -40,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "is two pane render mode enabled ? " + twoPaneRenderMode);
 
         MovieGridFragment movieGridFragment = (MovieGridFragment) getSupportFragmentManager().findFragmentById(R.id.movie_grid_fragment);
-        movieGridFragment.setTowPaneRederMode(twoPaneRenderMode);
     }
 
     @Override
@@ -71,5 +73,20 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         handler.sendEmptyMessageDelayed(1, 100);
+    }
+
+    @Override
+    public void onItemSelected(Movie selectedMovie) {
+        if (twoPaneRenderMode) {
+            MovieDetailsFragment detailsFragment = new MovieDetailsFragment();
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME, selectedMovie);
+            detailsFragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction().replace(R.id.movie_detail_container, detailsFragment).commit();
+        } else {
+            Intent intent = new Intent(this, MovieDetailsActivity.class);
+            intent.putExtra(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME, selectedMovie);
+            startActivity(intent);
+        }
     }
 }
