@@ -39,7 +39,7 @@ public class MovieGridFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final Activity activity = getActivity();
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_movie_grid, container, false);
         GridView gridView = (GridView) view.findViewById(R.id.movie_grid);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

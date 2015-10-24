@@ -13,6 +13,7 @@ public class Constants {
     public static final int MOBILE_COLUMN_COUNT = 2;
     public static final int TABLET_COLUMN_COUNT = 3;
     public static final String MOVIE_ARRAY_ATTRIBUTE_NAME = "movieArray";
+    public static final String MOVIE_DETAILS_FRAGMENT_TAG = "frag_details";
 
 
     // private constructor to prevent instantiation
