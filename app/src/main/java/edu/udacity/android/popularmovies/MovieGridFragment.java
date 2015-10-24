@@ -152,7 +152,7 @@ public class MovieGridFragment extends Fragment {
         return imageBaseUri;
     }
 
-    public static interface Callback {
-        public void onItemSelected(Movie selectedMovie);
+    public interface Callback {
+        void onItemSelected(Movie selectedMovie);
     }
 }
