@@ -56,7 +56,7 @@ public class MovieReview implements Parcelable {
 
     @Override
     public String toString() {
-        return content;
+        return String.format("&ldquo;%s&rdquo; - <b><i><u>%s</u></i></b>", content, author);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator<MovieReview>() {

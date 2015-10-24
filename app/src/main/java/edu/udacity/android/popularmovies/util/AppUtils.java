@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,7 +119,7 @@ public class AppUtils {
         for (MovieReview review : reviewList) {
             View view = inflater.inflate(R.layout.movie_review, linearLayout, false);
             TextView reviewContentView = (TextView) view.findViewById(R.id.movie_review_content);
-            reviewContentView.setText(review.getContent());
+            reviewContentView.setText(Html.fromHtml(review.toString()));
             linearLayout.addView(view);
         }
     }
