@@ -46,12 +46,7 @@ public class MainActivity extends AppCompatActivity implements MovieGridFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        if (findViewById(R.id.movie_detail_container) != null) {
-            twoPaneRenderMode = true;
-        } else {
-            twoPaneRenderMode = false;
-        }
+        twoPaneRenderMode = (findViewById(R.id.movie_detail_container) != null);
     }
 
     @Override

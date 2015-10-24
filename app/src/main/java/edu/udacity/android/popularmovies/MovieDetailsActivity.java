@@ -41,6 +41,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        if (savedInstanceState != null) {
+            return;
+        }
+
         Bundle extras = getIntent().getExtras();
         Movie selectedMovie = (Movie) extras.get(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME);
 
@@ -50,6 +54,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         MovieDetailsFragment detailsFragment = new MovieDetailsFragment();
         detailsFragment.setArguments(arguments);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.movie_detail_container, detailsFragment).commit();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.movie_detail_container, detailsFragment, Constants.MOVIE_DETAILS_FRAGMENT_TAG)
+                .commit();
     }
 }
