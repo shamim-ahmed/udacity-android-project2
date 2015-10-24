@@ -117,6 +117,7 @@ public class MovieDetailsFragment extends Fragment {
         return rootView;
     }
 
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
