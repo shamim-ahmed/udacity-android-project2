@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -27,6 +27,20 @@ public class MainActivity extends AppCompatActivity implements MovieGridFragment
             return true;
         }
     });
+
+    @Override
+    public void recreate() {
+        super.recreate();
+
+        if (twoPaneRenderMode) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            MovieDetailsFragment detailsFragment = (MovieDetailsFragment) fragmentManager.findFragmentByTag(Constants.MOVIE_DETAILS_FRAGMENT_TAG);
+
+            if (detailsFragment != null) {
+                fragmentManager.beginTransaction().remove(detailsFragment).commit();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements MovieGridFragment
             Bundle arguments = new Bundle();
             arguments.putParcelable(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME, selectedMovie);
             detailsFragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction().replace(R.id.movie_detail_container, detailsFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.movie_detail_container, detailsFragment, Constants.MOVIE_DETAILS_FRAGMENT_TAG).commit();
         } else {
             Intent intent = new Intent(this, MovieDetailsActivity.class);
             intent.putExtra(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME, selectedMovie);
