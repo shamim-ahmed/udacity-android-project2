@@ -23,8 +23,17 @@ import edu.udacity.android.popularmovies.adapter.MovieGridAdapter;
 import edu.udacity.android.popularmovies.util.AppUtils;
 import edu.udacity.android.popularmovies.util.Constants;
 
-public class MainActivityFragment extends Fragment {
-    private static final String TAG = MainActivityFragment.class.getSimpleName();
+public class MovieGridFragment extends Fragment {
+    private static final String TAG = MovieGridFragment.class.getSimpleName();
+    private boolean towPaneRederMode;
+
+    public boolean isTowPaneRederMode() {
+        return towPaneRederMode;
+    }
+
+    public void setTowPaneRederMode(boolean towPaneRederMode) {
+        this.towPaneRederMode = towPaneRederMode;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

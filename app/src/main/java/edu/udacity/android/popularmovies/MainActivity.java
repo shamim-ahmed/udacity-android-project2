@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private boolean twoPaneRenderMode;
 
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -27,6 +30,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (findViewById(R.id.movie_detail_container) != null) {
+            twoPaneRenderMode = true;
+        } else {
+            twoPaneRenderMode = false;
+        }
+
+        Log.i(TAG, "is two pane render mode enabled ? " + twoPaneRenderMode);
+
+        MovieGridFragment movieGridFragment = (MovieGridFragment) getSupportFragmentManager().findFragmentById(R.id.movie_grid_fragment);
+        movieGridFragment.setTowPaneRederMode(twoPaneRenderMode);
     }
 
     @Override
