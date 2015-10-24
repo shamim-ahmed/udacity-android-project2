@@ -1,14 +1,9 @@
 package edu.udacity.android.popularmovies.task.web;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,17 +19,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.udacity.android.popularmovies.PopularMoviesApplication;
-import edu.udacity.android.popularmovies.R;
+import edu.udacity.android.popularmovies.model.Movie;
+import edu.udacity.android.popularmovies.util.AppUtils;
 import edu.udacity.android.popularmovies.util.IOUtils;
 import edu.udacity.android.popularmovies.model.MovieTrailer;
 
 public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<MovieTrailer>> {
     private static final String TAG = MovieTrailerDataDownloadTask.class.getSimpleName();
 
+    private final Movie movie;
     private final Activity activity;
 
-    public MovieTrailerDataDownloadTask(Activity activity) {
+    public MovieTrailerDataDownloadTask(Movie movie, Activity activity) {
+        this.movie = movie;
         this.activity = activity;
     }
 
@@ -86,47 +83,7 @@ public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Movi
     }
 
     protected void onPostExecute(List<MovieTrailer> trailerList) {
-        LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.movie_trailers);
-        LayoutInflater inflater = activity.getLayoutInflater();
-
-        if (trailerList.size() > 0) {
-            View titleView = inflater.inflate(R.layout.movie_trailers_title, linearLayout, false);
-            linearLayout.addView(titleView);
-        }
-
-        for (MovieTrailer trailer : trailerList) {
-            View view = inflater.inflate(R.layout.movie_trailer, linearLayout, false);
-            Button trailerButton = (Button) view.findViewById(R.id.movie_trailer_item);
-            trailerButton.setText(trailer.getName());
-            trailerButton.setOnClickListener(new MovieTrailerOnClickListener(trailer.getKey()));
-            linearLayout.addView(view);
-        }
-    }
-
-    private class MovieTrailerOnClickListener implements View.OnClickListener {
-
-        private final String trailerKey;
-
-        public MovieTrailerOnClickListener(String trailerKey) {
-            this.trailerKey = trailerKey;
-        }
-
-        @Override
-        public void onClick(View v) {
-            PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
-            String scheme = application.getConfigurationProperty("youtube.video.scheme");
-            String authority = application.getConfigurationProperty("youtube.video.authority");
-            String path = application.getConfigurationProperty("youtube.video.path");
-
-            Uri trailerUri = new Uri.Builder()
-                    .scheme(scheme)
-                    .authority(authority)
-                    .path(path)
-                    .appendQueryParameter("v", trailerKey)
-                    .build();
-
-            Intent intent = new Intent(Intent.ACTION_VIEW, trailerUri);
-            activity.startActivity(intent);
-        }
+        movie.setTrailerList(trailerList);
+        AppUtils.displayTrailersForMovie(movie, activity);
     }
 }

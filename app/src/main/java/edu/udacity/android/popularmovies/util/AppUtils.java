@@ -1,5 +1,6 @@
 package edu.udacity.android.popularmovies.util;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,12 +8,22 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 import edu.udacity.android.popularmovies.R;
 import edu.udacity.android.popularmovies.db.MovieContract;
+import edu.udacity.android.popularmovies.listener.MovieTrailerOnClickListener;
+import edu.udacity.android.popularmovies.model.Movie;
+import edu.udacity.android.popularmovies.model.MovieReview;
+import edu.udacity.android.popularmovies.model.MovieTrailer;
 
 public class AppUtils {
     private static final String TAG = AppUtils.class.getSimpleName();
@@ -73,6 +84,43 @@ public class AppUtils {
         }
 
         return values;
+    }
+
+    public static void displayTrailersForMovie(Movie movie, Activity activity) {
+        LayoutInflater inflater = activity.getLayoutInflater();
+        LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.movie_trailers);
+        List<MovieTrailer> trailerList = movie.getTrailerList();
+
+        if (trailerList.size() > 0) {
+            View titleView = inflater.inflate(R.layout.movie_trailers_title, linearLayout, false);
+            linearLayout.addView(titleView);
+        }
+
+        for (MovieTrailer trailer : trailerList) {
+            View view = inflater.inflate(R.layout.movie_trailer, linearLayout, false);
+            Button trailerButton = (Button) view.findViewById(R.id.movie_trailer_item);
+            trailerButton.setText(trailer.getName());
+            trailerButton.setOnClickListener(new MovieTrailerOnClickListener(activity, trailer.getKey()));
+            linearLayout.addView(view);
+        }
+    }
+
+    public static void displayReviewsForMovie(Movie movie, Activity activity) {
+        LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.movie_reviews);
+        LayoutInflater inflater = activity.getLayoutInflater();
+        List<MovieReview> reviewList = movie.getReviewList();
+
+        if (reviewList.size() > 0) {
+            View titleView = inflater.inflate(R.layout.movie_reviews_title, linearLayout, false);
+            linearLayout.addView(titleView);
+        }
+
+        for (MovieReview review : reviewList) {
+            View view = inflater.inflate(R.layout.movie_review, linearLayout, false);
+            TextView reviewContentView = (TextView) view.findViewById(R.id.movie_review_content);
+            reviewContentView.setText(review.getContent());
+            linearLayout.addView(view);
+        }
     }
 
     // private constructor to prevent instantiation

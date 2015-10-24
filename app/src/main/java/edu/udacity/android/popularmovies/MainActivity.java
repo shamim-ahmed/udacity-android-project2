@@ -13,7 +13,6 @@ import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.util.Constants;
 
 public class MainActivity extends AppCompatActivity implements MovieGridFragment.Callback {
-    private static final String TAG = MainActivity.class.getSimpleName();
     private boolean twoPaneRenderMode;
 
     private Handler handler = new Handler(new Handler.Callback() {
@@ -39,10 +38,6 @@ public class MainActivity extends AppCompatActivity implements MovieGridFragment
         } else {
             twoPaneRenderMode = false;
         }
-
-        Log.i(TAG, "is two pane render mode enabled ? " + twoPaneRenderMode);
-
-        MovieGridFragment movieGridFragment = (MovieGridFragment) getSupportFragmentManager().findFragmentById(R.id.movie_grid_fragment);
     }
 
     @Override

@@ -33,17 +33,17 @@
 
             <ImageView
                     android:id="@+id/movie_details_poster"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_weight="1"
                     android:layout_marginRight="15dp"
+                    android:layout_marginEnd="15dp"
                     android:contentDescription="@string/generic_poster_alt"/>
 
             <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                 <TextView

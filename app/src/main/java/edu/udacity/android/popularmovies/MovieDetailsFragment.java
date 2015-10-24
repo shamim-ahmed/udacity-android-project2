@@ -29,6 +29,7 @@ import edu.udacity.android.popularmovies.task.db.FavoriteMovieInsertTask;
 import edu.udacity.android.popularmovies.task.db.FavoriteMovieSingleQueryTask;
 import edu.udacity.android.popularmovies.task.web.MovieReviewDataDownloadTask;
 import edu.udacity.android.popularmovies.task.web.MovieTrailerDataDownloadTask;
+import edu.udacity.android.popularmovies.util.AppUtils;
 import edu.udacity.android.popularmovies.util.Constants;
 import edu.udacity.android.popularmovies.util.MathUtils;
 import edu.udacity.android.popularmovies.util.StringUtils;
@@ -39,6 +40,8 @@ public class MovieDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
         View rootView = inflater.inflate(R.layout.fragment_movie_details, container, false);
         ImageView posterView = (ImageView) rootView.findViewById(R.id.movie_details_poster);
         TextView titleView = (TextView) rootView.findViewById(R.id.movie_details_title);
@@ -46,14 +49,25 @@ public class MovieDetailsFragment extends Fragment {
         TextView ratingView = (TextView) rootView.findViewById(R.id.movie_details_rating);
         TextView synopsisView = (TextView) rootView.findViewById(R.id.movie_details_synopsis);
 
-        final Movie selectedMovie = (Movie) getArguments().get(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME);
+        boolean savedStateFlag = savedInstanceState != null;
 
-        if (selectedMovie == null) {
+        // find the movie
+        Movie movie;
+
+        if (savedStateFlag) {
+            movie = (Movie) savedInstanceState.get(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME);
+        } else {
+            movie = (Movie) getArguments().get(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME);
+        }
+
+        if (movie == null) {
             Log.e(TAG, "No movie found, so cannot display movie details");
             return rootView;
         }
 
+        final Movie selectedMovie = movie;
         final Activity activity = getActivity();
+
         // display the poster
         Picasso.with(activity)
                 .load(selectedMovie.getPosterUri())
@@ -66,12 +80,6 @@ public class MovieDetailsFragment extends Fragment {
         yearView.setText(generateFormattedYear(selectedMovie.getReleaseDate()));
         ratingView.setText(generateFormattedRating(selectedMovie.getVoteAverage()));
 
-        // populate the trailer list
-        startTrailerDataDownload(selectedMovie, activity);
-
-        // populate the review list
-        startReviewDataDownload(selectedMovie, activity);
-
         // display synopsis
         String synopsis = selectedMovie.getSynopsis();
 
@@ -81,6 +89,7 @@ public class MovieDetailsFragment extends Fragment {
 
         synopsisView.setText(synopsis);
 
+        // check if the movie has been marked as favorite
         final PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
         final Uri movieUri = MovieContract.MovieEntry.buildMovieUri(selectedMovie.getMovieId());
         FavoriteMovieSingleQueryTask queryTask = new FavoriteMovieSingleQueryTask(activity);
@@ -108,6 +117,63 @@ public class MovieDetailsFragment extends Fragment {
         return rootView;
     }
 
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setRetainInstance(true);
+
+        Activity activity = getActivity();
+        boolean savedStateFlag = savedInstanceState != null;
+
+        // find the movie
+        Movie selectedMovie;
+
+        if (savedStateFlag) {
+            selectedMovie = (Movie) savedInstanceState.get(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME);
+        } else {
+            selectedMovie = (Movie) getArguments().get(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME);
+        }
+
+        if (selectedMovie == null) {
+            return;
+        }
+
+        // populate the trailer list
+        populateTrailers(selectedMovie, activity, savedStateFlag);
+
+        // populate the review list
+        populateReviews(selectedMovie, activity, savedStateFlag);
+    }
+
+    // save the movie in its current state, to be restored later
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        View view = getView();
+
+        if (view == null) {
+            return;
+        }
+
+        Movie movie = (Movie) getArguments().get(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME);
+        outState.putParcelable(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME, movie);
+    }
+
+    private void populateTrailers(Movie movie, Activity activity, boolean savedStateFlag) {
+        if (savedStateFlag) {
+            AppUtils.displayTrailersForMovie(movie, activity);
+        } else {
+            startTrailerDataDownload(movie, activity);
+        }
+    }
+
+    private void populateReviews(Movie movie, Activity activity, boolean savedStateFlag) {
+        if (savedStateFlag) {
+            AppUtils.displayReviewsForMovie(movie, activity);
+        } else {
+            startReviewDataDownload(movie, activity);
+        }
+    }
+
     private void startTrailerDataDownload(Movie movie, Activity activity) {
         PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
 
@@ -124,7 +190,7 @@ public class MovieDetailsFragment extends Fragment {
 
         Log.i(TAG, String.format("The trailer Uri is : %s", trailerUri.toString()));
 
-        MovieTrailerDataDownloadTask trailerDownloadTask = new MovieTrailerDataDownloadTask(activity);
+        MovieTrailerDataDownloadTask trailerDownloadTask = new MovieTrailerDataDownloadTask(movie, activity);
         trailerDownloadTask.execute(trailerUri);
     }
 
@@ -143,7 +209,7 @@ public class MovieDetailsFragment extends Fragment {
 
         Log.i(TAG, String.format("The review URI is : %s", reviewDataUri.toString()));
 
-        MovieReviewDataDownloadTask task = new MovieReviewDataDownloadTask(activity);
+        MovieReviewDataDownloadTask task = new MovieReviewDataDownloadTask(movie, activity);
         task.execute(reviewDataUri);
     }
 

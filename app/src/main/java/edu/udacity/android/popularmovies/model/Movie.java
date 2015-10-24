@@ -8,6 +8,9 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Movie implements Parcelable {
     private final Long movieId;
     private final String title;
@@ -15,6 +18,11 @@ public class Movie implements Parcelable {
     private final Uri posterUri;
     private final Double voteAverage;
     private final String synopsis;
+
+    // these fields are populated only when the details screen
+    // for a particular movie is visited
+    private final List<MovieTrailer> trailerList = new ArrayList<>();
+    private final List<MovieReview> reviewList = new ArrayList<>();
 
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
 
@@ -54,6 +62,7 @@ public class Movie implements Parcelable {
         synopsis = values.getAsString("synopsis");
     }
 
+    @SuppressWarnings("unchecked")
     public Movie(Parcel in) {
         Object[] values = in.readArray(ClassLoader.getSystemClassLoader());
         movieId = (Long) values[0];
@@ -62,6 +71,8 @@ public class Movie implements Parcelable {
         posterUri = (Uri) values[3];
         voteAverage = (Double) values[4];
         synopsis = (String) values[5];
+        setTrailerList((List<MovieTrailer>) values[6]);
+        setReviewList((List<MovieReview>) values[7]);
     }
 
     public Long getMovieId() {
@@ -88,6 +99,32 @@ public class Movie implements Parcelable {
         return synopsis;
     }
 
+    public List<MovieTrailer> getTrailerList() {
+        return trailerList;
+    }
+
+    public void setTrailerList(List<MovieTrailer> list) {
+        if (list == null) {
+            return;
+        }
+
+        trailerList.clear();
+        trailerList.addAll(list);
+    }
+
+    public List<MovieReview> getReviewList() {
+        return reviewList;
+    }
+
+    public void setReviewList(List<MovieReview> list) {
+        if (list == null) {
+            return;
+        }
+
+        reviewList.clear();
+        reviewList.addAll(list);
+    }
+
     @Override
     public String toString() {
         return title;
@@ -100,6 +137,6 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeArray(new Object[]{movieId, title, releaseDate, posterUri, voteAverage, synopsis});
+        dest.writeArray(new Object[]{movieId, title, releaseDate, posterUri, voteAverage, synopsis, trailerList, reviewList});
     }
 }

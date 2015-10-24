@@ -4,10 +4,6 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,15 +18,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.udacity.android.popularmovies.R;
+import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.model.MovieReview;
+import edu.udacity.android.popularmovies.util.AppUtils;
 
 public class MovieReviewDataDownloadTask extends AsyncTask<Uri, Void, List<MovieReview>> {
     private static final String TAG = MovieReviewDataDownloadTask.class.getSimpleName();
 
+    private final Movie movie;
     private final Activity activity;
 
-    public MovieReviewDataDownloadTask(Activity activity) {
+    public MovieReviewDataDownloadTask(Movie movie, Activity activity) {
+        this.movie = movie;
         this.activity = activity;
     }
 
@@ -75,19 +74,7 @@ public class MovieReviewDataDownloadTask extends AsyncTask<Uri, Void, List<Movie
 
     @Override
     protected void onPostExecute(List<MovieReview> reviewList) {
-        LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.movie_reviews);
-        LayoutInflater inflater = activity.getLayoutInflater();
-
-        if (reviewList.size() > 0) {
-            View titleView = inflater.inflate(R.layout.movie_reviews_title, linearLayout, false);
-            linearLayout.addView(titleView);
-        }
-
-        for (MovieReview review : reviewList) {
-            View view = inflater.inflate(R.layout.movie_review, linearLayout, false);
-            TextView reviewContentView = (TextView) view.findViewById(R.id.movie_review_content);
-            reviewContentView.setText(review.getContent());
-            linearLayout.addView(view);
-        }
+        movie.setReviewList(reviewList);
+        AppUtils.displayReviewsForMovie(movie, activity);
     }
 }
