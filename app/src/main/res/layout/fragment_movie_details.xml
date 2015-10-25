@@ -13,10 +13,10 @@
                 android:id="@+id/movie_details_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="30dp"
-                android:paddingBottom="30dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:textStyle="bold"
                 android:background="@color/title_background"
                 android:textColor="@color/title_text_color"
@@ -26,16 +26,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="30dp">
+                android:layout_marginBottom="20dp">
 
             <ImageView
                     android:id="@+id/movie_details_poster"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="5"
                     android:layout_marginRight="15dp"
                     android:layout_marginEnd="15dp"
                     android:contentDescription="@string/generic_poster_alt"/>
@@ -43,7 +43,7 @@
             <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:orientation="vertical">
 
                 <TextView
@@ -60,7 +60,7 @@
 
                 <Button
                         android:id="@+id/favorite_button"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:padding="5dp"
@@ -77,8 +77,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginBottom="25dp">
 
             <TextView
@@ -99,16 +99,16 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="vertical"
-                      android:layout_marginLeft="30dp"
-                      android:layout_marginRight="30dp"
+                      android:layout_marginLeft="20dp"
+                      android:layout_marginRight="20dp"
                       android:layout_marginBottom="25dp"/>
 
         <LinearLayout android:id="@+id/movie_reviews"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="vertical"
-                      android:layout_marginLeft="30dp"
-                      android:layout_marginRight="30dp"
+                      android:layout_marginLeft="20dp"
+                      android:layout_marginRight="20dp"
                       android:layout_marginBottom="5dp"/>
     </LinearLayout>
 </ScrollView>
