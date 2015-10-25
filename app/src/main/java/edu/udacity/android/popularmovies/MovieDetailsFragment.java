@@ -72,7 +72,7 @@ public class MovieDetailsFragment extends Fragment {
         Picasso.with(activity)
                 .load(selectedMovie.getPosterUri())
                 .noFade()
-                .placeholder(R.drawable.movie_placeholder_small)
+                .placeholder(R.drawable.movie_placeholder)
                 .into(posterView);
 
         // display various metadata
