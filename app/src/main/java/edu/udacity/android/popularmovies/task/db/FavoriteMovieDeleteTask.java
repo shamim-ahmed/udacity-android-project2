@@ -41,8 +41,16 @@ public class FavoriteMovieDeleteTask extends AsyncTask<Uri, Void, Integer> {
             return;
         }
 
-        // set the state of the star button to un-selected
+        // set the state of the favorite button to un-selected
         Button favoriteButton = (Button) activity.findViewById(R.id.favorite_button);
+
+        // NOTE : occasionally an NPE is encourntered when the user tries to select
+        // a movie from the grid while the screen is getting rotated. In order to prevent
+        // the NPE, we include a check.
+        if (favoriteButton == null) {
+            return;
+        }
+
         favoriteButton.setText(R.string.favorite_button_add_text);
         favoriteButton.setSelected(false);
 

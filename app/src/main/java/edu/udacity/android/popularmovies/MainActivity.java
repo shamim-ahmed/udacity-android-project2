@@ -86,7 +86,13 @@ public class MainActivity extends AppCompatActivity implements MovieGridFragment
             Bundle arguments = new Bundle();
             arguments.putParcelable(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME, selectedMovie);
             detailsFragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction().replace(R.id.movie_detail_container, detailsFragment, Constants.MOVIE_DETAILS_FRAGMENT_TAG).commit();
+
+            // NOTE: I had to invoke commitAllowingStateLoss() as I was getting an occasional IllegalStateException
+            // when I was trying to select a movie while screen rotation was taking place. Invocation of this
+            // method does not seem to be recommended, but it prevents the app from crashing
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.movie_detail_container, detailsFragment, Constants.MOVIE_DETAILS_FRAGMENT_TAG)
+                    .commitAllowingStateLoss();
         } else {
             Intent intent = new Intent(this, MovieDetailsActivity.class);
             intent.putExtra(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME, selectedMovie);

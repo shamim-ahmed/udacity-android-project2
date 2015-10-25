@@ -46,6 +46,14 @@ public class FavoriteMovieSingleQueryTask extends AsyncTask<Uri, Void, Boolean> 
     @Override
     protected void onPostExecute(Boolean result) {
         Button favoriteButton = (Button) activity.findViewById(R.id.favorite_button);
+
+        // NOTE : occasionally an NPE is encourntered when the user tries to select
+        // a movie from the grid while the screen is getting rotated. In order to prevent
+        // the NPE, we include a check.
+        if (favoriteButton == null) {
+            return;
+        }
+
         favoriteButton.setSelected(result);
 
         if (result) {
