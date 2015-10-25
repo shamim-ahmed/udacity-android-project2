@@ -10,13 +10,10 @@ import java.util.List;
 public class PopularMoviesContract {
     public static final String CONTENT_AUTHORITY = "edu.udacity.android.popularmovies";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    public static final String PATH_MOVIE = "movie";
-    public static final Uri MOVIE_CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIE).build();
-    public static final String MOVIE_CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + PATH_MOVIE;
-    public static final String MOVIE_CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + PATH_MOVIE;
 
     public static class MovieEntry implements BaseColumns {
         private static final String TAG = MovieEntry.class.getSimpleName();
+
         public static final String TABLE_NAME = "Movie";
         public static final String COLUMN_MOVIE_ID = "movie_id";
         public static final String COLUMN_TITLE = "title";
@@ -24,6 +21,11 @@ public class PopularMoviesContract {
         public static final String COLUMN_POSTER_URI = "poster_uri";
         public static final String COLUMN_VOTE_AVERAGE = "vote_average";
         public static final String COLUMN_SYNOPSIS = "synopsis";
+
+        public static final String PATH_MOVIE = "movie";
+        public static final Uri MOVIE_CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIE).build();
+        public static final String MOVIE_CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + PATH_MOVIE;
+        public static final String MOVIE_CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + PATH_MOVIE;
 
         public static Long getMovieIdFromUri(Uri uri) {
             Long result = null;
@@ -43,5 +45,12 @@ public class PopularMoviesContract {
         public static Uri buildMovieUri(Long movieId) {
             return MOVIE_CONTENT_URI.buildUpon().appendPath(movieId.toString()).build();
         }
+    }
+
+    public static class MovieReviewEntry implements BaseColumns {
+        public static final String TABLE_NAME = "Movie_Review";
+        public static final String COLUMN_REVIEW_ID = "review_id";
+        public static final String COLUMN_AUTHOR = "author";
+        public static final String COLUMN_CONTENT = "content";
     }
 }

@@ -27,8 +27,8 @@ public class MovieProvider extends ContentProvider {
 
     private static UriMatcher buildUriMatcher() {
         UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
-        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.PATH_MOVIE, MOVIE);
-        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.PATH_MOVIE + "/#", MOVIE_WITH_ID);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE, MOVIE);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#", MOVIE_WITH_ID);
 
         return matcher;
     }
@@ -75,10 +75,10 @@ public class MovieProvider extends ContentProvider {
 
         switch (sUriMatcher.match(uri)) {
             case MOVIE:
-                result = PopularMoviesContract.MOVIE_CONTENT_TYPE;
+                result = PopularMoviesContract.MovieEntry.MOVIE_CONTENT_TYPE;
                 break;
             case MOVIE_WITH_ID:
-                result = PopularMoviesContract.MOVIE_CONTENT_ITEM_TYPE;
+                result = PopularMoviesContract.MovieEntry.MOVIE_CONTENT_ITEM_TYPE;
                 break;
             default:
                 Log.e(TAG, String.format("unknown type for uri : %s", uri.toString()));
