@@ -35,15 +35,16 @@
                     android:id="@+id/movie_details_poster"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="7"
                     android:layout_marginRight="15dp"
                     android:layout_marginEnd="15dp"
-                    android:contentDescription="@string/generic_poster_alt"/>
+                    android:contentDescription="@string/generic_poster_alt"
+                    android:adjustViewBounds="true"/>
 
             <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="5"
                     android:orientation="vertical">
 
                 <TextView
