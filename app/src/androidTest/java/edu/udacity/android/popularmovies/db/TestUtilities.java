@@ -16,19 +16,19 @@ public class TestUtilities {
         List<ContentValues> contentList = new ArrayList<>();
 
         ContentValues inceptionValues = new ContentValues();
-        inceptionValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, 27205L);
-        inceptionValues.put(MovieContract.MovieEntry.COLUMN_TITLE, "Inception");
-        inceptionValues.put(MovieContract.MovieEntry.COLUMN_POSTER_URI, "http://image.tmdb.org/t/p/w185/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg");
-        inceptionValues.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, "2010-07-16");
-        inceptionValues.put(MovieContract.MovieEntry.COLUMN_SYNOPSIS, "Cobb, a skilled thief who commits corporate espionage by infiltrating the subconscious of his targets is offered a chance to regain his old life as payment for a task considered to be impossible");
+        inceptionValues.put(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID, 27205L);
+        inceptionValues.put(PopularMoviesContract.MovieEntry.COLUMN_TITLE, "Inception");
+        inceptionValues.put(PopularMoviesContract.MovieEntry.COLUMN_POSTER_URI, "http://image.tmdb.org/t/p/w185/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg");
+        inceptionValues.put(PopularMoviesContract.MovieEntry.COLUMN_RELEASE_DATE, "2010-07-16");
+        inceptionValues.put(PopularMoviesContract.MovieEntry.COLUMN_SYNOPSIS, "Cobb, a skilled thief who commits corporate espionage by infiltrating the subconscious of his targets is offered a chance to regain his old life as payment for a task considered to be impossible");
         contentList.add(inceptionValues);
 
         ContentValues jurassicWorldValues = new ContentValues();
-        jurassicWorldValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, 135397L);
-        jurassicWorldValues.put(MovieContract.MovieEntry.COLUMN_TITLE, "Jurassic World");
-        jurassicWorldValues.put(MovieContract.MovieEntry.COLUMN_POSTER_URI, "http://image.tmdb.org/t/p/w185/jjBgi2r5cRt36xF6iNUEhzscEcb.jpg");
-        jurassicWorldValues.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, "2015-06-12");
-        jurassicWorldValues.put(MovieContract.MovieEntry.COLUMN_SYNOPSIS, "Twenty-two years after the events of Jurassic Park, Isla Nublar now features a fully functioning dinosaur theme park, Jurassic World, as originally envisioned by John Hammond.");
+        jurassicWorldValues.put(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID, 135397L);
+        jurassicWorldValues.put(PopularMoviesContract.MovieEntry.COLUMN_TITLE, "Jurassic World");
+        jurassicWorldValues.put(PopularMoviesContract.MovieEntry.COLUMN_POSTER_URI, "http://image.tmdb.org/t/p/w185/jjBgi2r5cRt36xF6iNUEhzscEcb.jpg");
+        jurassicWorldValues.put(PopularMoviesContract.MovieEntry.COLUMN_RELEASE_DATE, "2015-06-12");
+        jurassicWorldValues.put(PopularMoviesContract.MovieEntry.COLUMN_SYNOPSIS, "Twenty-two years after the events of Jurassic Park, Isla Nublar now features a fully functioning dinosaur theme park, Jurassic World, as originally envisioned by John Hammond.");
         contentList.add(jurassicWorldValues);
 
         return contentList;

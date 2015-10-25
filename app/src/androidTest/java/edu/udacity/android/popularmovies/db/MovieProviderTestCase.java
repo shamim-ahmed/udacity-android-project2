@@ -26,11 +26,11 @@ public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
         assertTrue("no test data", movieDataList.size() > 0);
 
         ContentValues values = movieDataList.get(0);
-        Uri resultUri = provider.insert(MovieContract.CONTENT_URI, values);
+        Uri resultUri = provider.insert(PopularMoviesContract.MOVIE_CONTENT_URI, values);
         String type = provider.getType(resultUri);
-        assertEquals("Uri type is different than expected", MovieContract.CONTENT_ITEM_TYPE, type);
+        assertEquals("Uri type is different than expected", PopularMoviesContract.MOVIE_CONTENT_ITEM_TYPE, type);
 
-        long movieId = MovieContract.MovieEntry.getMovieIdFromUri(resultUri);
+        long movieId = PopularMoviesContract.MovieEntry.getMovieIdFromUri(resultUri);
         long expectedId = (Long) values.get("movie_id");
         assertTrue("movieId is different than expected", movieId == expectedId);
 
@@ -44,13 +44,13 @@ public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
         assertTrue("no test data", movieDataList.size() > 0);
 
         for (ContentValues values : movieDataList) {
-            provider.insert(MovieContract.CONTENT_URI, values);
+            provider.insert(PopularMoviesContract.MOVIE_CONTENT_URI, values);
         }
 
         // retrieve individual movies
         for (ContentValues values : movieDataList) {
             long movieId = (Long) values.get("movie_id");
-            Uri queryUri = MovieContract.MovieEntry.buildMovieUri(movieId);
+            Uri queryUri = PopularMoviesContract.MovieEntry.buildMovieUri(movieId);
             Cursor c = provider.query(queryUri, null, null, null, null);
             assertTrue("movie not found in database", c.moveToFirst());
             TestUtilities.validateCurrentRecord("movie values are different than expected", c, values);
@@ -65,7 +65,7 @@ public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
             movieDataMap.put(movieId, values);
         }
 
-        Cursor cursor = provider.query(MovieContract.CONTENT_URI, null, null, null, null);
+        Cursor cursor = provider.query(PopularMoviesContract.MOVIE_CONTENT_URI, null, null, null, null);
 
         while (cursor.moveToNext()) {
             int index = cursor.getColumnIndex("movie_id");
@@ -85,10 +85,10 @@ public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
         assertTrue("no test data", movieDataList.size() > 0);
 
         for (ContentValues values : movieDataList) {
-            provider.insert(MovieContract.CONTENT_URI, values);
+            provider.insert(PopularMoviesContract.MOVIE_CONTENT_URI, values);
         }
 
-        int n = provider.delete(MovieContract.CONTENT_URI, null, null);
+        int n = provider.delete(PopularMoviesContract.MOVIE_CONTENT_URI, null, null);
         assertTrue("all movies were not deleted", n == movieDataList.size());
     }
 
@@ -98,7 +98,7 @@ public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         try {
-            db.execSQL("DELETE FROM " + MovieContract.MovieEntry.TABLE_NAME);
+            db.execSQL("DELETE FROM " + PopularMoviesContract.MovieEntry.TABLE_NAME);
         } catch (Exception ex) {
             // ignore it
         }

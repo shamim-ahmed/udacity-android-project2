@@ -22,7 +22,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import edu.udacity.android.popularmovies.db.MovieContract;
+import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.task.db.FavoriteMovieDeleteTask;
 import edu.udacity.android.popularmovies.task.db.FavoriteMovieInsertTask;
@@ -99,7 +99,7 @@ public class MovieDetailsFragment extends Fragment {
 
         // check if the movie has been marked as favorite
         final PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
-        final Uri movieUri = MovieContract.MovieEntry.buildMovieUri(selectedMovie.getMovieId());
+        final Uri movieUri = PopularMoviesContract.MovieEntry.buildMovieUri(selectedMovie.getMovieId());
         FavoriteMovieSingleQueryTask queryTask = new FavoriteMovieSingleQueryTask(activity);
         queryTask.execute(movieUri);
 
@@ -114,7 +114,7 @@ public class MovieDetailsFragment extends Fragment {
                 if (!selected) {
                     ContentValues values = convertMovie(selectedMovie);
                     FavoriteMovieInsertTask insertTask = new FavoriteMovieInsertTask(application, activity, values);
-                    insertTask.execute(MovieContract.CONTENT_URI);
+                    insertTask.execute(PopularMoviesContract.MOVIE_CONTENT_URI);
                 } else {
                     FavoriteMovieDeleteTask deleteTask = new FavoriteMovieDeleteTask(application, activity);
                     deleteTask.execute(movieUri);
@@ -260,12 +260,12 @@ public class MovieDetailsFragment extends Fragment {
 
     private ContentValues convertMovie(Movie movie) {
         ContentValues values = new ContentValues();
-        values.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, movie.getMovieId());
-        values.put(MovieContract.MovieEntry.COLUMN_TITLE, movie.getTitle());
-        values.put(MovieContract.MovieEntry.COLUMN_POSTER_URI, movie.getPosterUri().toString());
-        values.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, movie.getReleaseDate());
-        values.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, movie.getVoteAverage());
-        values.put(MovieContract.MovieEntry.COLUMN_SYNOPSIS, movie.getSynopsis());
+        values.put(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID, movie.getMovieId());
+        values.put(PopularMoviesContract.MovieEntry.COLUMN_TITLE, movie.getTitle());
+        values.put(PopularMoviesContract.MovieEntry.COLUMN_POSTER_URI, movie.getPosterUri().toString());
+        values.put(PopularMoviesContract.MovieEntry.COLUMN_RELEASE_DATE, movie.getReleaseDate());
+        values.put(PopularMoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE, movie.getVoteAverage());
+        values.put(PopularMoviesContract.MovieEntry.COLUMN_SYNOPSIS, movie.getSynopsis());
 
         return values;
     }

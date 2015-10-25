@@ -17,7 +17,7 @@ public class MovieProvider extends ContentProvider {
     private static final SQLiteQueryBuilder sQueryBuilder = new SQLiteQueryBuilder();
 
     static {
-        sQueryBuilder.setTables(MovieContract.MovieEntry.TABLE_NAME);
+        sQueryBuilder.setTables(PopularMoviesContract.MovieEntry.TABLE_NAME);
     }
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -27,8 +27,8 @@ public class MovieProvider extends ContentProvider {
 
     private static UriMatcher buildUriMatcher() {
         UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
-        matcher.addURI(MovieContract.CONTENT_AUTHORITY, MovieContract.PATH_MOVIE, MOVIE);
-        matcher.addURI(MovieContract.CONTENT_AUTHORITY, MovieContract.PATH_MOVIE + "/#", MOVIE_WITH_ID);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.PATH_MOVIE, MOVIE);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.PATH_MOVIE + "/#", MOVIE_WITH_ID);
 
         return matcher;
     }
@@ -53,7 +53,7 @@ public class MovieProvider extends ContentProvider {
                 break;
             }
             case MOVIE_WITH_ID: {
-                Long movieId = MovieContract.MovieEntry.getMovieIdFromUri(uri);
+                Long movieId = PopularMoviesContract.MovieEntry.getMovieIdFromUri(uri);
 
                 if (movieId != null) {
                     result = sQueryBuilder.query(dbHelper.getWritableDatabase(), projection, MOVIE_ID_SELECTION, new String[]{movieId.toString()}, null, null, sortOrder);
@@ -75,10 +75,10 @@ public class MovieProvider extends ContentProvider {
 
         switch (sUriMatcher.match(uri)) {
             case MOVIE:
-                result = MovieContract.CONTENT_TYPE;
+                result = PopularMoviesContract.MOVIE_CONTENT_TYPE;
                 break;
             case MOVIE_WITH_ID:
-                result = MovieContract.CONTENT_ITEM_TYPE;
+                result = PopularMoviesContract.MOVIE_CONTENT_ITEM_TYPE;
                 break;
             default:
                 Log.e(TAG, String.format("unknown type for uri : %s", uri.toString()));
@@ -96,11 +96,11 @@ public class MovieProvider extends ContentProvider {
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Uri result = null;
-        long _id = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, values);
+        long _id = db.insert(PopularMoviesContract.MovieEntry.TABLE_NAME, null, values);
 
         if (_id != -1) {
             Long movieId = (Long) values.get("movie_id");
-            result = MovieContract.MovieEntry.buildMovieUri(movieId);
+            result = PopularMoviesContract.MovieEntry.buildMovieUri(movieId);
         }
 
         return result;
@@ -113,13 +113,13 @@ public class MovieProvider extends ContentProvider {
 
         switch (sUriMatcher.match(uri)) {
             case MOVIE: {
-                result = db.delete(MovieContract.MovieEntry.TABLE_NAME, null, null);
+                result = db.delete(PopularMoviesContract.MovieEntry.TABLE_NAME, null, null);
                 break;
             }
 
             case MOVIE_WITH_ID: {
-                Long movieId = MovieContract.MovieEntry.getMovieIdFromUri(uri);
-                result = db.delete(MovieContract.MovieEntry.TABLE_NAME, MOVIE_ID_SELECTION, new String[] {movieId.toString()});
+                Long movieId = PopularMoviesContract.MovieEntry.getMovieIdFromUri(uri);
+                result = db.delete(PopularMoviesContract.MovieEntry.TABLE_NAME, MOVIE_ID_SELECTION, new String[] {movieId.toString()});
                 break;
             }
 

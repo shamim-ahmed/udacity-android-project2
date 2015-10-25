@@ -10,13 +10,11 @@ public class MovieReview implements Parcelable {
     private String id;
     private String author;
     private String content;
-    private String link;
 
     public MovieReview(JSONObject jsonObject) throws JSONException {
         id = jsonObject.getString("id");
         author = jsonObject.getString("author");
         content = jsonObject.getString("content");
-        link = jsonObject.getString("url");
     }
 
     public MovieReview(Parcel parcel) {
@@ -25,7 +23,6 @@ public class MovieReview implements Parcelable {
         id = values[0];
         author = values[1];
         content = values[2];
-        link = values[3];
     }
 
     public String getId() {
@@ -40,10 +37,6 @@ public class MovieReview implements Parcelable {
         return content;
     }
 
-    public String getLink() {
-        return link;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -51,7 +44,7 @@ public class MovieReview implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeArray(new Object[]{id, author, content, link});
+        parcel.writeArray(new Object[]{id, author, content});
     }
 
     @Override

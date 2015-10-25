@@ -8,14 +8,14 @@ public class MovieDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "popularMovies.db";
     public static final int DATABASE_VERSION = 1;
 
-    private static final String CREATE_TABLE_SQL = "CREATE TABLE " + MovieContract.MovieEntry.TABLE_NAME + "("
-            + MovieContract.MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + MovieContract.MovieEntry.COLUMN_MOVIE_ID + " TEXT NOT NULL UNIQUE, "
-            + MovieContract.MovieEntry.COLUMN_TITLE + " TEXT NOT NULL, "
-            + MovieContract.MovieEntry.COLUMN_RELEASE_DATE + " TEXT, "
-            + MovieContract.MovieEntry.COLUMN_POSTER_URI + " TEXT, "
-            + MovieContract.MovieEntry.COLUMN_SYNOPSIS + " TEXT, "
-            + MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE + " REAL"
+    private static final String CREATE_TABLE_SQL = "CREATE TABLE " + PopularMoviesContract.MovieEntry.TABLE_NAME + "("
+            + PopularMoviesContract.MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID + " TEXT NOT NULL UNIQUE, "
+            + PopularMoviesContract.MovieEntry.COLUMN_TITLE + " TEXT NOT NULL, "
+            + PopularMoviesContract.MovieEntry.COLUMN_RELEASE_DATE + " TEXT, "
+            + PopularMoviesContract.MovieEntry.COLUMN_POSTER_URI + " TEXT, "
+            + PopularMoviesContract.MovieEntry.COLUMN_SYNOPSIS + " TEXT, "
+            + PopularMoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE + " REAL"
             + ")";
 
     public MovieDbHelper(Context context) {

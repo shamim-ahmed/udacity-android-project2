@@ -7,13 +7,13 @@ import android.util.Log;
 
 import java.util.List;
 
-public class MovieContract {
+public class PopularMoviesContract {
     public static final String CONTENT_AUTHORITY = "edu.udacity.android.popularmovies";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_MOVIE = "movie";
-    public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIE).build();
-    public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + PATH_MOVIE;
-    public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + PATH_MOVIE;
+    public static final Uri MOVIE_CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIE).build();
+    public static final String MOVIE_CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + PATH_MOVIE;
+    public static final String MOVIE_CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + PATH_MOVIE;
 
     public static class MovieEntry implements BaseColumns {
         private static final String TAG = MovieEntry.class.getSimpleName();
@@ -41,7 +41,7 @@ public class MovieContract {
         }
 
         public static Uri buildMovieUri(Long movieId) {
-            return CONTENT_URI.buildUpon().appendPath(movieId.toString()).build();
+            return MOVIE_CONTENT_URI.buildUpon().appendPath(movieId.toString()).build();
         }
     }
 }

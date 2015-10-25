@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Properties;
 
 import edu.udacity.android.popularmovies.R;
-import edu.udacity.android.popularmovies.db.MovieContract;
+import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.listener.MovieTrailerOnClickListener;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.model.MovieReview;
@@ -61,27 +61,27 @@ public class AppUtils {
         int synopsisIndex = cursor.getColumnIndex("synopsis");
 
         ContentValues values = new ContentValues();
-        values.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, cursor.getLong(movieIdIndex));
-        values.put(MovieContract.MovieEntry.COLUMN_TITLE, cursor.getString(titleIndex));
+        values.put(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID, cursor.getLong(movieIdIndex));
+        values.put(PopularMoviesContract.MovieEntry.COLUMN_TITLE, cursor.getString(titleIndex));
 
         if (!cursor.isNull(releaseDateIndex)) {
             String releaseDate = cursor.getString(releaseDateIndex);
-            values.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, releaseDate);
+            values.put(PopularMoviesContract.MovieEntry.COLUMN_RELEASE_DATE, releaseDate);
         }
 
         if (!cursor.isNull(posterUriIndex)) {
             String uriString = cursor.getString(posterUriIndex);
-            values.put(MovieContract.MovieEntry.COLUMN_POSTER_URI, uriString);
+            values.put(PopularMoviesContract.MovieEntry.COLUMN_POSTER_URI, uriString);
         }
 
         if (!cursor.isNull(voteAverageIndex)) {
             Double voteAverage = cursor.getDouble(voteAverageIndex);
-            values.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, voteAverage);
+            values.put(PopularMoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE, voteAverage);
         }
 
         if (!cursor.isNull(synopsisIndex)) {
             String synopsis = cursor.getString(synopsisIndex);
-            values.put(MovieContract.MovieEntry.COLUMN_SYNOPSIS, synopsis);
+            values.put(PopularMoviesContract.MovieEntry.COLUMN_SYNOPSIS, synopsis);
         }
 
         return values;
