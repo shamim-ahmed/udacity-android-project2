@@ -9,9 +9,9 @@ import android.test.ProviderTestCase2;
 import java.util.HashMap;
 import java.util.List;
 
-public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
+public class MovieProviderTestCase extends ProviderTestCase2<PopularMoviesProvider> {
     public MovieProviderTestCase() {
-        super(MovieProvider.class, "edu.udacity.android.popularmovies");
+        super(PopularMoviesProvider.class, "edu.udacity.android.popularmovies");
     }
 
     @Override
@@ -21,7 +21,7 @@ public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
     }
 
     public void testInsertAndDelete() {
-        MovieProvider provider = getProvider();
+        PopularMoviesProvider provider = getProvider();
         List<ContentValues> movieDataList = TestUtilities.createMovieValues();
         assertTrue("no test data", movieDataList.size() > 0);
 
@@ -39,7 +39,7 @@ public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
     }
 
     public void testQuery() {
-        MovieProvider provider = getProvider();
+        PopularMoviesProvider provider = getProvider();
         List<ContentValues> movieDataList = TestUtilities.createMovieValues();
         assertTrue("no test data", movieDataList.size() > 0);
 
@@ -80,7 +80,7 @@ public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
     }
 
     public void testBulkDelete() {
-        MovieProvider provider = getProvider();
+        PopularMoviesProvider provider = getProvider();
         List<ContentValues> movieDataList = TestUtilities.createMovieValues();
         assertTrue("no test data", movieDataList.size() > 0);
 
@@ -93,7 +93,7 @@ public class MovieProviderTestCase extends ProviderTestCase2<MovieProvider> {
     }
 
     private void clearMovieTable() {
-        MovieProvider provider = getProvider();
+        PopularMoviesProvider provider = getProvider();
         PopularMoviesDbHelper dbHelper = provider.getMovieDbHelper();
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 

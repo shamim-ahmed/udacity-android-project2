@@ -9,8 +9,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
-public class MovieProvider extends ContentProvider {
-    private static final String TAG = MovieProvider.class.getSimpleName();
+public class PopularMoviesProvider extends ContentProvider {
+    private static final String TAG = PopularMoviesProvider.class.getSimpleName();
 
     private static final int MOVIE = 100;
     private static final int MOVIE_WITH_ID = 101;
