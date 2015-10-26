@@ -114,7 +114,7 @@ public class MovieDetailsFragment extends Fragment {
                 if (!selected) {
                     ContentValues values = convertMovie(selectedMovie);
                     FavoriteMovieInsertTask insertTask = new FavoriteMovieInsertTask(application, activity, values);
-                    insertTask.execute(PopularMoviesContract.MovieEntry.MOVIE_CONTENT_URI);
+                    insertTask.execute(PopularMoviesContract.MovieEntry.CONTENT_URI);
                 } else {
                     FavoriteMovieDeleteTask deleteTask = new FavoriteMovieDeleteTask(application, activity);
                     deleteTask.execute(movieUri);

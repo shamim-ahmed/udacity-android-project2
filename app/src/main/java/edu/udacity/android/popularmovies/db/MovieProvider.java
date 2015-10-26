@@ -13,33 +13,49 @@ public class MovieProvider extends ContentProvider {
     private static final String TAG = MovieProvider.class.getSimpleName();
 
     private static final int MOVIE = 100;
-    private static final int MOVIE_WITH_ID = 200;
+    private static final int MOVIE_WITH_ID = 101;
+    private static final int POSTER = 200;
+    private static final int POSTER_WITH_ID = 201;
+    private static final int TRAILER = 300;
+    private static final int TRAILER_WITH_ID = 301;
+    private static final int REVIEW = 400;
+    private static final int REVIEW_WITH_ID = 401;
+
     private static final SQLiteQueryBuilder sQueryBuilder = new SQLiteQueryBuilder();
 
     static {
-        sQueryBuilder.setTables(PopularMoviesContract.MovieEntry.TABLE_NAME);
+        sQueryBuilder.setTables(PopularMoviesContract.MovieEntry.TABLE_NAME + "," +
+                PopularMoviesContract.MoviePosterEntry.TABLE_NAME + "," +
+                PopularMoviesContract.MovieTrailerEntry.TABLE_NAME + "," +
+                PopularMoviesContract.MovieReviewEntry.TABLE_NAME);
     }
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private static final String MOVIE_ID_SELECTION = "movie_id = ?";
 
-    private MovieDbHelper dbHelper;
+    private PopularMoviesDbHelper dbHelper;
 
     private static UriMatcher buildUriMatcher() {
         UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE, MOVIE);
         matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#", MOVIE_WITH_ID);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#" + PopularMoviesContract.MoviePosterEntry.PATH_POSTER, POSTER);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#" + PopularMoviesContract.MoviePosterEntry.PATH_POSTER + "/#", POSTER_WITH_ID);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#" + PopularMoviesContract.MovieTrailerEntry.PATH_TRAILER, TRAILER);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#" + PopularMoviesContract.MovieTrailerEntry.PATH_TRAILER + "/#", TRAILER_WITH_ID);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#" + PopularMoviesContract.MovieReviewEntry.PATH_REVIEW, REVIEW);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#" + PopularMoviesContract.MovieReviewEntry.PATH_REVIEW + "/#", REVIEW_WITH_ID);
 
         return matcher;
     }
 
     @Override
     public boolean onCreate() {
-        dbHelper = new MovieDbHelper(getContext());
+        dbHelper = new PopularMoviesDbHelper(getContext());
         return true;
     }
 
-    MovieDbHelper getMovieDbHelper() {
+    PopularMoviesDbHelper getMovieDbHelper() {
         return dbHelper;
     }
 
@@ -61,9 +77,28 @@ public class MovieProvider extends ContentProvider {
 
                 break;
             }
-            default:
+            case POSTER: {
+                break;
+            }
+            case POSTER_WITH_ID: {
+                break;
+            }
+            case TRAILER: {
+                break;
+            }
+            case TRAILER_WITH_ID: {
+                break;
+            }
+            case REVIEW: {
+                break;
+            }
+            case REVIEW_WITH_ID: {
+                break;
+            }
+            default: {
                 Log.w(TAG, String.format("No match found for uri %s", uri.toString()));
                 break;
+            }
         }
 
         return result;
@@ -75,10 +110,10 @@ public class MovieProvider extends ContentProvider {
 
         switch (sUriMatcher.match(uri)) {
             case MOVIE:
-                result = PopularMoviesContract.MovieEntry.MOVIE_CONTENT_TYPE;
+                result = PopularMoviesContract.MovieEntry.CONTENT_TYPE;
                 break;
             case MOVIE_WITH_ID:
-                result = PopularMoviesContract.MovieEntry.MOVIE_CONTENT_ITEM_TYPE;
+                result = PopularMoviesContract.MovieEntry.CONTENT_ITEM_TYPE;
                 break;
             default:
                 Log.e(TAG, String.format("unknown type for uri : %s", uri.toString()));

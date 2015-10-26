@@ -16,7 +16,7 @@ public class TestDb extends AndroidTestCase {
     }
 
     private void deleteDataFromTable() {
-        MovieDbHelper dbHelper = new MovieDbHelper(mContext);
+        PopularMoviesDbHelper dbHelper = new PopularMoviesDbHelper(mContext);
         SQLiteDatabase db =  dbHelper.getWritableDatabase();
 
         try {
@@ -27,7 +27,7 @@ public class TestDb extends AndroidTestCase {
     }
 
     public void testCreateTable() throws Throwable {
-        MovieDbHelper dbHelper = new MovieDbHelper(mContext);
+        PopularMoviesDbHelper dbHelper = new PopularMoviesDbHelper(mContext);
         SQLiteDatabase db =  dbHelper.getWritableDatabase();
         assertEquals(true, db.isOpen());
 
@@ -79,7 +79,7 @@ public class TestDb extends AndroidTestCase {
     }
 
     public void testMovieTable() {
-        MovieDbHelper dbHelper = new MovieDbHelper(mContext);
+        PopularMoviesDbHelper dbHelper = new PopularMoviesDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         assertTrue("database is not open", db.isOpen());
 
