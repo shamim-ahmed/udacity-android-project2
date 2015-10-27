@@ -213,7 +213,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 result = PopularMoviesContract.ReviewEntry.CONTENT_TYPE;
                 break;
             default:
-                Log.e(TAG, String.format("unknown type for uri : %s", uri.toString()));
+                Log.e(TAG, String.format("cannot determine type for uri : %s", uri.toString()));
         }
 
         return result;
@@ -269,7 +269,7 @@ public class PopularMoviesProvider extends ContentProvider {
             }
 
             default: {
-                Log.e(TAG, String.format("Invalid uri : %S", uri.toString()));
+                Log.e(TAG, String.format("Invalid uri for insert : %S", uri.toString()));
                 break;
             }
         }
@@ -279,23 +279,28 @@ public class PopularMoviesProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        String type = getType(uri);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int result = 0;
+        String tableName = null;
 
         switch (sUriMatcher.match(uri)) {
             case MOVIE: {
-                result = db.delete(PopularMoviesContract.MovieEntry.TABLE_NAME, null, null);
+                tableName = PopularMoviesContract.MovieEntry.TABLE_NAME;
                 break;
             }
 
-            case MOVIE_WITH_ID: {
-                Long movieId = PopularMoviesContract.MovieEntry.getMovieIdFromUri(uri);
+            case POSTER: {
+                tableName = PopularMoviesContract.PosterEntry.TABLE_NAME;
+                break;
+            }
 
-                if (movieId != null) {
-                    result = db.delete(PopularMoviesContract.MovieEntry.TABLE_NAME, "movie_id = ?", new String[]{movieId.toString()});
-                }
+            case TRAILER: {
+                tableName = PopularMoviesContract.TrailerEntry.TABLE_NAME;
+                break;
+            }
 
+            case REVIEW: {
+                tableName = PopularMoviesContract.ReviewEntry.TABLE_NAME;
                 break;
             }
 
@@ -303,6 +308,10 @@ public class PopularMoviesProvider extends ContentProvider {
                 Log.e(TAG, String.format("Invalid uri for delete : %s", uri.toString()));
                 break;
             }
+        }
+
+        if (tableName != null) {
+            result = db.delete(PopularMoviesContract.MovieEntry.TABLE_NAME, selection, selectionArgs);
         }
 
         return result;
