@@ -72,9 +72,8 @@ public class PopularMoviesProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Cursor result = null;
-        String type = getType(uri);
-
-        switch (sUriMatcher.match(uri)) {
+        int matchValue = sUriMatcher.match(uri);
+        switch (matchValue) {
             case MOVIE: {
                 result = sMovieQueryBuilder.query(dbHelper.getWritableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
                 break;
@@ -177,8 +176,9 @@ public class PopularMoviesProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         String result = null;
+        int matchValue = sUriMatcher.match(uri);
 
-        switch (sUriMatcher.match(uri)) {
+        switch (matchValue) {
             case MOVIE:
                 result = PopularMoviesContract.MovieEntry.CONTENT_TYPE;
                 break;
@@ -223,8 +223,9 @@ public class PopularMoviesProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Uri result = null;
+        int matchValue = sUriMatcher.match(uri);
 
-        switch (sUriMatcher.match(uri)) {
+        switch (matchValue) {
             case MOVIE: {
                 long _id = db.insert(PopularMoviesContract.MovieEntry.TABLE_NAME, null, values);
 
@@ -282,8 +283,9 @@ public class PopularMoviesProvider extends ContentProvider {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int result = 0;
         String tableName = null;
+        int matchValue = sUriMatcher.match(uri);
 
-        switch (sUriMatcher.match(uri)) {
+        switch (matchValue) {
             case MOVIE: {
                 tableName = PopularMoviesContract.MovieEntry.TABLE_NAME;
                 break;
