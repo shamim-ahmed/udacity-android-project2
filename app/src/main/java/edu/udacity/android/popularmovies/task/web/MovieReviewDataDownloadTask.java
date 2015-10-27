@@ -19,10 +19,10 @@ import java.util.Collections;
 import java.util.List;
 
 import edu.udacity.android.popularmovies.model.Movie;
-import edu.udacity.android.popularmovies.model.MovieReview;
+import edu.udacity.android.popularmovies.model.Review;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
-public class MovieReviewDataDownloadTask extends AsyncTask<Uri, Void, List<MovieReview>> {
+public class MovieReviewDataDownloadTask extends AsyncTask<Uri, Void, List<Review>> {
     private static final String TAG = MovieReviewDataDownloadTask.class.getSimpleName();
 
     private final Movie movie;
@@ -34,14 +34,14 @@ public class MovieReviewDataDownloadTask extends AsyncTask<Uri, Void, List<Movie
     }
 
     @Override
-    protected List<MovieReview> doInBackground(Uri... params) {
+    protected List<Review> doInBackground(Uri... params) {
         if (params.length == 0) {
             Log.e(TAG, "No Uri provided for movie review download");
             return Collections.emptyList();
         }
 
         String urlString = params[0].toString();
-        List<MovieReview> reviewList = new ArrayList<>();
+        List<Review> reviewList = new ArrayList<>();
 
         try {
             URL url = new URL(urlString);
@@ -58,7 +58,7 @@ public class MovieReviewDataDownloadTask extends AsyncTask<Uri, Void, List<Movie
             JSONArray jsonArray = jsonObject.getJSONArray("results");
 
             for (int i = 0, n = jsonArray.length(); i < n; i++) {
-                MovieReview review = new MovieReview(jsonArray.getJSONObject(i), movie.getMovieId());
+                Review review = new Review(jsonArray.getJSONObject(i), movie.getMovieId());
                 reviewList.add(review);
             }
         } catch (MalformedURLException ex) {
@@ -73,7 +73,7 @@ public class MovieReviewDataDownloadTask extends AsyncTask<Uri, Void, List<Movie
     }
 
     @Override
-    protected void onPostExecute(List<MovieReview> reviewList) {
+    protected void onPostExecute(List<Review> reviewList) {
         movie.setReviewList(reviewList);
         AppUtils.displayReviewsForMovie(movie, activity);
     }

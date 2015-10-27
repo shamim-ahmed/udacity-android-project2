@@ -8,14 +8,14 @@ import org.json.JSONObject;
 
 import edu.udacity.android.popularmovies.util.StringUtils;
 
-public class MovieTrailer implements Parcelable {
+public class Trailer implements Parcelable {
     private final String trailerId;
     private final String key;
     private final String name;
     private final String site;
     private final Long movieId;
 
-    public MovieTrailer(JSONObject jsonObject, Long mvId) throws JSONException {
+    public Trailer(JSONObject jsonObject, Long mvId) throws JSONException {
         trailerId = jsonObject.getString("id");
         key = jsonObject.getString("key");
         name = jsonObject.getString("name");
@@ -24,7 +24,7 @@ public class MovieTrailer implements Parcelable {
         movieId = mvId;
     }
 
-    public MovieTrailer(Parcel in) {
+    public Trailer(Parcel in) {
         String[] values = new String[5];
         in.readStringArray(values);
         trailerId = values[0];
@@ -76,16 +76,16 @@ public class MovieTrailer implements Parcelable {
         return name;
     }
 
-    public static final Parcelable.Creator<MovieTrailer> CREATOR = new Parcelable.Creator<MovieTrailer>() {
+    public static final Parcelable.Creator<Trailer> CREATOR = new Parcelable.Creator<Trailer>() {
 
         @Override
-        public MovieTrailer createFromParcel(Parcel source) {
-            return new MovieTrailer(source);
+        public Trailer createFromParcel(Parcel source) {
+            return new Trailer(source);
         }
 
         @Override
-        public MovieTrailer[] newArray(int size) {
-            return new MovieTrailer[size];
+        public Trailer[] newArray(int size) {
+            return new Trailer[size];
         }
     };
 }

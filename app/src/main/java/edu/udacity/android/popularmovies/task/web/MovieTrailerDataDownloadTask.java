@@ -22,9 +22,9 @@ import java.util.List;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.util.AppUtils;
 import edu.udacity.android.popularmovies.util.IOUtils;
-import edu.udacity.android.popularmovies.model.MovieTrailer;
+import edu.udacity.android.popularmovies.model.Trailer;
 
-public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<MovieTrailer>> {
+public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Trailer>> {
     private static final String TAG = MovieTrailerDataDownloadTask.class.getSimpleName();
 
     private final Movie movie;
@@ -36,7 +36,7 @@ public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Movi
     }
 
     @Override
-    protected List<MovieTrailer> doInBackground(Uri... params) {
+    protected List<Trailer> doInBackground(Uri... params) {
         if (params.length == 0) {
             Log.e(TAG, "No Uri provided for trailer data download");
             return Collections.emptyList();
@@ -44,7 +44,7 @@ public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Movi
 
         BufferedReader reader = null;
         StringBuilder jsonBuilder = new StringBuilder();
-        List<MovieTrailer> trailerList = new ArrayList<>();
+        List<Trailer> trailerList = new ArrayList<>();
         String urlString = params[0].toString();
 
         try {
@@ -65,7 +65,7 @@ public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Movi
 
             if (results != null) {
                 for (int i = 0, n = results.length(); i < n; i++) {
-                    MovieTrailer trailer = new MovieTrailer(results.getJSONObject(i), movie.getMovieId());
+                    Trailer trailer = new Trailer(results.getJSONObject(i), movie.getMovieId());
                     trailerList.add(trailer);
                 }
             }
@@ -82,7 +82,7 @@ public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Movi
         return trailerList;
     }
 
-    protected void onPostExecute(List<MovieTrailer> trailerList) {
+    protected void onPostExecute(List<Trailer> trailerList) {
         movie.setTrailerList(trailerList);
         AppUtils.displayTrailersForMovie(movie, activity);
     }

@@ -23,8 +23,8 @@ import edu.udacity.android.popularmovies.R;
 import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.listener.MovieTrailerOnClickListener;
 import edu.udacity.android.popularmovies.model.Movie;
-import edu.udacity.android.popularmovies.model.MovieReview;
-import edu.udacity.android.popularmovies.model.MovieTrailer;
+import edu.udacity.android.popularmovies.model.Review;
+import edu.udacity.android.popularmovies.model.Trailer;
 
 public class AppUtils {
     private static final String TAG = AppUtils.class.getSimpleName();
@@ -98,14 +98,14 @@ public class AppUtils {
         }
 
         LayoutInflater inflater = activity.getLayoutInflater();
-        List<MovieTrailer> trailerList = movie.getTrailerList();
+        List<Trailer> trailerList = movie.getTrailerList();
 
         if (trailerList.size() > 0) {
             View titleView = inflater.inflate(R.layout.movie_trailers_title, linearLayout, false);
             linearLayout.addView(titleView);
         }
 
-        for (MovieTrailer trailer : trailerList) {
+        for (Trailer trailer : trailerList) {
             View view = inflater.inflate(R.layout.movie_trailer, linearLayout, false);
             Button trailerButton = (Button) view.findViewById(R.id.movie_trailer_item);
             trailerButton.setText(trailer.getName());
@@ -125,14 +125,14 @@ public class AppUtils {
         }
 
         LayoutInflater inflater = activity.getLayoutInflater();
-        List<MovieReview> reviewList = movie.getReviewList();
+        List<Review> reviewList = movie.getReviewList();
 
         if (reviewList.size() > 0) {
             View titleView = inflater.inflate(R.layout.movie_reviews_title, linearLayout, false);
             linearLayout.addView(titleView);
         }
 
-        for (MovieReview review : reviewList) {
+        for (Review review : reviewList) {
             View view = inflater.inflate(R.layout.movie_review, linearLayout, false);
             TextView reviewContentView = (TextView) view.findViewById(R.id.movie_review_content);
             reviewContentView.setText(Html.fromHtml(review.toString()));

@@ -8,13 +8,13 @@ import org.json.JSONObject;
 
 import edu.udacity.android.popularmovies.util.StringUtils;
 
-public class MovieReview implements Parcelable {
+public class Review implements Parcelable {
     private final String reviewId;
     private final String author;
     private final String content;
     private final Long movieId;
 
-    public MovieReview(JSONObject jsonObject, Long mvId) throws JSONException {
+    public Review(JSONObject jsonObject, Long mvId) throws JSONException {
         reviewId = jsonObject.getString("id");
         author = jsonObject.getString("author");
         content = jsonObject.getString("content");
@@ -22,7 +22,7 @@ public class MovieReview implements Parcelable {
         movieId = mvId;
     }
 
-    public MovieReview(Parcel parcel) {
+    public Review(Parcel parcel) {
         String[] values = new String[4];
         parcel.readStringArray(values);
         reviewId = values[0];
@@ -68,15 +68,15 @@ public class MovieReview implements Parcelable {
         return String.format("&ldquo;%s&rdquo; - <b><i><u>%s</u></i></b>", content, author);
     }
 
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator<MovieReview>() {
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator<Review>() {
         @Override
-        public MovieReview createFromParcel(Parcel parcel) {
-            return new MovieReview(parcel);
+        public Review createFromParcel(Parcel parcel) {
+            return new Review(parcel);
         }
 
         @Override
-        public MovieReview[] newArray(int size) {
-            return new MovieReview[size];
+        public Review[] newArray(int size) {
+            return new Review[size];
         }
     };
 }

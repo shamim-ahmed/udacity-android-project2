@@ -45,10 +45,10 @@ public class PopularMoviesContract {
         }
     }
 
-    public static class MoviePosterEntry implements BaseColumns {
-        private static final String TAG = MoviePosterEntry.class.getSimpleName();
+    public static class PosterEntry implements BaseColumns {
+        private static final String TAG = PosterEntry.class.getSimpleName();
 
-        public static final String TABLE_NAME = "Movie_Poster";
+        public static final String TABLE_NAME = "Poster";
         public static final String COLUMN_POSTER_ID = "poster_id";
         public static final String COLUMN_MOVIE_ID = "movie_id";
         public static final String COLUMN_CONTENT = "content";
@@ -87,10 +87,10 @@ public class PopularMoviesContract {
         }
     }
 
-    public static class MovieReviewEntry implements BaseColumns {
-        private static final String TAG = MovieReviewEntry.class.getSimpleName();
+    public static class ReviewEntry implements BaseColumns {
+        private static final String TAG = ReviewEntry.class.getSimpleName();
 
-        public static final String TABLE_NAME = "Movie_Review";
+        public static final String TABLE_NAME = "Review";
         public static final String COLUMN_REVIEW_ID = "review_id";
         public static final String COLUMN_AUTHOR = "author";
         public static final String COLUMN_CONTENT = "content";
@@ -130,10 +130,10 @@ public class PopularMoviesContract {
 
     }
 
-    public static class MovieTrailerEntry implements BaseColumns {
-        private static final String TAG = MovieTrailerEntry.class.getSimpleName();
+    public static class TrailerEntry implements BaseColumns {
+        private static final String TAG = TrailerEntry.class.getSimpleName();
 
-        public static final String TABLE_NAME = "Movie_Trailer";
+        public static final String TABLE_NAME = "Trailer";
         public static final String COLUMN_TRAILER_ID = "trailer_id";
 
         public static final String COLUMN_TRAILER_NAME = "name";

@@ -31,9 +31,9 @@ public class PopularMoviesProvider extends ContentProvider {
 
     static {
         sMovieQueryBuilder.setTables(PopularMoviesContract.MovieEntry.TABLE_NAME);
-        sPosterQueryBuilder.setTables(PopularMoviesContract.MoviePosterEntry.TABLE_NAME);
-        sTrailerQueryBuilder.setTables(PopularMoviesContract.MovieTrailerEntry.TABLE_NAME);
-        sReviewQueryBuilder.setTables(PopularMoviesContract.MovieReviewEntry.TABLE_NAME);
+        sPosterQueryBuilder.setTables(PopularMoviesContract.PosterEntry.TABLE_NAME);
+        sTrailerQueryBuilder.setTables(PopularMoviesContract.TrailerEntry.TABLE_NAME);
+        sReviewQueryBuilder.setTables(PopularMoviesContract.ReviewEntry.TABLE_NAME);
     }
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -46,15 +46,15 @@ public class PopularMoviesProvider extends ContentProvider {
 
         matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE, MOVIE);
         matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#", MOVIE_WITH_ID);
-        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MoviePosterEntry.PATH_POSTER, POSTER);
-        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MoviePosterEntry.PATH_POSTER + "/#", POSTER_WITH_ID);
-        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#" + PopularMoviesContract.MoviePosterEntry.PATH_POSTER, POSTER_WITH_MOVIE_ID);
-        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieTrailerEntry.PATH_TRAILER, TRAILER);
-        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieTrailerEntry.PATH_TRAILER + "/#", TRAILER_WITH_ID);
-        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#" + PopularMoviesContract.MovieTrailerEntry.PATH_TRAILER, TRAILER_WITH_MOVIE_ID);
-        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieReviewEntry.PATH_REVIEW, REVIEW);
-        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieReviewEntry.PATH_REVIEW + "/#", REVIEW_WITH_ID);
-        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#" + PopularMoviesContract.MovieReviewEntry.PATH_REVIEW, REVIEW_WITH_MOVIE_ID);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.PosterEntry.PATH_POSTER, POSTER);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.PosterEntry.PATH_POSTER + "/#", POSTER_WITH_ID);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#" + PopularMoviesContract.PosterEntry.PATH_POSTER, POSTER_WITH_MOVIE_ID);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.TrailerEntry.PATH_TRAILER, TRAILER);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.TrailerEntry.PATH_TRAILER + "/#", TRAILER_WITH_ID);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#" + PopularMoviesContract.TrailerEntry.PATH_TRAILER, TRAILER_WITH_MOVIE_ID);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.ReviewEntry.PATH_REVIEW, REVIEW);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.ReviewEntry.PATH_REVIEW + "/#", REVIEW_WITH_ID);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#" + PopularMoviesContract.ReviewEntry.PATH_REVIEW, REVIEW_WITH_MOVIE_ID);
 
         return matcher;
     }
@@ -96,7 +96,7 @@ public class PopularMoviesProvider extends ContentProvider {
             }
 
             case POSTER_WITH_ID: {
-                String posterId = PopularMoviesContract.MoviePosterEntry.getPosterIdFromUri(uri);
+                String posterId = PopularMoviesContract.PosterEntry.getPosterIdFromUri(uri);
 
                 if (posterId != null) {
                     result = sPosterQueryBuilder.query(dbHelper.getWritableDatabase(), projection, "poster_id = ?", new String[]{posterId}, null, null, sortOrder);
@@ -106,7 +106,7 @@ public class PopularMoviesProvider extends ContentProvider {
             }
 
             case POSTER_WITH_MOVIE_ID: {
-                Long movieId = PopularMoviesContract.MoviePosterEntry.getMovieIdFromUri(uri);
+                Long movieId = PopularMoviesContract.PosterEntry.getMovieIdFromUri(uri);
 
                 if (movieId != null) {
                     result = sPosterQueryBuilder.query(dbHelper.getWritableDatabase(), projection, "movie_id = ?", new String[]{movieId.toString()}, null, null, sortOrder);
@@ -121,7 +121,7 @@ public class PopularMoviesProvider extends ContentProvider {
             }
 
             case TRAILER_WITH_ID: {
-                String trailerId = PopularMoviesContract.MovieTrailerEntry.getTrailerIdFromUri(uri);
+                String trailerId = PopularMoviesContract.TrailerEntry.getTrailerIdFromUri(uri);
 
                 if (trailerId != null) {
                     result = sTrailerQueryBuilder.query(dbHelper.getWritableDatabase(), projection, "trailer_id = ?", new String[]{trailerId}, null, null, sortOrder);
@@ -131,7 +131,7 @@ public class PopularMoviesProvider extends ContentProvider {
             }
 
             case TRAILER_WITH_MOVIE_ID: {
-                Long movieId = PopularMoviesContract.MovieTrailerEntry.getMovieIdFromUri(uri);
+                Long movieId = PopularMoviesContract.TrailerEntry.getMovieIdFromUri(uri);
 
                 if (movieId != null) {
                     result = sTrailerQueryBuilder.query(dbHelper.getWritableDatabase(), projection, "movie_id = ?", new String[]{movieId.toString()}, null, null, sortOrder);
@@ -146,7 +146,7 @@ public class PopularMoviesProvider extends ContentProvider {
             }
 
             case REVIEW_WITH_ID: {
-                String reviewId = PopularMoviesContract.MovieReviewEntry.getReviewIdFromUri(uri);
+                String reviewId = PopularMoviesContract.ReviewEntry.getReviewIdFromUri(uri);
 
                 if (reviewId != null) {
                     result = sReviewQueryBuilder.query(dbHelper.getWritableDatabase(), projection, "review_id = ?", new String[] {reviewId}, null, null, sortOrder);
@@ -156,7 +156,7 @@ public class PopularMoviesProvider extends ContentProvider {
             }
 
             case REVIEW_WITH_MOVIE_ID: {
-                Long movieId = PopularMoviesContract.MovieReviewEntry.getMovieIdFromUri(uri);
+                Long movieId = PopularMoviesContract.ReviewEntry.getMovieIdFromUri(uri);
 
                 if (movieId != null) {
                     result = sReviewQueryBuilder.query(dbHelper.getWritableDatabase(), projection, "movie_id = ?", new String[]{movieId.toString()}, null, null, sortOrder);
@@ -186,22 +186,22 @@ public class PopularMoviesProvider extends ContentProvider {
                 result = PopularMoviesContract.MovieEntry.CONTENT_ITEM_TYPE;
                 break;
             case POSTER_WITH_MOVIE_ID:
-                result = PopularMoviesContract.MoviePosterEntry.CONTENT_TYPE;
+                result = PopularMoviesContract.PosterEntry.CONTENT_TYPE;
                 break;
             case POSTER_WITH_ID:
-                result = PopularMoviesContract.MoviePosterEntry.CONTENT_ITEM_TYPE;
+                result = PopularMoviesContract.PosterEntry.CONTENT_ITEM_TYPE;
                 break;
             case TRAILER_WITH_MOVIE_ID:
-                result = PopularMoviesContract.MovieTrailerEntry.CONTENT_TYPE;
+                result = PopularMoviesContract.TrailerEntry.CONTENT_TYPE;
                 break;
             case TRAILER_WITH_ID:
-                result = PopularMoviesContract.MovieTrailerEntry.CONTENT_ITEM_TYPE;
+                result = PopularMoviesContract.TrailerEntry.CONTENT_ITEM_TYPE;
                 break;
             case REVIEW_WITH_MOVIE_ID:
-                result = PopularMoviesContract.MovieReviewEntry.CONTENT_TYPE;
+                result = PopularMoviesContract.ReviewEntry.CONTENT_TYPE;
                 break;
             case REVIEW_WITH_ID:
-                result = PopularMoviesContract.MovieReviewEntry.CONTENT_ITEM_TYPE;
+                result = PopularMoviesContract.ReviewEntry.CONTENT_ITEM_TYPE;
                 break;
             default:
                 Log.e(TAG, String.format("unknown type for uri : %s", uri.toString()));

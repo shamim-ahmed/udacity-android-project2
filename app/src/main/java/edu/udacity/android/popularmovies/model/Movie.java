@@ -21,8 +21,8 @@ public class Movie implements Parcelable {
 
     // these fields are populated only when the details screen
     // for a particular movie is visited
-    private final List<MovieTrailer> trailerList = new ArrayList<>();
-    private final List<MovieReview> reviewList = new ArrayList<>();
+    private final List<Trailer> trailerList = new ArrayList<>();
+    private final List<Review> reviewList = new ArrayList<>();
 
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
 
@@ -71,8 +71,8 @@ public class Movie implements Parcelable {
         posterUri = (Uri) values[3];
         voteAverage = (Double) values[4];
         synopsis = (String) values[5];
-        setTrailerList((List<MovieTrailer>) values[6]);
-        setReviewList((List<MovieReview>) values[7]);
+        setTrailerList((List<Trailer>) values[6]);
+        setReviewList((List<Review>) values[7]);
     }
 
     public Long getMovieId() {
@@ -99,11 +99,11 @@ public class Movie implements Parcelable {
         return synopsis;
     }
 
-    public List<MovieTrailer> getTrailerList() {
+    public List<Trailer> getTrailerList() {
         return trailerList;
     }
 
-    public void setTrailerList(List<MovieTrailer> list) {
+    public void setTrailerList(List<Trailer> list) {
         if (list == null) {
             return;
         }
@@ -112,11 +112,11 @@ public class Movie implements Parcelable {
         trailerList.addAll(list);
     }
 
-    public List<MovieReview> getReviewList() {
+    public List<Review> getReviewList() {
         return reviewList;
     }
 
-    public void setReviewList(List<MovieReview> list) {
+    public void setReviewList(List<Review> list) {
         if (list == null) {
             return;
         }
