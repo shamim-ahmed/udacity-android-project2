@@ -22,13 +22,13 @@ import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.model.Review;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
-public class MovieReviewDataDownloadTask extends AsyncTask<Uri, Void, List<Review>> {
-    private static final String TAG = MovieReviewDataDownloadTask.class.getSimpleName();
+public class ReviewDataDownloadTask extends AsyncTask<Uri, Void, List<Review>> {
+    private static final String TAG = ReviewDataDownloadTask.class.getSimpleName();
 
     private final Movie movie;
     private final Activity activity;
 
-    public MovieReviewDataDownloadTask(Movie movie, Activity activity) {
+    public ReviewDataDownloadTask(Movie movie, Activity activity) {
         this.movie = movie;
         this.activity = activity;
     }

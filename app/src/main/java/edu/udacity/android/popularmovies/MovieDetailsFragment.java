@@ -27,8 +27,8 @@ import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.task.db.FavoriteMovieDeleteTask;
 import edu.udacity.android.popularmovies.task.db.FavoriteMovieInsertTask;
 import edu.udacity.android.popularmovies.task.db.FavoriteMovieSingleQueryTask;
-import edu.udacity.android.popularmovies.task.web.MovieReviewDataDownloadTask;
-import edu.udacity.android.popularmovies.task.web.MovieTrailerDataDownloadTask;
+import edu.udacity.android.popularmovies.task.web.ReviewDataDownloadTask;
+import edu.udacity.android.popularmovies.task.web.TrailerDataDownloadTask;
 import edu.udacity.android.popularmovies.util.AppUtils;
 import edu.udacity.android.popularmovies.util.Constants;
 import edu.udacity.android.popularmovies.util.MathUtils;
@@ -199,7 +199,7 @@ public class MovieDetailsFragment extends Fragment {
 
         Log.i(TAG, String.format("The trailer Uri is : %s", trailerUri.toString()));
 
-        MovieTrailerDataDownloadTask trailerDownloadTask = new MovieTrailerDataDownloadTask(movie, activity);
+        TrailerDataDownloadTask trailerDownloadTask = new TrailerDataDownloadTask(movie, activity);
         trailerDownloadTask.execute(trailerUri);
     }
 
@@ -218,7 +218,7 @@ public class MovieDetailsFragment extends Fragment {
 
         Log.i(TAG, String.format("The review URI is : %s", reviewDataUri.toString()));
 
-        MovieReviewDataDownloadTask task = new MovieReviewDataDownloadTask(movie, activity);
+        ReviewDataDownloadTask task = new ReviewDataDownloadTask(movie, activity);
         task.execute(reviewDataUri);
     }
 

@@ -185,23 +185,29 @@ public class PopularMoviesProvider extends ContentProvider {
             case MOVIE_WITH_ID:
                 result = PopularMoviesContract.MovieEntry.CONTENT_ITEM_TYPE;
                 break;
-            case POSTER_WITH_MOVIE_ID:
-                result = PopularMoviesContract.PosterEntry.CONTENT_TYPE;
+            case POSTER:
                 break;
             case POSTER_WITH_ID:
                 result = PopularMoviesContract.PosterEntry.CONTENT_ITEM_TYPE;
                 break;
-            case TRAILER_WITH_MOVIE_ID:
-                result = PopularMoviesContract.TrailerEntry.CONTENT_TYPE;
+            case POSTER_WITH_MOVIE_ID:
+                result = PopularMoviesContract.PosterEntry.CONTENT_TYPE;
+                break;
+            case TRAILER:
                 break;
             case TRAILER_WITH_ID:
                 result = PopularMoviesContract.TrailerEntry.CONTENT_ITEM_TYPE;
                 break;
-            case REVIEW_WITH_MOVIE_ID:
-                result = PopularMoviesContract.ReviewEntry.CONTENT_TYPE;
+            case TRAILER_WITH_MOVIE_ID:
+                result = PopularMoviesContract.TrailerEntry.CONTENT_TYPE;
+                break;
+            case REVIEW:
                 break;
             case REVIEW_WITH_ID:
                 result = PopularMoviesContract.ReviewEntry.CONTENT_ITEM_TYPE;
+                break;
+            case REVIEW_WITH_MOVIE_ID:
+                result = PopularMoviesContract.ReviewEntry.CONTENT_TYPE;
                 break;
             default:
                 Log.e(TAG, String.format("unknown type for uri : %s", uri.toString()));

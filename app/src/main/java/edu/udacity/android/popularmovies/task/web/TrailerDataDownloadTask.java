@@ -24,13 +24,13 @@ import edu.udacity.android.popularmovies.util.AppUtils;
 import edu.udacity.android.popularmovies.util.IOUtils;
 import edu.udacity.android.popularmovies.model.Trailer;
 
-public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Trailer>> {
-    private static final String TAG = MovieTrailerDataDownloadTask.class.getSimpleName();
+public class TrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Trailer>> {
+    private static final String TAG = TrailerDataDownloadTask.class.getSimpleName();
 
     private final Movie movie;
     private final Activity activity;
 
-    public MovieTrailerDataDownloadTask(Movie movie, Activity activity) {
+    public TrailerDataDownloadTask(Movie movie, Activity activity) {
         this.movie = movie;
         this.activity = activity;
     }
