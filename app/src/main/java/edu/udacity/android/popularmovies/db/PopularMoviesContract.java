@@ -41,7 +41,7 @@ public class PopularMoviesContract {
         }
 
         public static Uri buildMovieUri(Long movieId) {
-            return CONTENT_URI.buildUpon().appendPath(movieId.toString()).build();
+            return MovieEntry.CONTENT_URI.buildUpon().appendPath(movieId.toString()).build();
         }
     }
 
@@ -84,6 +84,10 @@ public class PopularMoviesContract {
             }
 
             return segmentList.get(1);
+        }
+
+        public static Uri buildPosterUri(String posterId) {
+            return PosterEntry.CONTENT_URI.buildUpon().appendEncodedPath(posterId).build();
         }
     }
 
@@ -128,6 +132,9 @@ public class PopularMoviesContract {
             return segmentList.get(1);
         }
 
+        public static Uri buildReviewUri(String reviewId) {
+            return ReviewEntry.CONTENT_URI.buildUpon().appendPath(reviewId).build();
+        }
     }
 
     public static class TrailerEntry implements BaseColumns {
@@ -145,7 +152,7 @@ public class PopularMoviesContract {
         public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + PATH_TRAILER;
 
         public static Long getMovieIdFromUri(Uri uri) {
-             List<String> segmentList = uri.getPathSegments();
+            List<String> segmentList = uri.getPathSegments();
 
             if (segmentList.size() < 2) {
                 return null;
@@ -170,6 +177,10 @@ public class PopularMoviesContract {
             }
 
             return segmentList.get(1);
+        }
+
+        public static Uri buildTrailerUri(String trailerId) {
+            return ReviewEntry.CONTENT_URI.buildUpon().appendPath(trailerId).build();
         }
     }
 }

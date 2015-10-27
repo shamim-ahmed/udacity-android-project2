@@ -221,18 +221,57 @@ public class PopularMoviesProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        if (sUriMatcher.match(uri) != MOVIE) {
-            Log.e(TAG, String.format("Invalid URI : %s", uri.toString()));
-            return null;
-        }
-
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Uri result = null;
-        long _id = db.insert(PopularMoviesContract.MovieEntry.TABLE_NAME, null, values);
 
-        if (_id != -1) {
-            Long movieId = (Long) values.get("movie_id");
-            result = PopularMoviesContract.MovieEntry.buildMovieUri(movieId);
+        switch (sUriMatcher.match(uri)) {
+            case MOVIE: {
+                long _id = db.insert(PopularMoviesContract.MovieEntry.TABLE_NAME, null, values);
+
+                if (_id != -1) {
+                    Long movieId = (Long) values.get("movie_id");
+                    result = PopularMoviesContract.MovieEntry.buildMovieUri(movieId);
+                }
+
+                break;
+            }
+
+            case POSTER : {
+                long _id = db.insert(PopularMoviesContract.PosterEntry.TABLE_NAME, null, values);
+
+                if (_id != -1) {
+                    String posterId = values.getAsString("poster_id");
+                    result = PopularMoviesContract.PosterEntry.buildPosterUri(posterId);
+                }
+
+                break;
+            }
+
+            case TRAILER: {
+                long _id = db.insert(PopularMoviesContract.TrailerEntry.TABLE_NAME, null, values);
+
+                if (_id != -1) {
+                    String trailerId = values.getAsString("trailer_id");
+                    result = PopularMoviesContract.TrailerEntry.buildTrailerUri(trailerId);
+                }
+                break;
+            }
+
+            case REVIEW: {
+                long _id = db.insert(PopularMoviesContract.ReviewEntry.TABLE_NAME, null, values);
+
+                if (_id != -1) {
+                    String reviewId = values.getAsString("review_id");
+                    result = PopularMoviesContract.ReviewEntry.buildReviewUri(reviewId);
+                }
+
+                break;
+            }
+
+            default: {
+                Log.e(TAG, String.format("Invalid uri : %S", uri.toString()));
+                break;
+            }
         }
 
         return result;
