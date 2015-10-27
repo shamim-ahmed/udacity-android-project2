@@ -65,7 +65,7 @@ public class MovieTrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Movi
 
             if (results != null) {
                 for (int i = 0, n = results.length(); i < n; i++) {
-                    MovieTrailer trailer = new MovieTrailer(results.getJSONObject(i));
+                    MovieTrailer trailer = new MovieTrailer(results.getJSONObject(i), movie.getMovieId());
                     trailerList.add(trailer);
                 }
             }

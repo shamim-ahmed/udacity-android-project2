@@ -58,7 +58,7 @@ public class MovieReviewDataDownloadTask extends AsyncTask<Uri, Void, List<Movie
             JSONArray jsonArray = jsonObject.getJSONArray("results");
 
             for (int i = 0, n = jsonArray.length(); i < n; i++) {
-                MovieReview review = new MovieReview(jsonArray.getJSONObject(i));
+                MovieReview review = new MovieReview(jsonArray.getJSONObject(i), movie.getMovieId());
                 reviewList.add(review);
             }
         } catch (MalformedURLException ex) {

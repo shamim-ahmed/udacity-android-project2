@@ -22,7 +22,9 @@ public class PopularMoviesDbHelper extends SQLiteOpenHelper {
             + PopularMoviesContract.MoviePosterEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + PopularMoviesContract.MoviePosterEntry.COLUMN_POSTER_ID + " TEXT NOT NULL UNIQUE, "
             + PopularMoviesContract.MoviePosterEntry.COLUMN_MOVIE_ID + " TEXT NOT NULL, "
-            + PopularMoviesContract.MoviePosterEntry.COLUMN_CONTENT + " BLOB NOT NULL"
+            + PopularMoviesContract.MoviePosterEntry.COLUMN_CONTENT + " BLOB NOT NULL, "
+            + "FOREIGN KEY " + PopularMoviesContract.MoviePosterEntry.COLUMN_MOVIE_ID + " REFERENCES "
+            + PopularMoviesContract.MovieEntry.TABLE_NAME + "(" + PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID + ")"
             + ")";
 
     private static final String CREATE_TRAILER_TABLE_SQL = "CREATE TABLE " + PopularMoviesContract.MovieTrailerEntry.TABLE_NAME + "("
@@ -30,6 +32,8 @@ public class PopularMoviesDbHelper extends SQLiteOpenHelper {
             + PopularMoviesContract.MovieTrailerEntry.COLUMN_TRAILER_ID + " TEXT NOT NULL UNIQUE, "
             + PopularMoviesContract.MovieTrailerEntry.COLUMN_TRAILER_NAME + " TEXT, "
             + PopularMoviesContract.MovieTrailerEntry.COLUMN_TRAILER_SITE + " TEXT"
+            + "FOREIGN KEY " + PopularMoviesContract.MoviePosterEntry.COLUMN_MOVIE_ID + " REFERENCES "
+            + PopularMoviesContract.MovieEntry.TABLE_NAME + "(" + PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID + ")"
             + ")";
 
     private static final String CREATE_REVIEW_TABLE_SQL = "CREATE TABLE " + PopularMoviesContract.MovieReviewEntry.TABLE_NAME + "("
@@ -37,6 +41,8 @@ public class PopularMoviesDbHelper extends SQLiteOpenHelper {
             + PopularMoviesContract.MovieReviewEntry.COLUMN_REVIEW_ID + " TEXT NOT NULL UNIQUE, "
             + PopularMoviesContract.MovieReviewEntry.COLUMN_AUTHOR + " TEXT NOT NULL, "
             + PopularMoviesContract.MovieReviewEntry.COLUMN_CONTENT + " TEXT NOT NULL"
+            + "FOREIGN KEY " + PopularMoviesContract.MoviePosterEntry.COLUMN_MOVIE_ID + " REFERENCES "
+            + PopularMoviesContract.MovieEntry.TABLE_NAME + "(" + PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID + ")"
             + ")";
 
     public PopularMoviesDbHelper(Context context) {

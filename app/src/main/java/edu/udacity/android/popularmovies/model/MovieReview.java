@@ -6,27 +6,39 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MovieReview implements Parcelable {
-    private String id;
-    private String author;
-    private String content;
+import edu.udacity.android.popularmovies.util.StringUtils;
 
-    public MovieReview(JSONObject jsonObject) throws JSONException {
-        id = jsonObject.getString("id");
+public class MovieReview implements Parcelable {
+    private final String reviewId;
+    private final String author;
+    private final String content;
+    private final Long movieId;
+
+    public MovieReview(JSONObject jsonObject, Long mvId) throws JSONException {
+        reviewId = jsonObject.getString("id");
         author = jsonObject.getString("author");
         content = jsonObject.getString("content");
+
+        movieId = mvId;
     }
 
     public MovieReview(Parcel parcel) {
         String[] values = new String[4];
         parcel.readStringArray(values);
-        id = values[0];
+        reviewId = values[0];
         author = values[1];
         content = values[2];
+        String movieIdStr = values[3];
+
+        if (!StringUtils.isBlank(movieIdStr)) {
+            movieId = Long.parseLong(movieIdStr);
+        } else {
+            movieId = null;
+        }
     }
 
-    public String getId() {
-        return id;
+    public String getReviewId() {
+        return reviewId;
     }
 
     public String getAuthor() {
@@ -37,6 +49,10 @@ public class MovieReview implements Parcelable {
         return content;
     }
 
+    public Long getMovieId() {
+        return movieId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -44,7 +60,7 @@ public class MovieReview implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeArray(new Object[]{id, author, content});
+        parcel.writeStringArray(new String[]{reviewId, author, content, Long.toString(movieId)});
     }
 
     @Override
