@@ -186,6 +186,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 result = PopularMoviesContract.MovieEntry.CONTENT_ITEM_TYPE;
                 break;
             case POSTER:
+                result = PopularMoviesContract.PosterEntry.CONTENT_TYPE;
                 break;
             case POSTER_WITH_ID:
                 result = PopularMoviesContract.PosterEntry.CONTENT_ITEM_TYPE;
@@ -194,6 +195,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 result = PopularMoviesContract.PosterEntry.CONTENT_TYPE;
                 break;
             case TRAILER:
+                result = PopularMoviesContract.TrailerEntry.CONTENT_TYPE;
                 break;
             case TRAILER_WITH_ID:
                 result = PopularMoviesContract.TrailerEntry.CONTENT_ITEM_TYPE;
@@ -202,6 +204,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 result = PopularMoviesContract.TrailerEntry.CONTENT_TYPE;
                 break;
             case REVIEW:
+                result = PopularMoviesContract.ReviewEntry.CONTENT_TYPE;
                 break;
             case REVIEW_WITH_ID:
                 result = PopularMoviesContract.ReviewEntry.CONTENT_ITEM_TYPE;
