@@ -38,6 +38,9 @@ public class PopularMoviesProvider extends ContentProvider {
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private static final String MOVIE_ID_SELECTION = "movie_id = ?";
+    private static final String POSTER_ID_SELECTION = "poster_id = ?";
+    private static final String TRAILER_ID_SELECTION = "trailer_id = ?";
+    private static final String REVIEW_ID_SELECTION = "review_id = ?";
 
     private PopularMoviesDbHelper dbHelper;
 
@@ -83,7 +86,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 Long movieId = PopularMoviesContract.MovieEntry.getMovieIdFromUri(uri);
 
                 if (movieId != null) {
-                    result = sMovieQueryBuilder.query(dbHelper.getWritableDatabase(), projection, "movie_id = ?", new String[]{movieId.toString()}, null, null, sortOrder);
+                    result = sMovieQueryBuilder.query(dbHelper.getWritableDatabase(), projection, MOVIE_ID_SELECTION, new String[]{movieId.toString()}, null, null, sortOrder);
                 }
 
                 break;
@@ -98,7 +101,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 String posterId = PopularMoviesContract.PosterEntry.getPosterIdFromUri(uri);
 
                 if (posterId != null) {
-                    result = sPosterQueryBuilder.query(dbHelper.getWritableDatabase(), projection, "poster_id = ?", new String[]{posterId}, null, null, sortOrder);
+                    result = sPosterQueryBuilder.query(dbHelper.getWritableDatabase(), projection, POSTER_ID_SELECTION, new String[]{posterId}, null, null, sortOrder);
                 }
 
                 break;
@@ -108,7 +111,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 Long movieId = PopularMoviesContract.PosterEntry.getMovieIdFromUri(uri);
 
                 if (movieId != null) {
-                    result = sPosterQueryBuilder.query(dbHelper.getWritableDatabase(), projection, "movie_id = ?", new String[]{movieId.toString()}, null, null, sortOrder);
+                    result = sPosterQueryBuilder.query(dbHelper.getWritableDatabase(), projection, MOVIE_ID_SELECTION, new String[]{movieId.toString()}, null, null, sortOrder);
                 }
 
                 break;
@@ -123,7 +126,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 String trailerId = PopularMoviesContract.TrailerEntry.getTrailerIdFromUri(uri);
 
                 if (trailerId != null) {
-                    result = sTrailerQueryBuilder.query(dbHelper.getWritableDatabase(), projection, "trailer_id = ?", new String[]{trailerId}, null, null, sortOrder);
+                    result = sTrailerQueryBuilder.query(dbHelper.getWritableDatabase(), projection, TRAILER_ID_SELECTION, new String[]{trailerId}, null, null, sortOrder);
                 }
 
                 break;
@@ -133,7 +136,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 Long movieId = PopularMoviesContract.TrailerEntry.getMovieIdFromUri(uri);
 
                 if (movieId != null) {
-                    result = sTrailerQueryBuilder.query(dbHelper.getWritableDatabase(), projection, "movie_id = ?", new String[]{movieId.toString()}, null, null, sortOrder);
+                    result = sTrailerQueryBuilder.query(dbHelper.getWritableDatabase(), projection, MOVIE_ID_SELECTION, new String[]{movieId.toString()}, null, null, sortOrder);
                 }
 
                 break;
@@ -148,7 +151,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 String reviewId = PopularMoviesContract.ReviewEntry.getReviewIdFromUri(uri);
 
                 if (reviewId != null) {
-                    result = sReviewQueryBuilder.query(dbHelper.getWritableDatabase(), projection, "review_id = ?", new String[]{reviewId}, null, null, sortOrder);
+                    result = sReviewQueryBuilder.query(dbHelper.getWritableDatabase(), projection, REVIEW_ID_SELECTION, new String[]{reviewId}, null, null, sortOrder);
                 }
 
                 break;
@@ -158,7 +161,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 Long movieId = PopularMoviesContract.ReviewEntry.getMovieIdFromUri(uri);
 
                 if (movieId != null) {
-                    result = sReviewQueryBuilder.query(dbHelper.getWritableDatabase(), projection, "movie_id = ?", new String[]{movieId.toString()}, null, null, sortOrder);
+                    result = sReviewQueryBuilder.query(dbHelper.getWritableDatabase(), projection, MOVIE_ID_SELECTION, new String[]{movieId.toString()}, null, null, sortOrder);
                 }
 
                 break;
@@ -230,7 +233,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 long _id = db.insert(PopularMoviesContract.MovieEntry.TABLE_NAME, null, values);
 
                 if (_id != -1) {
-                    Long movieId = (Long) values.get("movie_id");
+                    Long movieId = (Long) values.get(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID);
                     result = PopularMoviesContract.MovieEntry.buildMovieUri(movieId);
                 }
 
@@ -241,7 +244,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 long _id = db.insert(PopularMoviesContract.PosterEntry.TABLE_NAME, null, values);
 
                 if (_id != -1) {
-                    String posterId = values.getAsString("poster_id");
+                    String posterId = values.getAsString(PopularMoviesContract.PosterEntry.COLUMN_POSTER_ID);
                     result = PopularMoviesContract.PosterEntry.buildPosterUri(posterId);
                 }
 
@@ -252,7 +255,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 long _id = db.insert(PopularMoviesContract.TrailerEntry.TABLE_NAME, null, values);
 
                 if (_id != -1) {
-                    String trailerId = values.getAsString("trailer_id");
+                    String trailerId = values.getAsString(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID);
                     result = PopularMoviesContract.TrailerEntry.buildTrailerUri(trailerId);
                 }
                 break;
@@ -262,7 +265,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 long _id = db.insert(PopularMoviesContract.ReviewEntry.TABLE_NAME, null, values);
 
                 if (_id != -1) {
-                    String reviewId = values.getAsString("review_id");
+                    String reviewId = values.getAsString(PopularMoviesContract.ReviewEntry.COLUMN_REVIEW_ID);
                     result = PopularMoviesContract.ReviewEntry.buildReviewUri(reviewId);
                 }
 
@@ -270,7 +273,7 @@ public class PopularMoviesProvider extends ContentProvider {
             }
 
             default: {
-                Log.e(TAG, String.format("Invalid uri for insert : %S", uri.toString()));
+                Log.e(TAG, String.format("Invalid uri for insert : %s", uri.toString()));
                 break;
             }
         }
