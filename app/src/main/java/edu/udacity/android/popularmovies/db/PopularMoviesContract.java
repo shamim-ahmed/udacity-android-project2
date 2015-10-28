@@ -183,5 +183,9 @@ public class PopularMoviesContract {
         public static Uri buildTrailerUri(String trailerId) {
             return ReviewEntry.CONTENT_URI.buildUpon().appendPath(trailerId).build();
         }
+
+        public static Uri buildTrailerUriForMovie(Long movieId) {
+            return MovieEntry.CONTENT_URI.buildUpon().appendPath(movieId.toString()).appendPath(TrailerEntry.PATH_TRAILER).build();
+        }
     }
 }

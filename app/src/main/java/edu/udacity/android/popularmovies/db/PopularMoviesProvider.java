@@ -51,13 +51,13 @@ public class PopularMoviesProvider extends ContentProvider {
         matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#", MOVIE_WITH_ID);
         matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.PosterEntry.PATH_POSTER, POSTER);
         matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.PosterEntry.PATH_POSTER + "/#", POSTER_WITH_ID);
-        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#" + PopularMoviesContract.PosterEntry.PATH_POSTER, POSTER_WITH_MOVIE_ID);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#/" + PopularMoviesContract.PosterEntry.PATH_POSTER, POSTER_WITH_MOVIE_ID);
         matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.TrailerEntry.PATH_TRAILER, TRAILER);
         matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.TrailerEntry.PATH_TRAILER + "/#", TRAILER_WITH_ID);
-        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#" + PopularMoviesContract.TrailerEntry.PATH_TRAILER, TRAILER_WITH_MOVIE_ID);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#/" + PopularMoviesContract.TrailerEntry.PATH_TRAILER, TRAILER_WITH_MOVIE_ID);
         matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.ReviewEntry.PATH_REVIEW, REVIEW);
         matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.ReviewEntry.PATH_REVIEW + "/#", REVIEW_WITH_ID);
-        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#" + PopularMoviesContract.ReviewEntry.PATH_REVIEW, REVIEW_WITH_MOVIE_ID);
+        matcher.addURI(PopularMoviesContract.CONTENT_AUTHORITY, PopularMoviesContract.MovieEntry.PATH_MOVIE + "/#/" + PopularMoviesContract.ReviewEntry.PATH_REVIEW, REVIEW_WITH_MOVIE_ID);
 
         return matcher;
     }

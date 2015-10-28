@@ -49,7 +49,7 @@ public class MovieTestCase extends ProviderTestCase2<PopularMoviesProvider> {
 
         // retrieve individual movies
         for (ContentValues values : movieDataList) {
-            long movieId = (Long) values.get(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID);
+            Long movieId = (Long) values.get(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID);
             Uri queryUri = PopularMoviesContract.MovieEntry.buildMovieUri(movieId);
             Cursor c = provider.query(queryUri, null, null, null, null);
             assertTrue("movie not found in database", c.moveToFirst());

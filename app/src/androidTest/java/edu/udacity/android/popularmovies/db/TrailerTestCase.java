@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.test.ProviderTestCase2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,6 +42,46 @@ public class TrailerTestCase extends ProviderTestCase2<PopularMoviesProvider> {
         // TODO figure out why the following is not working
         //int movieDeleteCount = provider.delete(PopularMoviesContract.MovieEntry.CONTENT_URI, null, null);
         //assertEquals("movie deletion failed", movieDataList.size(), movieDeleteCount);
+    }
+
+    public void testQuery() {
+        PopularMoviesProvider provider = getProvider();
+        List<ContentValues> movieDataList = TestUtilities.createMovieValues();
+        provider.bulkInsert(PopularMoviesContract.MovieEntry.CONTENT_URI, movieDataList.toArray(new ContentValues[movieDataList.size()]));
+
+        List<ContentValues> trailerDataList = TestUtilities.createTrailerValues();
+        provider.bulkInsert(PopularMoviesContract.TrailerEntry.CONTENT_URI, trailerDataList.toArray(new ContentValues[trailerDataList.size()]));
+
+        // retrieve all trailers associated with a movie
+        for (ContentValues values : movieDataList) {
+            Long movieId = (Long) values.get(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID);
+
+            List<ContentValues> expectedTrailerDataList = filterTrailerDataForMovie(trailerDataList, movieId);
+
+            if (expectedTrailerDataList.size() == 0) {
+                continue;
+            }
+
+            Uri queryUri = PopularMoviesContract.TrailerEntry.buildTrailerUriForMovie(movieId);
+            Cursor c = provider.query(queryUri, null, null, null, null);
+            assertTrue("trailer not found in database", c.moveToFirst());
+            assertEquals("trailer count is different than expected", expectedTrailerDataList.size(), c.getCount());
+            c.close();
+        }
+    }
+
+    private List<ContentValues> filterTrailerDataForMovie(List<ContentValues> trailerDataList, Long movieId) {
+        List<ContentValues> resultList = new ArrayList<>();
+
+        for (ContentValues values : trailerDataList) {
+            Long mvId = (Long) values.get(PopularMoviesContract.TrailerEntry.COLUMN_MOVIE_ID);
+
+            if (mvId.equals(movieId)) {
+                resultList.add(values);
+            }
+        }
+
+        return resultList;
     }
 
     private void clearTable(String tableName) {
