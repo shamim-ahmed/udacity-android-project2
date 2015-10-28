@@ -148,7 +148,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 String reviewId = PopularMoviesContract.ReviewEntry.getReviewIdFromUri(uri);
 
                 if (reviewId != null) {
-                    result = sReviewQueryBuilder.query(dbHelper.getWritableDatabase(), projection, "review_id = ?", new String[] {reviewId}, null, null, sortOrder);
+                    result = sReviewQueryBuilder.query(dbHelper.getWritableDatabase(), projection, "review_id = ?", new String[]{reviewId}, null, null, sortOrder);
                 }
 
                 break;
@@ -237,7 +237,7 @@ public class PopularMoviesProvider extends ContentProvider {
                 break;
             }
 
-            case POSTER : {
+            case POSTER: {
                 long _id = db.insert(PopularMoviesContract.PosterEntry.TABLE_NAME, null, values);
 
                 if (_id != -1) {
@@ -275,6 +275,7 @@ public class PopularMoviesProvider extends ContentProvider {
             }
         }
 
+        getContext().getContentResolver().notifyChange(uri, null);
         return result;
     }
 
@@ -316,11 +317,67 @@ public class PopularMoviesProvider extends ContentProvider {
             result = db.delete(PopularMoviesContract.MovieEntry.TABLE_NAME, selection, selectionArgs);
         }
 
+        getContext().getContentResolver().notifyChange(uri, null);
         return result;
     }
 
     @Override
+    public int bulkInsert(Uri uri, ContentValues[] valuesArray) {
+        int count = 0;
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int matchValue = sUriMatcher.match(uri);
+        String tableName = null;
+
+        switch (matchValue) {
+            case MOVIE: {
+                tableName = PopularMoviesContract.MovieEntry.TABLE_NAME;
+                break;
+            }
+            case POSTER: {
+                tableName = PopularMoviesContract.PosterEntry.TABLE_NAME;
+                break;
+            }
+            case TRAILER: {
+                tableName = PopularMoviesContract.TrailerEntry.TABLE_NAME;
+                break;
+            }
+            case REVIEW: {
+                tableName = PopularMoviesContract.ReviewEntry.TABLE_NAME;
+                break;
+            }
+            default: {
+                Log.w(TAG, String.format("invalid uri for bulkInsert : %s", uri.toString()));
+                break;
+            }
+        }
+
+        if (tableName == null) {
+            return 0;
+        }
+
+        try {
+            db.beginTransaction();
+
+            for (ContentValues values : valuesArray) {
+                long _id = db.insert(tableName, null, values);
+
+                if (_id != -1) {
+                    count++;
+                }
+            }
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+
+        getContext().getContentResolver().notifyChange(uri, null);
+        return count;
+    }
+
+    @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        Log.w(TAG, "update method is not implemented");
         return 0;
     }
 }
