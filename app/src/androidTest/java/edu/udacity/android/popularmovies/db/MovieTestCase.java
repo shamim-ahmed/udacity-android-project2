@@ -49,7 +49,7 @@ public class MovieTestCase extends ProviderTestCase2<PopularMoviesProvider> {
 
         // retrieve individual movies
         for (ContentValues values : movieDataList) {
-            long movieId = (Long) values.get("movie_id");
+            long movieId = (Long) values.get(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID);
             Uri queryUri = PopularMoviesContract.MovieEntry.buildMovieUri(movieId);
             Cursor c = provider.query(queryUri, null, null, null, null);
             assertTrue("movie not found in database", c.moveToFirst());
@@ -61,14 +61,14 @@ public class MovieTestCase extends ProviderTestCase2<PopularMoviesProvider> {
         HashMap<Long, ContentValues> movieDataMap = new HashMap<>();
 
         for (ContentValues values : movieDataList) {
-            Long movieId = (Long) values.get("movie_id");
+            Long movieId = (Long) values.get(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID);
             movieDataMap.put(movieId, values);
         }
 
         Cursor cursor = provider.query(PopularMoviesContract.MovieEntry.CONTENT_URI, null, null, null, null);
 
         while (cursor.moveToNext()) {
-            int index = cursor.getColumnIndex("movie_id");
+            int index = cursor.getColumnIndex(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID);
             Long movieId = cursor.getLong(index);
             ContentValues values = movieDataMap.remove(movieId);
             TestUtilities.validateCurrentRecord("movie data different than expected", cursor, values);
