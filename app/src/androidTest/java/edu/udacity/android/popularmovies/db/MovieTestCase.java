@@ -9,8 +9,8 @@ import android.test.ProviderTestCase2;
 import java.util.HashMap;
 import java.util.List;
 
-public class MovieProviderTestCase extends ProviderTestCase2<PopularMoviesProvider> {
-    public MovieProviderTestCase() {
+public class MovieTestCase extends ProviderTestCase2<PopularMoviesProvider> {
+    public MovieTestCase() {
         super(PopularMoviesProvider.class, "edu.udacity.android.popularmovies");
     }
 
@@ -34,7 +34,7 @@ public class MovieProviderTestCase extends ProviderTestCase2<PopularMoviesProvid
         long expectedId = (Long) values.get("movie_id");
         assertTrue("movieId is different than expected", movieId == expectedId);
 
-        int count = provider.delete(resultUri, null, null);
+        int count = provider.delete(PopularMoviesContract.MovieEntry.CONTENT_URI, "movie_id = ?", new String[] {Long.toString(movieId)});
         assertTrue("inserted movie was not deleted successfully", count == 1);
     }
 

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,6 +32,25 @@ public class TestUtilities {
         jurassicWorldValues.put(PopularMoviesContract.MovieEntry.COLUMN_SYNOPSIS, "Twenty-two years after the events of Jurassic Park, Isla Nublar now features a fully functioning dinosaur theme park, Jurassic World, as originally envisioned by John Hammond.");
         contentList.add(jurassicWorldValues);
 
+        return contentList;
+    }
+
+    public static List<ContentValues> createTrailerValues() {
+        List<ContentValues> contentList = new ArrayList<>();
+
+        ContentValues inceptionTrailerValues = new ContentValues();
+        inceptionTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID, "abcd1234");
+        inceptionTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_NAME, "Inception official trailer");
+        inceptionTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_SITE, "https://www.youtube.com");
+        inceptionTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_MOVIE_ID, 27205L);
+
+        ContentValues jurassicTrailerValues = new ContentValues();
+        jurassicTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID, "efgh5678");
+        jurassicTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_NAME, "US Official Trailer");
+        jurassicTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_SITE, "https://www.youtube.com");
+        jurassicTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_MOVIE_ID, 135397L);
+
+        contentList.addAll(Arrays.asList(inceptionTrailerValues, jurassicTrailerValues));
         return contentList;
     }
 
