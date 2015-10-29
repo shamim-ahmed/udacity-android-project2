@@ -60,6 +60,31 @@ public class TestUtilities {
         return contentList;
     }
 
+    public static List<ContentValues> createReviewValues() {
+        List<ContentValues> contentList = new ArrayList<>();
+        ContentValues inceptionReviewValues = new ContentValues();
+        inceptionReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_REVIEW_ID, "abcd1234");
+        inceptionReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_AUTHOR, "shamim");
+        inceptionReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_CONTENT, "What an amazing movie !");
+        inceptionReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_MOVIE_ID, 27205L);
+
+        ContentValues jurassicFirstReviewValues = new ContentValues();
+        jurassicFirstReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_REVIEW_ID, "efgh5678");
+        jurassicFirstReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_AUTHOR, "batman");
+        jurassicFirstReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_CONTENT, "Why did we clone dinosaurs again ?");
+        jurassicFirstReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_MOVIE_ID, 135397L);
+
+        ContentValues jurassicSecondReviewValues = new ContentValues();
+        jurassicSecondReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_REVIEW_ID, "ijkl9102");
+        jurassicSecondReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_AUTHOR, "robin");
+        jurassicSecondReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_CONTENT, "Is it legal to keep a dinosaur as pet ?");
+        jurassicSecondReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_MOVIE_ID, 135397L);
+
+        contentList.addAll(Arrays.asList(inceptionReviewValues, jurassicFirstReviewValues, jurassicSecondReviewValues));
+
+        return contentList;
+    }
+
     public static void validateCurrentRecord(String error, Cursor valueCursor, ContentValues expectedValues) {
         Set<Map.Entry<String, Object>> valueSet = expectedValues.valueSet();
         for (Map.Entry<String, Object> entry : valueSet) {

@@ -98,6 +98,7 @@ public class PopularMoviesContract {
         public static final String COLUMN_REVIEW_ID = "review_id";
         public static final String COLUMN_AUTHOR = "author";
         public static final String COLUMN_CONTENT = "content";
+        public static final String COLUMN_MOVIE_ID = "movie_id";
 
         public static final String PATH_REVIEW = "review";
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_REVIEW).build();
@@ -134,6 +135,10 @@ public class PopularMoviesContract {
 
         public static Uri buildReviewUri(String reviewId) {
             return ReviewEntry.CONTENT_URI.buildUpon().appendPath(reviewId).build();
+        }
+
+        public static Uri buildReviewUriForMovie(Long movieId) {
+            return MovieEntry.CONTENT_URI.buildUpon().appendPath(movieId.toString()).appendPath(PATH_REVIEW).build();
         }
     }
 
