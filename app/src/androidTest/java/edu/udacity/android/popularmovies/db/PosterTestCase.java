@@ -9,72 +9,72 @@ import android.test.ProviderTestCase2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReviewTestCase extends ProviderTestCase2<PopularMoviesProvider> {
-    public ReviewTestCase() {
+public class PosterTestCase extends ProviderTestCase2<PopularMoviesProvider> {
+    public PosterTestCase() {
         super(PopularMoviesProvider.class, "edu.udacity.android.popularmovies");
     }
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        clearTable(PopularMoviesContract.ReviewEntry.TABLE_NAME);
+        clearTable(PopularMoviesContract.PosterEntry.TABLE_NAME);
         clearTable(PopularMoviesContract.MovieEntry.TABLE_NAME);
     }
 
     public void testBulkInsert() {
         PopularMoviesProvider provider = getProvider();
         List<ContentValues> movieDataList = TestUtilities.createMovieValues();
-        List<ContentValues> reviewDataList = TestUtilities.createReviewValues();
+        List<ContentValues> posterDataList = TestUtilities.createPosterValues();
         assertTrue("no movie data", movieDataList.size() > 0);
-        assertTrue("no review data", reviewDataList.size() > 0);
+        assertTrue("no poster data", posterDataList.size() > 0);
 
         // first insert movies so that foreign key constraint is satisfied
         int movieInsertCount = provider.bulkInsert(PopularMoviesContract.MovieEntry.CONTENT_URI, movieDataList.toArray(new ContentValues[movieDataList.size()]));
         assertEquals("movie bulk insertion failed", movieDataList.size(), movieInsertCount);
 
-        int reviewInsertCount = provider.bulkInsert(PopularMoviesContract.ReviewEntry.CONTENT_URI, reviewDataList.toArray(new ContentValues[reviewDataList.size()]));
-        assertEquals("review bulk insertion failed", reviewDataList.size(), reviewInsertCount);
+        int posterInsertCount = provider.bulkInsert(PopularMoviesContract.PosterEntry.CONTENT_URI, posterDataList.toArray(new ContentValues[posterDataList.size()]));
+        assertEquals("poster bulk insertion failed", posterDataList.size(), posterInsertCount);
     }
 
-    public void testQueryReviewForMovie() {
+    public void testQueryPosterForMovie() {
         PopularMoviesProvider provider = getProvider();
         List<ContentValues> movieDataList = TestUtilities.createMovieValues();
         provider.bulkInsert(PopularMoviesContract.MovieEntry.CONTENT_URI, movieDataList.toArray(new ContentValues[movieDataList.size()]));
 
-        List<ContentValues> reviewDataList = TestUtilities.createReviewValues();
-        provider.bulkInsert(PopularMoviesContract.ReviewEntry.CONTENT_URI, reviewDataList.toArray(new ContentValues[reviewDataList.size()]));
+        List<ContentValues> posterDataList = TestUtilities.createPosterValues();
+        provider.bulkInsert(PopularMoviesContract.PosterEntry.CONTENT_URI, posterDataList.toArray(new ContentValues[posterDataList.size()]));
 
-        // retrieve all reviews associated with a movie
+        // retrieve all posters associated with a movie
         for (ContentValues movieValues : movieDataList) {
             Long movieId = (Long) movieValues.get(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID);
 
-            List<ContentValues> expectedReviewDataList = filterReviewDataForMovie(reviewDataList, movieId);
+            List<ContentValues> expectedPosterDataList = filterPosterDataForMovie(posterDataList, movieId);
 
-            if (expectedReviewDataList.size() == 0) {
+            if (expectedPosterDataList.size() == 0) {
                 continue;
             }
 
-            Uri queryUri = PopularMoviesContract.ReviewEntry.buildReviewUriForMovie(movieId);
+            Uri queryUri = PopularMoviesContract.PosterEntry.buildPosterUriForMovie(movieId);
             Cursor c = provider.query(queryUri, null, null, null, null);
-            assertEquals("review count is different than expected", expectedReviewDataList.size(), c.getCount());
+            assertEquals("poster count is different than expected", expectedPosterDataList.size(), c.getCount());
 
             while (c.moveToNext()) {
-                int index = c.getColumnIndex(PopularMoviesContract.ReviewEntry.COLUMN_REVIEW_ID);
-                String reviewId = c.getString(index);
-                ContentValues reviewValues = findReviewValues(reviewDataList, reviewId);
-                assertNotNull("could not find review values at current cursor location", reviewValues);
-                TestUtilities.validateCurrentRecord("review values are different than expected", c, reviewValues);
+                int index = c.getColumnIndex(PopularMoviesContract.PosterEntry.COLUMN_POSTER_ID);
+                String posterId = c.getString(index);
+                ContentValues posterValues = findPosterValues(posterDataList, posterId);
+                assertNotNull("could not find poster values at current cursor location", posterValues);
+                TestUtilities.validateCurrentPosterRecord("poster values are different than expected", c, posterValues);
             }
 
             c.close();
         }
     }
 
-    private List<ContentValues> filterReviewDataForMovie(List<ContentValues> reviewDataList, Long movieId) {
+    private List<ContentValues> filterPosterDataForMovie(List<ContentValues> posterDataList, Long movieId) {
         List<ContentValues> resultList = new ArrayList<>();
 
-        for (ContentValues values : reviewDataList) {
-            Long mvId = (Long) values.get(PopularMoviesContract.ReviewEntry.COLUMN_MOVIE_ID);
+        for (ContentValues values : posterDataList) {
+            Long mvId = (Long) values.get(PopularMoviesContract.PosterEntry.COLUMN_MOVIE_ID);
 
             if (mvId.equals(movieId)) {
                 resultList.add(values);
@@ -84,17 +84,17 @@ public class ReviewTestCase extends ProviderTestCase2<PopularMoviesProvider> {
         return resultList;
     }
 
-    private ContentValues findReviewValues(List<ContentValues> reviewDataList, String reviewId) {
+    private ContentValues findPosterValues(List<ContentValues> posterDataValues, String posterId) {
         ContentValues result = null;
 
-        for (ContentValues values : reviewDataList) {
-            String tId = (String) values.get(PopularMoviesContract.ReviewEntry.COLUMN_REVIEW_ID);
+        for (ContentValues values : posterDataValues) {
+            String tId = (String) values.get(PopularMoviesContract.PosterEntry.COLUMN_POSTER_ID);
 
-            if (tId.equals(reviewId)) {
+            if (tId.equals(posterId)) {
                 result = values;
                 break;
             }
-        }
+        };
 
         return result;
     }

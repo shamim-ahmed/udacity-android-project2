@@ -65,7 +65,7 @@ public class TestUtilities {
         ContentValues inceptionReviewValues = new ContentValues();
         inceptionReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_REVIEW_ID, "abcd1234");
         inceptionReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_AUTHOR, "shamim");
-        inceptionReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_CONTENT, "What an amazing movie !");
+        inceptionReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_CONTENT, "All that we see or seem is but a dream within a dream");
         inceptionReviewValues.put(PopularMoviesContract.ReviewEntry.COLUMN_MOVIE_ID, 27205L);
 
         ContentValues jurassicFirstReviewValues = new ContentValues();
@@ -85,6 +85,24 @@ public class TestUtilities {
         return contentList;
     }
 
+    public static List<ContentValues> createPosterValues() {
+        List<ContentValues> contentList = new ArrayList<>();
+
+        ContentValues inceptionPosterValues = new ContentValues();
+        inceptionPosterValues.put(PopularMoviesContract.PosterEntry.COLUMN_POSTER_ID, "abcd1234");
+        inceptionPosterValues.put(PopularMoviesContract.PosterEntry.COLUMN_CONTENT, "inception".getBytes());
+        inceptionPosterValues.put(PopularMoviesContract.PosterEntry.COLUMN_MOVIE_ID, 27205L);
+
+        ContentValues jurassicPosterValues = new ContentValues();
+        jurassicPosterValues.put(PopularMoviesContract.PosterEntry.COLUMN_POSTER_ID, "efgh5678");
+        jurassicPosterValues.put(PopularMoviesContract.PosterEntry.COLUMN_CONTENT, "jurassic park".getBytes());
+        jurassicPosterValues.put(PopularMoviesContract.PosterEntry.COLUMN_MOVIE_ID, 135397L);
+
+        contentList.addAll(Arrays.asList(inceptionPosterValues, jurassicPosterValues));
+
+        return contentList;
+    }
+
     public static void validateCurrentRecord(String error, Cursor valueCursor, ContentValues expectedValues) {
         Set<Map.Entry<String, Object>> valueSet = expectedValues.valueSet();
         for (Map.Entry<String, Object> entry : valueSet) {
@@ -95,6 +113,26 @@ public class TestUtilities {
             assertEquals("Value '" + entry.getValue().toString() +
                     "' did not match the expected value '" +
                     expectedValue + "'. " + error, expectedValue, valueCursor.getString(idx));
+        }
+    }
+
+    public static void validateCurrentPosterRecord(String error, Cursor valueCursor, ContentValues expectedValues) {
+        Set<Map.Entry<String, Object>> valueSet = expectedValues.valueSet();
+        for (Map.Entry<String, Object> entry : valueSet) {
+            String columnName = entry.getKey();
+            int idx = valueCursor.getColumnIndex(columnName);
+            assertFalse("Column '" + columnName + "' not found. " + error, idx == -1);
+
+            if (columnName.equals(PopularMoviesContract.PosterEntry.COLUMN_CONTENT)) {
+                byte[] expectedValue = (byte[]) entry.getValue();
+                byte[] actualValue = valueCursor.getBlob(idx);
+                assertEquals("poster size is different than expected", expectedValue.length, actualValue.length);
+            } else {
+                String expectedValue = entry.getValue().toString();
+                assertEquals("Value '" + entry.getValue().toString() +
+                        "' did not match the expected value '" +
+                        expectedValue + "'. " + error, expectedValue, valueCursor.getString(idx));
+            }
         }
     }
 

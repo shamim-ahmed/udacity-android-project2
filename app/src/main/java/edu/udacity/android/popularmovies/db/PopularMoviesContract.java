@@ -89,6 +89,10 @@ public class PopularMoviesContract {
         public static Uri buildPosterUri(String posterId) {
             return PosterEntry.CONTENT_URI.buildUpon().appendEncodedPath(posterId).build();
         }
+
+        public static Uri buildPosterUriForMovie(Long movieId) {
+            return MovieEntry.CONTENT_URI.buildUpon().appendPath(movieId.toString()).appendPath(PATH_POSTER).build();
+        }
     }
 
     public static class ReviewEntry implements BaseColumns {
