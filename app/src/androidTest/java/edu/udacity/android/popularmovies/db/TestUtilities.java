@@ -44,13 +44,19 @@ public class TestUtilities {
         inceptionTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_SITE, "https://www.youtube.com");
         inceptionTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_MOVIE_ID, 27205L);
 
-        ContentValues jurassicTrailerValues = new ContentValues();
-        jurassicTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID, "efgh5678");
-        jurassicTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_NAME, "US Official Trailer");
-        jurassicTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_SITE, "https://www.youtube.com");
-        jurassicTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_MOVIE_ID, 135397L);
+        ContentValues jurassicFirstTrailerValues = new ContentValues();
+        jurassicFirstTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID, "efgh5678");
+        jurassicFirstTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_NAME, "US Official Trailer");
+        jurassicFirstTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_SITE, "https://www.youtube.com");
+        jurassicFirstTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_MOVIE_ID, 135397L);
 
-        contentList.addAll(Arrays.asList(inceptionTrailerValues, jurassicTrailerValues));
+        ContentValues jurassicSecondTrailerValues = new ContentValues();
+        jurassicSecondTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID, "efgh91011");
+        jurassicSecondTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_NAME, "World Official Trailer");
+        jurassicSecondTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_SITE, "https://www.youtube.com");
+        jurassicSecondTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_MOVIE_ID, 135397L);
+
+        contentList.addAll(Arrays.asList(inceptionTrailerValues, jurassicFirstTrailerValues, jurassicSecondTrailerValues));
         return contentList;
     }
 

@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.test.ProviderTestCase2;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class TrailerTestCase extends ProviderTestCase2<PopularMoviesProvider> {
@@ -22,7 +21,7 @@ public class TrailerTestCase extends ProviderTestCase2<PopularMoviesProvider> {
         clearTable(PopularMoviesContract.MovieEntry.TABLE_NAME);
     }
 
-    public void testBulkInsertAndDelete() {
+    public void testBulkInsert() {
         PopularMoviesProvider provider = getProvider();
         List<ContentValues> movieDataList = TestUtilities.createMovieValues();
         List<ContentValues> trailerDataList = TestUtilities.createTrailerValues();
@@ -35,16 +34,9 @@ public class TrailerTestCase extends ProviderTestCase2<PopularMoviesProvider> {
 
         int trailerInsertCount = provider.bulkInsert(PopularMoviesContract.TrailerEntry.CONTENT_URI, trailerDataList.toArray(new ContentValues[trailerDataList.size()]));
         assertEquals("trailer bulk insertion failed", trailerDataList.size(), trailerInsertCount);
-
-        int trailerDeleteCount = provider.delete(PopularMoviesContract.TrailerEntry.CONTENT_URI, null, null);
-        assertEquals("trailer deletion failed", trailerDataList.size(), trailerDeleteCount);
-
-        // TODO figure out why the following is not working
-        //int movieDeleteCount = provider.delete(PopularMoviesContract.MovieEntry.CONTENT_URI, null, null);
-        //assertEquals("movie deletion failed", movieDataList.size(), movieDeleteCount);
     }
 
-    public void testQuery() {
+    public void testQueryTrailerForMovie() {
         PopularMoviesProvider provider = getProvider();
         List<ContentValues> movieDataList = TestUtilities.createMovieValues();
         provider.bulkInsert(PopularMoviesContract.MovieEntry.CONTENT_URI, movieDataList.toArray(new ContentValues[movieDataList.size()]));
@@ -53,8 +45,8 @@ public class TrailerTestCase extends ProviderTestCase2<PopularMoviesProvider> {
         provider.bulkInsert(PopularMoviesContract.TrailerEntry.CONTENT_URI, trailerDataList.toArray(new ContentValues[trailerDataList.size()]));
 
         // retrieve all trailers associated with a movie
-        for (ContentValues values : movieDataList) {
-            Long movieId = (Long) values.get(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID);
+        for (ContentValues movieValues : movieDataList) {
+            Long movieId = (Long) movieValues.get(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID);
 
             List<ContentValues> expectedTrailerDataList = filterTrailerDataForMovie(trailerDataList, movieId);
 
@@ -64,8 +56,16 @@ public class TrailerTestCase extends ProviderTestCase2<PopularMoviesProvider> {
 
             Uri queryUri = PopularMoviesContract.TrailerEntry.buildTrailerUriForMovie(movieId);
             Cursor c = provider.query(queryUri, null, null, null, null);
-            assertTrue("trailer not found in database", c.moveToFirst());
             assertEquals("trailer count is different than expected", expectedTrailerDataList.size(), c.getCount());
+
+            while (c.moveToNext()) {
+                int index = c.getColumnIndex(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID);
+                String trailerId = c.getString(index);
+                ContentValues trailerValues = findTrailerValues(trailerDataList, trailerId);
+                assertNotNull("could not find trailer values at current cursor location", trailerValues);
+                TestUtilities.validateCurrentRecord("trailer values are different than expected", c, trailerValues);
+            }
+
             c.close();
         }
     }
@@ -82,6 +82,21 @@ public class TrailerTestCase extends ProviderTestCase2<PopularMoviesProvider> {
         }
 
         return resultList;
+    }
+
+    private ContentValues findTrailerValues(List<ContentValues> trailerDataList, String trailerId) {
+        ContentValues result = null;
+
+        for (ContentValues values : trailerDataList) {
+            String tId = (String) values.get(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID);
+
+            if (tId.equals(trailerId)) {
+                result = values;
+                break;
+            }
+        };
+
+        return result;
     }
 
     private void clearTable(String tableName) {
