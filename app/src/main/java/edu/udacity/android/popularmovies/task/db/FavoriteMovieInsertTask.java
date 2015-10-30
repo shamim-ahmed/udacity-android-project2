@@ -8,21 +8,30 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Button;
 
+import java.util.List;
+
 import edu.udacity.android.popularmovies.PopularMoviesApplication;
 import edu.udacity.android.popularmovies.R;
+import edu.udacity.android.popularmovies.db.PopularMoviesContract;
+import edu.udacity.android.popularmovies.model.Movie;
+import edu.udacity.android.popularmovies.model.Review;
+import edu.udacity.android.popularmovies.model.Trailer;
 import edu.udacity.android.popularmovies.util.Constants;
+import edu.udacity.android.popularmovies.util.DbUtils;
 
 public class FavoriteMovieInsertTask extends AsyncTask<Uri, Void, Uri> {
     private static final String TAG = FavoriteMovieInsertTask.class.getSimpleName();
 
     private final PopularMoviesApplication application;
     private final Activity activity;
-    private final ContentValues values;
+    private final Movie movie;
+    private final byte[] posterContent;
 
-    public FavoriteMovieInsertTask(PopularMoviesApplication application, Activity activity, ContentValues values) {
+    public FavoriteMovieInsertTask(PopularMoviesApplication application, Activity activity, Movie movie, byte[] posterContent) {
         this.application = application;
         this.activity = activity;
-        this.values = values;
+        this.movie = movie;
+        this.posterContent = posterContent;
     }
 
     @Override
@@ -33,7 +42,40 @@ public class FavoriteMovieInsertTask extends AsyncTask<Uri, Void, Uri> {
 
         Uri targetUri = params[0];
         ContentResolver contentResolver = activity.getContentResolver();
-        return contentResolver.insert(targetUri, values);
+        ContentValues movieValues = DbUtils.convertMovie(movie);
+        Uri resultUri = contentResolver.insert(targetUri, movieValues);
+
+        // save the poster
+        Uri posterUri = movie.getPosterUri();
+
+        if (posterUri != null) {
+            String posterId = posterUri.getLastPathSegment();
+            ContentValues posterValues = DbUtils.convertPoster(posterId, posterContent, movie.getMovieId());
+            contentResolver.insert(PopularMoviesContract.PosterEntry.CONTENT_URI, posterValues);
+            Log.i(TAG, String.format("poster with id %s was inserted successfully", posterId));
+        }
+
+        // save the trailers
+        List<Trailer> trailerList = movie.getTrailerList();
+
+        if (trailerList.size() > 0) {
+            Uri trailerUriForMovie = PopularMoviesContract.TrailerEntry.buildTrailerUriForMovie(movie.getMovieId());
+            ContentValues[] trailerValues = DbUtils.convertTrailers(trailerList);
+            int trailerCount = contentResolver.bulkInsert(trailerUriForMovie, trailerValues);
+            Log.i(TAG, String.format("%d trailers were inserted", trailerCount));
+        }
+
+        // save the reviews
+        List<Review> reviewList = movie.getReviewList();
+
+        if (reviewList.size() > 0) {
+            Uri reviewUriForMovie = PopularMoviesContract.ReviewEntry.buildReviewUriForMovie(movie.getMovieId());
+            ContentValues[] reviewValues = DbUtils.convertReviews(reviewList);
+            int reviewCount = contentResolver.bulkInsert(reviewUriForMovie, reviewValues);
+            Log.i(TAG, String.format("%d reviews were inserted", reviewCount));
+        }
+
+        return resultUri;
     }
 
     @Override
@@ -46,7 +88,7 @@ public class FavoriteMovieInsertTask extends AsyncTask<Uri, Void, Uri> {
         // set the state of the favorite button to selected
         Button favoriteButton = (Button) activity.findViewById(R.id.favorite_button);
 
-        // NOTE : occasionally an NPE is encourntered when the user tries to select
+        // NOTE : occasionally an NPE is encountered when the user tries to select
         // a movie from the grid while the screen is getting rotated. In order to prevent
         // the NPE, we include a check.
         if (favoriteButton == null) {

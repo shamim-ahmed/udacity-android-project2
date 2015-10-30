@@ -111,8 +111,9 @@ public class MovieDetailsFragment extends Fragment {
                 boolean selected = btn.isSelected();
 
                 if (!selected) {
-                    ContentValues values = convertMovie(selectedMovie);
-                    FavoriteMovieInsertTask insertTask = new FavoriteMovieInsertTask(application, activity, values);
+                    // TODO get the poster content
+                    byte[] posterContent = new byte[0];
+                    FavoriteMovieInsertTask insertTask = new FavoriteMovieInsertTask(application, activity, selectedMovie, posterContent);
                     insertTask.execute(PopularMoviesContract.MovieEntry.CONTENT_URI);
                 }
             }
@@ -252,17 +253,5 @@ public class MovieDetailsFragment extends Fragment {
         }
 
         return result;
-    }
-
-    private ContentValues convertMovie(Movie movie) {
-        ContentValues values = new ContentValues();
-        values.put(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID, movie.getMovieId());
-        values.put(PopularMoviesContract.MovieEntry.COLUMN_TITLE, movie.getTitle());
-        values.put(PopularMoviesContract.MovieEntry.COLUMN_POSTER_URI, movie.getPosterUri().toString());
-        values.put(PopularMoviesContract.MovieEntry.COLUMN_RELEASE_DATE, movie.getReleaseDate());
-        values.put(PopularMoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE, movie.getVoteAverage());
-        values.put(PopularMoviesContract.MovieEntry.COLUMN_SYNOPSIS, movie.getSynopsis());
-
-        return values;
     }
 }

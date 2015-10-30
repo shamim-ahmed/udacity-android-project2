@@ -90,7 +90,7 @@ public class AppUtils {
     public static void displayTrailersForMovie(Movie movie, Activity activity) {
         LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.movie_trailers);
 
-        // NOTE : occasionally an NPE is encourntered when the user tries to select
+        // NOTE : occasionally an NPE is encountered when the user tries to select
         // a movie from the grid while the screen is getting rotated. In order to prevent
         // the NPE, we include a check.
         if (linearLayout == null) {
@@ -117,7 +117,7 @@ public class AppUtils {
     public static void displayReviewsForMovie(Movie movie, Activity activity) {
         LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.movie_reviews);
 
-        // NOTE : occasionally an NPE is encourntered when the user tries to select
+        // NOTE : occasionally an NPE is encountered when the user tries to select
         // a movie from the grid while the screen is getting rotated. In order to prevent
         // the NPE, we include a check.
         if (linearLayout == null) {

@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Movie implements Parcelable {
@@ -99,11 +100,11 @@ public class Movie implements Parcelable {
         return synopsis;
     }
 
-    public List<Trailer> getTrailerList() {
-        return trailerList;
+    public synchronized List<Trailer> getTrailerList() {
+        return Collections.unmodifiableList(trailerList);
     }
 
-    public void setTrailerList(List<Trailer> list) {
+    public synchronized void setTrailerList(List<Trailer> list) {
         if (list == null) {
             return;
         }
@@ -112,11 +113,11 @@ public class Movie implements Parcelable {
         trailerList.addAll(list);
     }
 
-    public List<Review> getReviewList() {
-        return reviewList;
+    public synchronized List<Review> getReviewList() {
+        return Collections.unmodifiableList(reviewList);
     }
 
-    public void setReviewList(List<Review> list) {
+    public synchronized void setReviewList(List<Review> list) {
         if (list == null) {
             return;
         }
