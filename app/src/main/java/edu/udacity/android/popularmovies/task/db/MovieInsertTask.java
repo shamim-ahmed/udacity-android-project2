@@ -19,15 +19,15 @@ import edu.udacity.android.popularmovies.model.Trailer;
 import edu.udacity.android.popularmovies.util.Constants;
 import edu.udacity.android.popularmovies.util.DbUtils;
 
-public class FavoriteMovieInsertTask extends AsyncTask<Uri, Void, Uri> {
-    private static final String TAG = FavoriteMovieInsertTask.class.getSimpleName();
+public class MovieInsertTask extends AsyncTask<Uri, Void, Uri> {
+    private static final String TAG = MovieInsertTask.class.getSimpleName();
 
     private final PopularMoviesApplication application;
     private final Activity activity;
     private final Movie movie;
     private final byte[] posterContent;
 
-    public FavoriteMovieInsertTask(PopularMoviesApplication application, Activity activity, Movie movie, byte[] posterContent) {
+    public MovieInsertTask(PopularMoviesApplication application, Activity activity, Movie movie, byte[] posterContent) {
         this.application = application;
         this.activity = activity;
         this.movie = movie;

@@ -1,7 +1,6 @@
 package edu.udacity.android.popularmovies;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,8 +23,8 @@ import java.util.Locale;
 
 import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
-import edu.udacity.android.popularmovies.task.db.FavoriteMovieInsertTask;
-import edu.udacity.android.popularmovies.task.db.FavoriteMovieSingleQueryTask;
+import edu.udacity.android.popularmovies.task.db.MovieInsertTask;
+import edu.udacity.android.popularmovies.task.db.MovieSingleQueryTask;
 import edu.udacity.android.popularmovies.task.web.ReviewDataDownloadTask;
 import edu.udacity.android.popularmovies.task.web.TrailerDataDownloadTask;
 import edu.udacity.android.popularmovies.util.AppUtils;
@@ -99,7 +98,7 @@ public class MovieDetailsFragment extends Fragment {
         // check if the movie has been marked as favorite
         final PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
         final Uri movieUri = PopularMoviesContract.MovieEntry.buildMovieUri(selectedMovie.getMovieId());
-        FavoriteMovieSingleQueryTask queryTask = new FavoriteMovieSingleQueryTask(activity);
+        MovieSingleQueryTask queryTask = new MovieSingleQueryTask(activity);
         queryTask.execute(movieUri);
 
         Button favoriteButton = (Button) rootView.findViewById(R.id.favorite_button);
@@ -113,7 +112,7 @@ public class MovieDetailsFragment extends Fragment {
                 if (!selected) {
                     // TODO get the poster content
                     byte[] posterContent = new byte[0];
-                    FavoriteMovieInsertTask insertTask = new FavoriteMovieInsertTask(application, activity, selectedMovie, posterContent);
+                    MovieInsertTask insertTask = new MovieInsertTask(application, activity, selectedMovie, posterContent);
                     insertTask.execute(PopularMoviesContract.MovieEntry.CONTENT_URI);
                 }
             }

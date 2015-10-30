@@ -16,13 +16,13 @@ import java.util.List;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
-public class FavoriteMovieBulkQueryTask extends AsyncTask<Uri, Void, List<Movie>> {
-    private static final String TAG = FavoriteMovieBulkQueryTask.class.getSimpleName();
+public class MovieBulkQueryTask extends AsyncTask<Uri, Void, List<Movie>> {
+    private static final String TAG = MovieBulkQueryTask.class.getSimpleName();
 
     private final Activity activity;
     private final ArrayAdapter<Movie> adapter;
 
-    public FavoriteMovieBulkQueryTask(Activity activity, ArrayAdapter<Movie> adapter) {
+    public MovieBulkQueryTask(Activity activity, ArrayAdapter<Movie> adapter) {
         this.activity = activity;
         this.adapter = adapter;
     }
