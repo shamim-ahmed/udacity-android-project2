@@ -52,7 +52,7 @@ public class AppUtils {
         return configProperties;
     }
 
-    public static ContentValues readCursor(Cursor cursor) {
+    public static ContentValues readMovieFromCursor(Cursor cursor) {
         int movieIdIndex = cursor.getColumnIndex("movie_id");
         int titleIndex = cursor.getColumnIndex("title");
         int releaseDateIndex = cursor.getColumnIndex("release_date");

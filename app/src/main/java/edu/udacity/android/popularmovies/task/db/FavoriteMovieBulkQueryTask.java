@@ -43,7 +43,7 @@ public class FavoriteMovieBulkQueryTask extends AsyncTask<Uri, Void, List<Movie>
             cursor = contentResolver.query(targetUri, null, null, null, null);
 
             while (cursor.moveToNext()) {
-                ContentValues values = AppUtils.readCursor(cursor);
+                ContentValues values = AppUtils.readMovieFromCursor(cursor);
                 movieList.add(new Movie(values));
             }
         } finally {
