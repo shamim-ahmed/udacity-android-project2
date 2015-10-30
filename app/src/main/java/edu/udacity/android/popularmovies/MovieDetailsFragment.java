@@ -24,7 +24,6 @@ import java.util.Locale;
 
 import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
-import edu.udacity.android.popularmovies.task.db.FavoriteMovieDeleteTask;
 import edu.udacity.android.popularmovies.task.db.FavoriteMovieInsertTask;
 import edu.udacity.android.popularmovies.task.db.FavoriteMovieSingleQueryTask;
 import edu.udacity.android.popularmovies.task.web.ReviewDataDownloadTask;
@@ -115,9 +114,6 @@ public class MovieDetailsFragment extends Fragment {
                     ContentValues values = convertMovie(selectedMovie);
                     FavoriteMovieInsertTask insertTask = new FavoriteMovieInsertTask(application, activity, values);
                     insertTask.execute(PopularMoviesContract.MovieEntry.CONTENT_URI);
-                } else {
-                    FavoriteMovieDeleteTask deleteTask = new FavoriteMovieDeleteTask(application, activity);
-                    deleteTask.execute(movieUri);
                 }
             }
         });
