@@ -107,6 +107,10 @@ public class MovieDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Button btn = (Button) v;
+                // disable button so that double click is not possible. Multiple click can
+                // result in conflicts in database operations
+                btn.setEnabled(false);
+
                 boolean selected = btn.isSelected();
 
                 if (!selected) {
