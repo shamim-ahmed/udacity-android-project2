@@ -53,12 +53,12 @@ public class AppUtils {
     }
 
     public static ContentValues readMovieFromCursor(Cursor cursor) {
-        int movieIdIndex = cursor.getColumnIndex("movie_id");
-        int titleIndex = cursor.getColumnIndex("title");
-        int releaseDateIndex = cursor.getColumnIndex("release_date");
-        int posterUriIndex = cursor.getColumnIndex("poster_uri");
-        int voteAverageIndex = cursor.getColumnIndex("vote_average");
-        int synopsisIndex = cursor.getColumnIndex("synopsis");
+        int movieIdIndex = cursor.getColumnIndex(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID);
+        int titleIndex = cursor.getColumnIndex(PopularMoviesContract.MovieEntry.COLUMN_TITLE);
+        int releaseDateIndex = cursor.getColumnIndex(PopularMoviesContract.MovieEntry.COLUMN_RELEASE_DATE);
+        int posterUriIndex = cursor.getColumnIndex(PopularMoviesContract.MovieEntry.COLUMN_POSTER_URI);
+        int voteAverageIndex = cursor.getColumnIndex(PopularMoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE);
+        int synopsisIndex = cursor.getColumnIndex(PopularMoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE);
 
         ContentValues values = new ContentValues();
         values.put(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID, cursor.getLong(movieIdIndex));
