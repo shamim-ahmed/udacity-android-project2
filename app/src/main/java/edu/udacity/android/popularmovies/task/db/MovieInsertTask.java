@@ -61,7 +61,7 @@ public class MovieInsertTask extends AsyncTask<Uri, Void, Uri> {
         if (trailerList.size() > 0) {
             Uri trailerUriForMovie = PopularMoviesContract.TrailerEntry.buildTrailerUriForMovie(movie.getMovieId());
             ContentValues[] trailerValues = DbUtils.convertTrailers(trailerList);
-            int trailerCount = contentResolver.bulkInsert(trailerUriForMovie, trailerValues);
+            int trailerCount = contentResolver.bulkInsert(PopularMoviesContract.TrailerEntry.CONTENT_URI, trailerValues);
             Log.i(TAG, String.format("%d trailers were inserted", trailerCount));
         }
 
@@ -71,7 +71,7 @@ public class MovieInsertTask extends AsyncTask<Uri, Void, Uri> {
         if (reviewList.size() > 0) {
             Uri reviewUriForMovie = PopularMoviesContract.ReviewEntry.buildReviewUriForMovie(movie.getMovieId());
             ContentValues[] reviewValues = DbUtils.convertReviews(reviewList);
-            int reviewCount = contentResolver.bulkInsert(reviewUriForMovie, reviewValues);
+            int reviewCount = contentResolver.bulkInsert(PopularMoviesContract.ReviewEntry.CONTENT_URI, reviewValues);
             Log.i(TAG, String.format("%d reviews were inserted", reviewCount));
         }
 

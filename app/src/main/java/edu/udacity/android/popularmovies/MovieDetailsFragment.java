@@ -24,7 +24,7 @@ import java.util.Locale;
 import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.task.db.MovieInsertTask;
-import edu.udacity.android.popularmovies.task.db.MovieSingleQueryTask;
+import edu.udacity.android.popularmovies.task.db.MovieIsFavoriteQueryTask;
 import edu.udacity.android.popularmovies.task.web.ReviewDataDownloadTask;
 import edu.udacity.android.popularmovies.task.web.TrailerDataDownloadTask;
 import edu.udacity.android.popularmovies.util.AppUtils;
@@ -98,7 +98,7 @@ public class MovieDetailsFragment extends Fragment {
         // check if the movie has been marked as favorite
         final PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
         final Uri movieUri = PopularMoviesContract.MovieEntry.buildMovieUri(selectedMovie.getMovieId());
-        MovieSingleQueryTask queryTask = new MovieSingleQueryTask(activity);
+        MovieIsFavoriteQueryTask queryTask = new MovieIsFavoriteQueryTask(activity);
         queryTask.execute(movieUri);
 
         Button favoriteButton = (Button) rootView.findViewById(R.id.favorite_button);

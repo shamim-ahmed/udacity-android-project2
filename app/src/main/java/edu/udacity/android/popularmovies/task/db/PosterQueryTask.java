@@ -9,32 +9,34 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.model.Trailer;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
-public class TrailerBulkQueryTask extends AsyncTask<Uri, Void, List<Trailer>> {
-    private static final String TAG = TrailerBulkQueryTask.class.getSimpleName();
+public class PosterQueryTask extends AsyncTask<Uri, Void, byte[]> {
+    private static final String TAG = PosterQueryTask.class.getSimpleName();
 
     private final Activity activity;
     private final Movie movie;
 
-    public TrailerBulkQueryTask(Activity activity, Movie movie) {
+    public PosterQueryTask(Activity activity, Movie movie) {
         this.activity = activity;
         this.movie = movie;
     }
 
     @Override
-    protected List<Trailer> doInBackground(Uri... params) {
+    protected byte[] doInBackground(Uri... params) {
         if (params.length == 0) {
             Log.e(TAG, "no uri provided");
-            return Collections.emptyList();
+            return null;
         }
 
-        List<Trailer> trailerList = new ArrayList<>();
+        byte[] posterContent = null;
         ContentResolver contentResolver = activity.getContentResolver();
         Uri targetUri = params[0];
         Cursor cursor = null;
@@ -42,9 +44,9 @@ public class TrailerBulkQueryTask extends AsyncTask<Uri, Void, List<Trailer>> {
         try {
             cursor = contentResolver.query(targetUri, null, null, null, null);
 
-            while (cursor.moveToNext()) {
-                ContentValues values = AppUtils.readMovieFromCursor(cursor);
-                trailerList.add(new Trailer(values));
+            if (cursor.moveToNext()) {
+                ContentValues values = AppUtils.readTrailerFromCursor(cursor);
+                posterContent = values.getAsByteArray(PopularMoviesContract.PosterEntry.COLUMN_CONTENT);
             }
         } finally {
             if (cursor != null) {
@@ -52,11 +54,11 @@ public class TrailerBulkQueryTask extends AsyncTask<Uri, Void, List<Trailer>> {
             }
         }
 
-        return trailerList;
+        return posterContent;
     }
 
     @Override
-    protected void onPostExecute(List<Trailer> trailerList) {
-
+    protected void onPostExecute(byte[] posterContent) {
+        // TODO implement it
     }
 }

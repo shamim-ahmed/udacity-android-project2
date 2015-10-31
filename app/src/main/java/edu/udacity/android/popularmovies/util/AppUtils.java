@@ -87,6 +87,57 @@ public class AppUtils {
         return values;
     }
 
+    public static ContentValues readPosterFromCursor(Cursor cursor) {
+        int posterIdIndex = cursor.getColumnIndex(PopularMoviesContract.PosterEntry.COLUMN_POSTER_ID);
+        int movieIdIndex = cursor.getColumnIndex(PopularMoviesContract.PosterEntry.COLUMN_MOVIE_ID);
+        int contentIndex = cursor.getColumnIndex(PopularMoviesContract.PosterEntry.COLUMN_CONTENT);
+
+        ContentValues values = new ContentValues();
+        values.put(PopularMoviesContract.PosterEntry.COLUMN_POSTER_ID, cursor.getString(posterIdIndex));
+        values.put(PopularMoviesContract.PosterEntry.COLUMN_MOVIE_ID, cursor.getLong(movieIdIndex));
+        values.put(PopularMoviesContract.PosterEntry.COLUMN_CONTENT, cursor.getBlob(contentIndex));
+
+        return values;
+    }
+
+    public static ContentValues readTrailerFromCursor(Cursor cursor) {
+        int trailerIdIndex = cursor.getColumnIndex(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID);
+        int trailerKeyIndex = cursor.getColumnIndex(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_KEY);
+        int trailerNameIndex = cursor.getColumnIndex(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_NAME);
+        int trailerSiteIndex = cursor.getColumnIndex(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_SITE);
+        int movieIdIndex = cursor.getColumnIndex(PopularMoviesContract.TrailerEntry.COLUMN_MOVIE_ID);
+
+        ContentValues values = new ContentValues();
+        values.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID, cursor.getString(trailerIdIndex));
+        values.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_KEY, cursor.getString(trailerKeyIndex));
+        values.put(PopularMoviesContract.TrailerEntry.COLUMN_MOVIE_ID, cursor.getLong(movieIdIndex));
+
+        if (!cursor.isNull(trailerNameIndex)) {
+            values.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_NAME, cursor.getString(trailerNameIndex));
+        }
+
+        if (!cursor.isNull(trailerSiteIndex)) {
+            values.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_SITE, cursor.getString(trailerSiteIndex));
+        }
+
+        return values;
+    }
+
+    public static ContentValues readReviewFromCursor(Cursor cursor) {
+        int reviewIdIndex = cursor.getColumnIndex(PopularMoviesContract.ReviewEntry.COLUMN_REVIEW_ID);
+        int movieIdIndex = cursor.getColumnIndex(PopularMoviesContract.ReviewEntry.COLUMN_MOVIE_ID);
+        int authorIndex = cursor.getColumnIndex(PopularMoviesContract.ReviewEntry.COLUMN_AUTHOR);
+        int contentIndex = cursor.getColumnIndex(PopularMoviesContract.ReviewEntry.COLUMN_CONTENT);
+
+        ContentValues values = new ContentValues();
+        values.put(PopularMoviesContract.ReviewEntry.COLUMN_REVIEW_ID, cursor.getString(reviewIdIndex));
+        values.put(PopularMoviesContract.ReviewEntry.COLUMN_MOVIE_ID, cursor.getLong(movieIdIndex));
+        values.put(PopularMoviesContract.ReviewEntry.COLUMN_AUTHOR, cursor.getString(authorIndex));
+        values.put(PopularMoviesContract.ReviewEntry.COLUMN_CONTENT, cursor.getString(contentIndex));
+
+        return values;
+    }
+
     public static void displayTrailersForMovie(Movie movie, Activity activity) {
         LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.movie_trailers);
 

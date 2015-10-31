@@ -11,12 +11,12 @@ import android.widget.Button;
 
 import edu.udacity.android.popularmovies.R;
 
-public class MovieSingleQueryTask extends AsyncTask<Uri, Void, Boolean> {
-    private static final String TAG = MovieSingleQueryTask.class.getSimpleName();
+public class MovieIsFavoriteQueryTask extends AsyncTask<Uri, Void, Boolean> {
+    private static final String TAG = MovieIsFavoriteQueryTask.class.getSimpleName();
 
     private final Activity activity;
 
-    public MovieSingleQueryTask(Activity activity) {
+    public MovieIsFavoriteQueryTask(Activity activity) {
         this.activity = activity;
     }
 
