@@ -40,18 +40,21 @@ public class TestUtilities {
 
         ContentValues inceptionTrailerValues = new ContentValues();
         inceptionTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID, "abcd1234");
+        inceptionTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_KEY, "k4321dcba");
         inceptionTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_NAME, "Inception official trailer");
         inceptionTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_SITE, "https://www.youtube.com");
         inceptionTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_MOVIE_ID, 27205L);
 
         ContentValues jurassicFirstTrailerValues = new ContentValues();
         jurassicFirstTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID, "efgh5678");
+        jurassicFirstTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_KEY, "k8765hgfe");
         jurassicFirstTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_NAME, "US Official Trailer");
         jurassicFirstTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_SITE, "https://www.youtube.com");
         jurassicFirstTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_MOVIE_ID, 135397L);
 
         ContentValues jurassicSecondTrailerValues = new ContentValues();
         jurassicSecondTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID, "efgh91011");
+        jurassicFirstTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_KEY, "k11019hgfe");
         jurassicSecondTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_NAME, "World Official Trailer");
         jurassicSecondTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_SITE, "https://www.youtube.com");
         jurassicSecondTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_MOVIE_ID, 135397L);

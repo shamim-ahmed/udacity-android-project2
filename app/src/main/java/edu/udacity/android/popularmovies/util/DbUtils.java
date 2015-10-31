@@ -38,6 +38,7 @@ public class DbUtils {
         for (Trailer trailer : trailerList) {
             ContentValues values = new ContentValues();
             values.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID, trailer.getTrailerId());
+            values.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_KEY, trailer.getKey());
             values.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_NAME, trailer.getName());
             values.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_SITE, trailer.getSite());
             values.put(PopularMoviesContract.TrailerEntry.COLUMN_MOVIE_ID, trailer.getMovieId());

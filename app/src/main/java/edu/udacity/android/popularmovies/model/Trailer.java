@@ -1,11 +1,13 @@
 package edu.udacity.android.popularmovies.model;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.util.StringUtils;
 
 public class Trailer implements Parcelable {
@@ -39,6 +41,14 @@ public class Trailer implements Parcelable {
         } else {
             movieId = null;
         }
+    }
+
+    public Trailer(ContentValues values) {
+        trailerId = values.getAsString(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID);
+        key = values.getAsString(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_KEY);
+        name = values.getAsString(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_NAME);
+        site = values.getAsString(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_SITE);
+        movieId = values.getAsLong(PopularMoviesContract.TrailerEntry.COLUMN_MOVIE_ID);
     }
 
     public String getTrailerId() {
