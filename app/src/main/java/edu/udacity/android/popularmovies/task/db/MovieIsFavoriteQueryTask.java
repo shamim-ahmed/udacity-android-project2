@@ -58,7 +58,7 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Uri, Void, Boolean> {
         favoriteButton.setEnabled(!result);
 
         if (result) {
-            favoriteButton.setText(R.string.favorite_button_remove_text);
+            favoriteButton.setText(R.string.favorite_button_added_text);
         } else {
             favoriteButton.setText(R.string.favorite_button_add_text);
         }

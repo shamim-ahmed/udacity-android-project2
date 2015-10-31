@@ -95,7 +95,7 @@ public class MovieInsertTask extends AsyncTask<Uri, Void, Uri> {
             return;
         }
 
-        favoriteButton.setText(R.string.favorite_button_remove_text);
+        favoriteButton.setText(R.string.favorite_button_added_text);
         favoriteButton.setSelected(true);
 
         // if main grid shows favorite movies,set the reload flag
