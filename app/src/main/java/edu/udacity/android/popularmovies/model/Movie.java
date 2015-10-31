@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.udacity.android.popularmovies.db.PopularMoviesContract;
+
 public class Movie implements Parcelable {
     private final Long movieId;
     private final String title;
@@ -53,14 +55,14 @@ public class Movie implements Parcelable {
     }
 
     public Movie(ContentValues values) {
-        movieId = values.getAsLong("movie_id");
-        title = values.getAsString("title");
-        releaseDate = values.getAsString("release_date");
+        movieId = values.getAsLong(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID);
+        title = values.getAsString(PopularMoviesContract.MovieEntry.COLUMN_TITLE);
+        releaseDate = values.getAsString(PopularMoviesContract.MovieEntry.COLUMN_RELEASE_DATE);
 
-        String pUriStr = values.getAsString("poster_uri");
+        String pUriStr = values.getAsString(PopularMoviesContract.MovieEntry.COLUMN_POSTER_URI);
         posterUri = pUriStr != null ? Uri.parse(pUriStr) : null;
-        voteAverage = values.getAsDouble("vote_average");
-        synopsis = values.getAsString("synopsis");
+        voteAverage = values.getAsDouble(PopularMoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE);
+        synopsis = values.getAsString(PopularMoviesContract.MovieEntry.COLUMN_SYNOPSIS);
     }
 
     @SuppressWarnings("unchecked")
