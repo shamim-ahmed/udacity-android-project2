@@ -54,7 +54,7 @@ public class TestUtilities {
 
         ContentValues jurassicSecondTrailerValues = new ContentValues();
         jurassicSecondTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID, "efgh91011");
-        jurassicFirstTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_KEY, "k11019hgfe");
+        jurassicSecondTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_KEY, "k11019hgfe");
         jurassicSecondTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_NAME, "World Official Trailer");
         jurassicSecondTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_SITE, "https://www.youtube.com");
         jurassicSecondTrailerValues.put(PopularMoviesContract.TrailerEntry.COLUMN_MOVIE_ID, 135397L);

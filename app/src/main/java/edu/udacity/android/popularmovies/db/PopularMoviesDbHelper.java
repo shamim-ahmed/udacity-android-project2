@@ -30,7 +30,7 @@ public class PopularMoviesDbHelper extends SQLiteOpenHelper {
     private static final String CREATE_TRAILER_TABLE_SQL = "CREATE TABLE " + PopularMoviesContract.TrailerEntry.TABLE_NAME + "("
             + PopularMoviesContract.TrailerEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_ID + " TEXT NOT NULL UNIQUE, "
-            + PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_KEY + " TEXT, "
+            + PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_KEY + " TEXT NOT NULL UNIQUE, "
             + PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_NAME + " TEXT, "
             + PopularMoviesContract.TrailerEntry.COLUMN_TRAILER_SITE + " TEXT, "
             + PopularMoviesContract.PosterEntry.COLUMN_MOVIE_ID + " TEXT NOT NULL, "
