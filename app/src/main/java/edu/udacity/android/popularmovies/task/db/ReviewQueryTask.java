@@ -34,7 +34,7 @@ public class ReviewQueryTask extends AsyncTask<Void, Void, List<Review>> {
         Cursor cursor = null;
 
         try {
-            cursor = contentResolver.query(targetUri, null, null, null, null);
+            cursor = contentResolver.query(targetUri, null, null, null, PopularMoviesContract.ReviewEntry._ID);
 
             while (cursor.moveToNext()) {
                 ContentValues values = AppUtils.readReviewFromCursor(cursor);

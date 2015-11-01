@@ -34,7 +34,7 @@ public class TrailerQueryTask extends AsyncTask<Void, Void, List<Trailer>> {
         Cursor cursor = null;
 
         try {
-            cursor = contentResolver.query(targetUri, null, null, null, null);
+            cursor = contentResolver.query(targetUri, null, null, null, PopularMoviesContract.TrailerEntry._ID);
 
             while (cursor.moveToNext()) {
                 ContentValues values = AppUtils.readTrailerFromCursor(cursor);

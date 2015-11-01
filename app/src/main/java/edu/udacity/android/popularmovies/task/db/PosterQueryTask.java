@@ -35,7 +35,7 @@ public class PosterQueryTask extends AsyncTask<Void, Void, byte[]> {
         Cursor cursor = null;
 
         try {
-            cursor = contentResolver.query(targetUri, null, null, null, null);
+            cursor = contentResolver.query(targetUri, null, null, null, PopularMoviesContract.PosterEntry._ID);
 
             // we assume for the time being that there is only one poster
             if (cursor.moveToNext()) {

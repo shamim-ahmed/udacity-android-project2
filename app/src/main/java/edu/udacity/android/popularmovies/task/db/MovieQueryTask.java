@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
@@ -40,7 +41,7 @@ public class MovieQueryTask extends AsyncTask<Uri, Void, List<Movie>> {
         Cursor cursor = null;
 
         try {
-            cursor = contentResolver.query(targetUri, null, null, null, null);
+            cursor = contentResolver.query(targetUri, null, null, null, PopularMoviesContract.MovieEntry._ID);
 
             while (cursor.moveToNext()) {
                 ContentValues values = AppUtils.readMovieFromCursor(cursor);
