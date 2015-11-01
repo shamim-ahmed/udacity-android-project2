@@ -10,6 +10,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
@@ -179,7 +180,7 @@ public class AppUtils {
         }
     }
 
-    public static void updateShareMenuItem(Trailer firstTrailer, Activity activity) {
+    public static void updateShareMenuItem(String trailerTitle, String trailerKey, Activity activity) {
         MenuItem shareMenuItem = null;
 
         if (activity instanceof MovieDetailsActivity) {
@@ -193,8 +194,8 @@ public class AppUtils {
             ShareActionProvider shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareMenuItem);
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_SUBJECT, firstTrailer.getName());
-            Uri trailerUri = AppUtils.createTrailerUri(firstTrailer.getKey(), application);
+            intent.putExtra(Intent.EXTRA_SUBJECT, trailerTitle);
+            Uri trailerUri = AppUtils.createTrailerUri(trailerKey, application);
             intent.putExtra(Intent.EXTRA_TEXT, trailerUri.toString());
             shareActionProvider.setShareIntent(intent);
             shareMenuItem.setEnabled(true);
@@ -228,7 +229,7 @@ public class AppUtils {
     }
 
     public static byte[] extractPosterContent(ImageView imageView) {
-        Bitmap bitmap = imageView.getDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
         return outputStream.toByteArray();

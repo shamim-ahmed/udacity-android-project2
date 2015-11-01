@@ -90,7 +90,9 @@ public class TrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Trailer>>
 
         if (trailerList.size() > 0) {
             Trailer firstTrailer = trailerList.get(0);
-            AppUtils.updateShareMenuItem(firstTrailer, activity);
+            String trailerTitle = String.format("%s : %s", movie.getTitle(), firstTrailer.getName());
+            String trailerKey = firstTrailer.getKey();
+            AppUtils.updateShareMenuItem(trailerTitle, trailerKey, activity);
         }
     }
 }
