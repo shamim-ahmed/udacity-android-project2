@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.view.View;
 
 import edu.udacity.android.popularmovies.PopularMoviesApplication;
+import edu.udacity.android.popularmovies.util.AppUtils;
 
 public class MovieTrailerOnClickListener implements View.OnClickListener {
     private final Activity activity;
@@ -19,17 +20,7 @@ public class MovieTrailerOnClickListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
-        String scheme = application.getConfigurationProperty("youtube.video.scheme");
-        String authority = application.getConfigurationProperty("youtube.video.authority");
-        String path = application.getConfigurationProperty("youtube.video.path");
-
-        Uri trailerUri = new Uri.Builder()
-                .scheme(scheme)
-                .authority(authority)
-                .path(path)
-                .appendQueryParameter("v", trailerKey)
-                .build();
-
+        Uri trailerUri = AppUtils.createTrailerUri(trailerKey, application);
         Intent intent = new Intent(Intent.ACTION_VIEW, trailerUri);
         activity.startActivity(intent);
     }

@@ -3,15 +3,20 @@ package edu.udacity.android.popularmovies.util;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,6 +29,7 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Properties;
 
+import edu.udacity.android.popularmovies.PopularMoviesApplication;
 import edu.udacity.android.popularmovies.R;
 import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.listener.MovieTrailerOnClickListener;
@@ -201,6 +207,29 @@ public class AppUtils {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
         return outputStream.toByteArray();
+    }
+
+    public static Uri createTrailerUri(String trailerKey, PopularMoviesApplication application) {
+        String scheme = application.getConfigurationProperty("youtube.video.scheme");
+        String authority = application.getConfigurationProperty("youtube.video.authority");
+        String path = application.getConfigurationProperty("youtube.video.path");
+
+        return new Uri.Builder()
+                .scheme(scheme)
+                .authority(authority)
+                .path(path)
+                .appendQueryParameter("v", trailerKey)
+                .build();
+    }
+
+    public static void updateShareMenuItem(MenuItem shareItem, Trailer firstTrailer, PopularMoviesApplication application) {
+        ShareActionProvider shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, firstTrailer.getName());
+        Uri trailerUri = AppUtils.createTrailerUri(firstTrailer.getKey(), application);
+        intent.putExtra(Intent.EXTRA_TEXT, trailerUri.toString());
+        shareActionProvider.setShareIntent(intent);
     }
 
     // private constructor to prevent instantiation
