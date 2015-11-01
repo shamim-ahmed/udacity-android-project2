@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ImageView;
 
 import edu.udacity.android.popularmovies.R;
@@ -54,5 +55,7 @@ public class PosterQueryTask extends AsyncTask<Void, Void, byte[]> {
         Bitmap bitmap = BitmapFactory.decodeByteArray(posterContent, 0, posterContent.length);
         ImageView posterView = (ImageView) activity.findViewById(R.id.movie_details_poster);
         posterView.setImageBitmap(bitmap);
+
+        Log.i(TAG, String.format("poster for movie id %d was successfully loaded from database", movie.getMovieId()));
     }
 }
