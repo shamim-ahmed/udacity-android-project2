@@ -11,7 +11,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
-import edu.udacity.android.popularmovies.R;
 import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.util.AppUtils;
@@ -19,12 +18,14 @@ import edu.udacity.android.popularmovies.util.AppUtils;
 public class PosterQueryTask extends AsyncTask<Void, Void, byte[]> {
     private static final String TAG = PosterQueryTask.class.getSimpleName();
 
-    private final Activity activity;
     private final Movie movie;
+    private final Activity activity;
+    private final int posterCOntainerId;
 
-    public PosterQueryTask(Movie movie, Activity activity) {
-        this.activity = activity;
+    public PosterQueryTask(Movie movie, Activity activity, int posterContainerId) {
         this.movie = movie;
+        this.activity = activity;
+        this.posterCOntainerId = posterContainerId;
     }
 
     @Override
@@ -54,9 +55,11 @@ public class PosterQueryTask extends AsyncTask<Void, Void, byte[]> {
     @Override
     protected void onPostExecute(byte[] posterContent) {
         Bitmap bitmap = BitmapFactory.decodeByteArray(posterContent, 0, posterContent.length);
-        ImageView posterView = (ImageView) activity.findViewById(R.id.movie_details_poster);
-        posterView.setImageBitmap(bitmap);
+        ImageView posterView = (ImageView) activity.findViewById(posterCOntainerId);
 
-        Log.i(TAG, String.format("poster for movie id %d was successfully loaded from database", movie.getMovieId()));
+        if (posterView != null) {
+            posterView.setImageBitmap(bitmap);
+            Log.i(TAG, String.format("poster for movie id %d was successfully loaded from database", movie.getMovieId()));
+        }
     }
 }
