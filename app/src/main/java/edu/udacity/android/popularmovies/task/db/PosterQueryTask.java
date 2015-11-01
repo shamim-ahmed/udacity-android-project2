@@ -6,19 +6,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
-import edu.udacity.android.popularmovies.model.Trailer;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
-public class PosterQueryTask extends AsyncTask<Uri, Void, byte[]> {
+public class PosterQueryTask extends AsyncTask<Void, Void, byte[]> {
     private static final String TAG = PosterQueryTask.class.getSimpleName();
 
     private final Activity activity;
@@ -30,15 +23,10 @@ public class PosterQueryTask extends AsyncTask<Uri, Void, byte[]> {
     }
 
     @Override
-    protected byte[] doInBackground(Uri... params) {
-        if (params.length == 0) {
-            Log.e(TAG, "no uri provided");
-            return null;
-        }
-
+    protected byte[] doInBackground(Void... params) {
         byte[] posterContent = null;
         ContentResolver contentResolver = activity.getContentResolver();
-        Uri targetUri = params[0];
+        Uri targetUri = PopularMoviesContract.PosterEntry.buildPosterUriForMovie(movie.getMovieId());
         Cursor cursor = null;
 
         try {

@@ -1,7 +1,6 @@
 package edu.udacity.android.popularmovies;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -25,8 +24,6 @@ import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.task.db.MovieInsertTask;
 import edu.udacity.android.popularmovies.task.db.MovieIsFavoriteQueryTask;
-import edu.udacity.android.popularmovies.task.web.ReviewDataDownloadTask;
-import edu.udacity.android.popularmovies.task.web.TrailerDataDownloadTask;
 import edu.udacity.android.popularmovies.util.AppUtils;
 import edu.udacity.android.popularmovies.util.Constants;
 import edu.udacity.android.popularmovies.util.MathUtils;
@@ -97,9 +94,8 @@ public class MovieDetailsFragment extends Fragment {
 
         // check if the movie has been marked as favorite
         final PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
-        final Uri movieUri = PopularMoviesContract.MovieEntry.buildMovieUri(selectedMovie.getMovieId());
-        MovieIsFavoriteQueryTask queryTask = new MovieIsFavoriteQueryTask(activity);
-        queryTask.execute(movieUri);
+        MovieIsFavoriteQueryTask queryTask = new MovieIsFavoriteQueryTask(activity, selectedMovie);
+        queryTask.execute();
 
         Button favoriteButton = (Button) rootView.findViewById(R.id.favorite_button);
 
@@ -147,10 +143,14 @@ public class MovieDetailsFragment extends Fragment {
         }
 
         // populate the trailer list
-        populateTrailers(selectedMovie, activity, savedStateFlag);
+        if (savedStateFlag) {
+            AppUtils.displayTrailersForMovie(selectedMovie, activity);
+        }
 
         // populate the review list
-        populateReviews(selectedMovie, activity, savedStateFlag);
+        if (savedStateFlag) {
+            AppUtils.displayReviewsForMovie(selectedMovie, activity);
+        }
     }
 
     // save the movie in its current state, to be restored later
@@ -165,61 +165,6 @@ public class MovieDetailsFragment extends Fragment {
 
         Movie movie = (Movie) getArguments().get(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME);
         outState.putParcelable(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME, movie);
-    }
-
-    private void populateTrailers(Movie movie, Activity activity, boolean savedStateFlag) {
-        if (savedStateFlag) {
-            AppUtils.displayTrailersForMovie(movie, activity);
-        } else {
-            startTrailerDataDownload(movie, activity);
-        }
-    }
-
-    private void populateReviews(Movie movie, Activity activity, boolean savedStateFlag) {
-        if (savedStateFlag) {
-            AppUtils.displayReviewsForMovie(movie, activity);
-        } else {
-            startReviewDataDownload(movie, activity);
-        }
-    }
-
-    private void startTrailerDataDownload(Movie movie, Activity activity) {
-        PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
-
-        String scheme = application.getConfigurationProperty("tmdb.api.scheme");
-        String authority = application.getConfigurationProperty("tmdb.api.authority");
-        String videoPath = application.getConfigurationProperty("tmdb.api.videos.path", movie.getMovieId().toString());
-        String apiKey = application.getConfigurationProperty("tmdb.api.key");
-
-        Uri trailerUri = new Uri.Builder().scheme(scheme)
-                .authority(authority)
-                .path(videoPath)
-                .appendQueryParameter("api_key", apiKey)
-                .build();
-
-        Log.i(TAG, String.format("The trailer Uri is : %s", trailerUri.toString()));
-
-        TrailerDataDownloadTask trailerDownloadTask = new TrailerDataDownloadTask(movie, activity);
-        trailerDownloadTask.execute(trailerUri);
-    }
-
-    private void startReviewDataDownload(Movie movie, Activity activity) {
-        PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
-        String scheme = application.getConfigurationProperty("tmdb.api.scheme");
-        String authority = application.getConfigurationProperty("tmdb.api.authority");
-        String path = application.getConfigurationProperty("tmdb.api.reviews.path", movie.getMovieId().toString());
-        String apiKey = application.getConfigurationProperty("tmdb.api.key");
-
-        Uri reviewDataUri = new Uri.Builder().scheme(scheme)
-                .authority(authority)
-                .path(path)
-                .appendQueryParameter("api_key", apiKey)
-                .build();
-
-        Log.i(TAG, String.format("The review URI is : %s", reviewDataUri.toString()));
-
-        ReviewDataDownloadTask task = new ReviewDataDownloadTask(movie, activity);
-        task.execute(reviewDataUri);
     }
 
     private String generateFormattedRating(Double rating) {

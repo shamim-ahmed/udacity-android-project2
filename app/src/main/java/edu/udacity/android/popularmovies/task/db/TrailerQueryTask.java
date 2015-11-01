@@ -6,17 +6,16 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.model.Trailer;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
-public class TrailerQueryTask extends AsyncTask<Uri, Void, List<Trailer>> {
+public class TrailerQueryTask extends AsyncTask<Void, Void, List<Trailer>> {
     private static final String TAG = TrailerQueryTask.class.getSimpleName();
 
     private final Activity activity;
@@ -28,15 +27,10 @@ public class TrailerQueryTask extends AsyncTask<Uri, Void, List<Trailer>> {
     }
 
     @Override
-    protected List<Trailer> doInBackground(Uri... params) {
-        if (params.length == 0) {
-            Log.e(TAG, "no uri provided");
-            return Collections.emptyList();
-        }
-
+    protected List<Trailer> doInBackground(Void... params) {
         List<Trailer> trailerList = new ArrayList<>();
         ContentResolver contentResolver = activity.getContentResolver();
-        Uri targetUri = params[0];
+        Uri targetUri = PopularMoviesContract.TrailerEntry.buildTrailerUriForMovie(movie.getMovieId());
         Cursor cursor = null;
 
         try {
@@ -58,5 +52,6 @@ public class TrailerQueryTask extends AsyncTask<Uri, Void, List<Trailer>> {
     @Override
     protected void onPostExecute(List<Trailer> trailerList) {
         movie.setTrailerList(trailerList);
+        AppUtils.displayTrailersForMovie(movie, activity);
     }
 }

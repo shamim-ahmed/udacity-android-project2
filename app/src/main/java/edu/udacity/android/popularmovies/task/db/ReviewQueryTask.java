@@ -6,17 +6,16 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.model.Review;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
-public class ReviewQueryTask extends AsyncTask<Uri, Void, List<Review>> {
+public class ReviewQueryTask extends AsyncTask<Void, Void, List<Review>> {
     private static final String TAG = ReviewQueryTask.class.getSimpleName();
 
     private final Activity activity;
@@ -28,15 +27,10 @@ public class ReviewQueryTask extends AsyncTask<Uri, Void, List<Review>> {
     }
 
     @Override
-    protected List<Review> doInBackground(Uri... params) {
-        if (params.length == 0) {
-            Log.e(TAG, "no uri provided");
-            return Collections.emptyList();
-        }
-
+    protected List<Review> doInBackground(Void... params) {
         List<Review> reviewList = new ArrayList<>();
         ContentResolver contentResolver = activity.getContentResolver();
-        Uri targetUri = params[0];
+        Uri targetUri = PopularMoviesContract.ReviewEntry.buildReviewUriForMovie(movie.getMovieId());
         Cursor cursor = null;
 
         try {
@@ -58,5 +52,6 @@ public class ReviewQueryTask extends AsyncTask<Uri, Void, List<Review>> {
     @Override
     protected void onPostExecute(List<Review> reviewList) {
         movie.setReviewList(reviewList);
+        AppUtils.displayReviewsForMovie(movie, activity);
     }
 }
