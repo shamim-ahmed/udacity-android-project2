@@ -63,21 +63,6 @@ public class MovieDetailsFragment extends Fragment {
         final Movie selectedMovie = movie;
         final Activity activity = getActivity();
 
-        int moviePlaceHolderId;
-
-        if (AppUtils.isTablet(activity)) {
-            moviePlaceHolderId = R.drawable.movie_placeholder;
-        } else {
-            moviePlaceHolderId = R.drawable.movie_placeholder_small;
-        }
-
-        // display the poster
-        Picasso.with(activity)
-                .load(selectedMovie.getPosterUri())
-                .noFade()
-                .placeholder(moviePlaceHolderId)
-                .into(posterView);
-
         // display various metadata
         titleView.setText(selectedMovie.getTitle());
         yearView.setText(generateFormattedYear(selectedMovie.getReleaseDate()));

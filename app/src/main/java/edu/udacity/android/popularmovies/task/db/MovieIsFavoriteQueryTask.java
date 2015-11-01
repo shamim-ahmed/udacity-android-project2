@@ -8,6 +8,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import edu.udacity.android.popularmovies.PopularMoviesApplication;
 import edu.udacity.android.popularmovies.R;
@@ -15,6 +18,7 @@ import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.task.web.ReviewDataDownloadTask;
 import edu.udacity.android.popularmovies.task.web.TrailerDataDownloadTask;
+import edu.udacity.android.popularmovies.util.AppUtils;
 
 public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
     private static final String TAG = MovieIsFavoriteQueryTask.class.getSimpleName();
@@ -51,9 +55,11 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean result) {
         if (result) {
+            loadPosterFromDatabase();
             loadTrailersFromDatabase();
             loadReviewsFromDatabase();
         } else {
+            startPosterDownload();
             startTrailerDataDownload();
             startReviewDataDownload();
         }
@@ -80,7 +86,22 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     private void startPosterDownload() {
+        int moviePlaceHolderId;
 
+        if (AppUtils.isTablet(activity)) {
+            moviePlaceHolderId = R.drawable.movie_placeholder;
+        } else {
+            moviePlaceHolderId = R.drawable.movie_placeholder_small;
+        }
+
+        ImageView posterView = (ImageView) activity.findViewById(R.id.movie_details_poster);
+
+        // display the poster
+        Picasso.with(activity)
+                .load(movie.getPosterUri())
+                .noFade()
+                .placeholder(moviePlaceHolderId)
+                .into(posterView);
     }
 
     private void startTrailerDataDownload() {
@@ -121,7 +142,7 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
 
     private void loadPosterFromDatabase() {
         PosterQueryTask task = new PosterQueryTask(movie, activity);
-
+        task.execute();
     }
 
     private void loadTrailersFromDatabase() {
