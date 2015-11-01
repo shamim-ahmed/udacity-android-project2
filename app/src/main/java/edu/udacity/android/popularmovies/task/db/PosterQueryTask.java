@@ -6,7 +6,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.widget.ImageView;

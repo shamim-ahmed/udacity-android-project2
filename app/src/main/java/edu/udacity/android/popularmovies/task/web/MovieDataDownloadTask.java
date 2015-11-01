@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.adapter.MovieGridAdapter;
+import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.util.IOUtils;
 
 public class MovieDataDownloadTask extends AsyncTask<Uri, Void, List<Movie>> {

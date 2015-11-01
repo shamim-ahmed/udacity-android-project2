@@ -1,7 +1,6 @@
 package edu.udacity.android.popularmovies.util;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -27,7 +25,6 @@ import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.Properties;
 

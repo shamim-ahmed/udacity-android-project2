@@ -94,7 +94,7 @@ public class PosterTestCase extends ProviderTestCase2<PopularMoviesProvider> {
                 result = values;
                 break;
             }
-        };
+        }
 
         return result;
     }

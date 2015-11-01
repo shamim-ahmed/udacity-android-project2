@@ -2,8 +2,8 @@ package edu.udacity.android.popularmovies;
 
 import android.app.Activity;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +14,11 @@ import android.widget.GridView;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.udacity.android.popularmovies.adapter.MovieGridAdapter;
 import edu.udacity.android.popularmovies.db.PopularMoviesContract;
+import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.task.db.MovieQueryTask;
 import edu.udacity.android.popularmovies.task.web.MovieDataDownloadTask;
-import edu.udacity.android.popularmovies.model.Movie;
-import edu.udacity.android.popularmovies.adapter.MovieGridAdapter;
 import edu.udacity.android.popularmovies.util.AppUtils;
 import edu.udacity.android.popularmovies.util.Constants;
 
