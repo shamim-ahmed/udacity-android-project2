@@ -21,7 +21,7 @@ public class ReviewQueryTask extends AsyncTask<Void, Void, List<Review>> {
     private final Activity activity;
     private final Movie movie;
 
-    public ReviewQueryTask(Activity activity, Movie movie) {
+    public ReviewQueryTask(Movie movie, Activity activity) {
         this.activity = activity;
         this.movie = movie;
     }

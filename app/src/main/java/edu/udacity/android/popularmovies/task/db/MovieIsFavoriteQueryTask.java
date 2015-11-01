@@ -79,6 +79,10 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
         favoriteButton.setVisibility(View.VISIBLE);
     }
 
+    private void startPosterDownload() {
+
+    }
+
     private void startTrailerDataDownload() {
         String scheme = application.getConfigurationProperty("tmdb.api.scheme");
         String authority = application.getConfigurationProperty("tmdb.api.authority");
@@ -115,13 +119,18 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
         task.execute(reviewDataUri);
     }
 
+    private void loadPosterFromDatabase() {
+        PosterQueryTask task = new PosterQueryTask(movie, activity);
+
+    }
+
     private void loadTrailersFromDatabase() {
-        TrailerQueryTask task = new TrailerQueryTask(activity, movie);
+        TrailerQueryTask task = new TrailerQueryTask(movie, activity);
         task.execute();
     }
 
     private void loadReviewsFromDatabase() {
-        ReviewQueryTask task = new ReviewQueryTask(activity, movie);
+        ReviewQueryTask task = new ReviewQueryTask(movie, activity);
         task.execute();
     }
 }

@@ -27,7 +27,7 @@ public class MovieInsertTask extends AsyncTask<Uri, Void, Uri> {
     private final Movie movie;
     private final byte[] posterContent;
 
-    public MovieInsertTask(PopularMoviesApplication application, Activity activity, Movie movie, byte[] posterContent) {
+    public MovieInsertTask(Movie movie, byte[] posterContent, Activity activity, PopularMoviesApplication application) {
         this.application = application;
         this.activity = activity;
         this.movie = movie;

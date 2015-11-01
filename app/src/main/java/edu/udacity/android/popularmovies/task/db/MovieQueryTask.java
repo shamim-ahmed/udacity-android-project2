@@ -22,7 +22,7 @@ public class MovieQueryTask extends AsyncTask<Uri, Void, List<Movie>> {
     private final Activity activity;
     private final ArrayAdapter<Movie> adapter;
 
-    public MovieQueryTask(Activity activity, ArrayAdapter<Movie> adapter) {
+    public MovieQueryTask(ArrayAdapter<Movie> adapter, Activity activity) {
         this.activity = activity;
         this.adapter = adapter;
     }

@@ -117,7 +117,7 @@ public class MovieGridFragment extends Fragment {
 
     private void startFavoriteMovieQueryTask(GridView gridView) {
         MovieGridAdapter adapter = (MovieGridAdapter) gridView.getAdapter();
-        MovieQueryTask queryTask = new MovieQueryTask(getActivity(), adapter);
+        MovieQueryTask queryTask = new MovieQueryTask(adapter, getActivity());
         queryTask.execute(PopularMoviesContract.MovieEntry.CONTENT_URI);
     }
 

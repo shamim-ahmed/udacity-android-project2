@@ -4,9 +4,14 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.widget.ImageView;
 
+import edu.udacity.android.popularmovies.R;
 import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.util.AppUtils;
@@ -17,7 +22,7 @@ public class PosterQueryTask extends AsyncTask<Void, Void, byte[]> {
     private final Activity activity;
     private final Movie movie;
 
-    public PosterQueryTask(Activity activity, Movie movie) {
+    public PosterQueryTask(Movie movie, Activity activity) {
         this.activity = activity;
         this.movie = movie;
     }
@@ -47,6 +52,8 @@ public class PosterQueryTask extends AsyncTask<Void, Void, byte[]> {
 
     @Override
     protected void onPostExecute(byte[] posterContent) {
-
+        Bitmap bitmap = BitmapFactory.decodeByteArray(posterContent, 0, posterContent.length);
+        ImageView posterView = (ImageView) activity.findViewById(R.id.movie_details_poster);
+        posterView.setImageBitmap(bitmap);
     }
 }

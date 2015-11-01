@@ -111,7 +111,7 @@ public class MovieDetailsFragment extends Fragment {
 
                 if (!selected) {
                     byte[] posterContent = AppUtils.extractPosterContent(posterView);
-                    MovieInsertTask insertTask = new MovieInsertTask(application, activity, selectedMovie, posterContent);
+                    MovieInsertTask insertTask = new MovieInsertTask(selectedMovie, posterContent, activity, application);
                     insertTask.execute(PopularMoviesContract.MovieEntry.CONTENT_URI);
                 }
             }

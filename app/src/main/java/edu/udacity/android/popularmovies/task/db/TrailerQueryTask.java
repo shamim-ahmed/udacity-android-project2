@@ -21,7 +21,7 @@ public class TrailerQueryTask extends AsyncTask<Void, Void, List<Trailer>> {
     private final Activity activity;
     private final Movie movie;
 
-    public TrailerQueryTask(Activity activity, Movie movie) {
+    public TrailerQueryTask(Movie movie, Activity activity) {
         this.activity = activity;
         this.movie = movie;
     }
