@@ -6,24 +6,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.List;
-
 import edu.udacity.android.popularmovies.model.Movie;
-import edu.udacity.android.popularmovies.model.Trailer;
-import edu.udacity.android.popularmovies.util.AppUtils;
 import edu.udacity.android.popularmovies.util.Constants;
 
 public class MovieDetailsActivity extends AppCompatActivity {
     private static final String TAG = MovieDetailsActivity.class.getSimpleName();
-    private MenuItem shareItem;
+    private MenuItem shareMenuItem;
+
+    public MenuItem getShareMenuItem() {
+        return shareMenuItem;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_details, menu);
-        shareItem = menu.findItem(R.id.share_trailer);
-        // keep the item initially disabled
-        shareItem.setEnabled(false);
+        shareMenuItem = menu.findItem(R.id.share_trailer);
+        shareMenuItem.setEnabled(false);
 
         return true;
     }
@@ -56,19 +55,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         Movie selectedMovie = (Movie) extras.get(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME);
-        List<Trailer> trailerList = selectedMovie.getTrailerList();
-        Trailer firstTrailer = null;
-
-        if (trailerList.size() > 0) {
-            firstTrailer = trailerList.get(0);
-        }
-
-        if (firstTrailer != null) {
-            PopularMoviesApplication application = (PopularMoviesApplication) getApplication();
-            AppUtils.updateShareMenuItem(shareItem, firstTrailer, application);
-        } else {
-            shareItem.setEnabled(false);
-        }
 
         Bundle arguments = new Bundle();
         arguments.putParcelable(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME, selectedMovie);

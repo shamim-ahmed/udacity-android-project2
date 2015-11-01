@@ -1,6 +1,7 @@
 package edu.udacity.android.popularmovies.util;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +30,8 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Properties;
 
+import edu.udacity.android.popularmovies.MainActivity;
+import edu.udacity.android.popularmovies.MovieDetailsActivity;
 import edu.udacity.android.popularmovies.PopularMoviesApplication;
 import edu.udacity.android.popularmovies.R;
 import edu.udacity.android.popularmovies.db.PopularMoviesContract;
@@ -176,6 +179,28 @@ public class AppUtils {
         }
     }
 
+    public static void updateShareMenuItem(Trailer firstTrailer, Activity activity) {
+        MenuItem shareMenuItem = null;
+
+        if (activity instanceof MovieDetailsActivity) {
+            shareMenuItem = ((MovieDetailsActivity) activity).getShareMenuItem();
+        } else if (activity instanceof MainActivity) {
+            shareMenuItem = ((MainActivity) activity).getShareMenuItem();
+        }
+
+        if (shareMenuItem != null) {
+            PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
+            ShareActionProvider shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareMenuItem);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, firstTrailer.getName());
+            Uri trailerUri = AppUtils.createTrailerUri(firstTrailer.getKey(), application);
+            intent.putExtra(Intent.EXTRA_TEXT, trailerUri.toString());
+            shareActionProvider.setShareIntent(intent);
+            shareMenuItem.setEnabled(true);
+        }
+    }
+
     public static void displayReviewsForMovie(Movie movie, Activity activity) {
         LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.movie_reviews);
 
@@ -220,16 +245,6 @@ public class AppUtils {
                 .path(path)
                 .appendQueryParameter("v", trailerKey)
                 .build();
-    }
-
-    public static void updateShareMenuItem(MenuItem shareItem, Trailer firstTrailer, PopularMoviesApplication application) {
-        ShareActionProvider shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, firstTrailer.getName());
-        Uri trailerUri = AppUtils.createTrailerUri(firstTrailer.getKey(), application);
-        intent.putExtra(Intent.EXTRA_TEXT, trailerUri.toString());
-        shareActionProvider.setShareIntent(intent);
     }
 
     // private constructor to prevent instantiation

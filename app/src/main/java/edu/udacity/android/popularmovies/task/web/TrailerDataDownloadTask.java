@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.MenuItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.udacity.android.popularmovies.MovieDetailsActivity;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.util.AppUtils;
 import edu.udacity.android.popularmovies.util.IOUtils;
@@ -85,5 +87,10 @@ public class TrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Trailer>>
     protected void onPostExecute(List<Trailer> trailerList) {
         movie.setTrailerList(trailerList);
         AppUtils.displayTrailersForMovie(movie, activity);
+
+        if (trailerList.size() > 0) {
+            Trailer firstTrailer = trailerList.get(0);
+            AppUtils.updateShareMenuItem(firstTrailer, activity);
+        }
     }
 }

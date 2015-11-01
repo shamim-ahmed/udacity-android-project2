@@ -53,5 +53,10 @@ public class TrailerQueryTask extends AsyncTask<Void, Void, List<Trailer>> {
     protected void onPostExecute(List<Trailer> trailerList) {
         movie.setTrailerList(trailerList);
         AppUtils.displayTrailersForMovie(movie, activity);
+
+        if (trailerList.size() > 0) {
+            Trailer firstTrailer = trailerList.get(0);
+            AppUtils.updateShareMenuItem(firstTrailer, activity);
+        }
     }
 }
