@@ -12,10 +12,11 @@ import android.view.MenuItem;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.util.Constants;
 
-public class MainActivity extends AppCompatActivity implements MovieGridFragment.Callback {
+public class MainActivity extends AppCompatActivity implements MovieGridFragment.Callback, ShareMenuItemAware {
     private boolean twoPaneRenderMode;
     private MenuItem shareMenuItem;
 
+    @Override
     public MenuItem getShareMenuItem() {
         return shareMenuItem;
     }
@@ -57,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements MovieGridFragment
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-
         if (twoPaneRenderMode) {
             getMenuInflater().inflate(R.menu.menu_details, menu);
             shareMenuItem = menu.findItem(R.id.share_trailer);

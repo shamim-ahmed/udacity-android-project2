@@ -28,10 +28,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-import edu.udacity.android.popularmovies.MainActivity;
-import edu.udacity.android.popularmovies.MovieDetailsActivity;
 import edu.udacity.android.popularmovies.PopularMoviesApplication;
 import edu.udacity.android.popularmovies.R;
+import edu.udacity.android.popularmovies.ShareMenuItemAware;
 import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.listener.MovieTrailerOnClickListener;
 import edu.udacity.android.popularmovies.model.Movie;
@@ -178,13 +177,7 @@ public class AppUtils {
     }
 
     public static void updateShareMenuItem(String trailerTitle, String trailerKey, Activity activity) {
-        MenuItem shareMenuItem = null;
-
-        if (activity instanceof MovieDetailsActivity) {
-            shareMenuItem = ((MovieDetailsActivity) activity).getShareMenuItem();
-        } else if (activity instanceof MainActivity) {
-            shareMenuItem = ((MainActivity) activity).getShareMenuItem();
-        }
+        MenuItem shareMenuItem = ((ShareMenuItemAware) activity).getShareMenuItem();
 
         if (shareMenuItem != null) {
             PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();

@@ -9,10 +9,11 @@ import android.view.MenuItem;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.util.Constants;
 
-public class MovieDetailsActivity extends AppCompatActivity {
+public class MovieDetailsActivity extends AppCompatActivity implements ShareMenuItemAware {
     private static final String TAG = MovieDetailsActivity.class.getSimpleName();
     private MenuItem shareMenuItem;
 
+    @Override
     public MenuItem getShareMenuItem() {
         return shareMenuItem;
     }
