@@ -47,6 +47,6 @@ public class PosterQueryTask extends AsyncTask<Void, Void, byte[]> {
 
     @Override
     protected void onPostExecute(byte[] posterContent) {
-        // TODO implement it
+
     }
 }

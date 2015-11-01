@@ -38,7 +38,7 @@ public class MovieDetailsFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.fragment_movie_details, container, false);
-        ImageView posterView = (ImageView) rootView.findViewById(R.id.movie_details_poster);
+        final ImageView posterView = (ImageView) rootView.findViewById(R.id.movie_details_poster);
         TextView titleView = (TextView) rootView.findViewById(R.id.movie_details_title);
         TextView yearView = (TextView) rootView.findViewById(R.id.movie_details_year);
         TextView ratingView = (TextView) rootView.findViewById(R.id.movie_details_rating);
@@ -110,8 +110,7 @@ public class MovieDetailsFragment extends Fragment {
                 boolean selected = btn.isSelected();
 
                 if (!selected) {
-                    // TODO get the poster content
-                    byte[] posterContent = new byte[0];
+                    byte[] posterContent = AppUtils.extractPosterContent(posterView);
                     MovieInsertTask insertTask = new MovieInsertTask(application, activity, selectedMovie, posterContent);
                     insertTask.execute(PopularMoviesContract.MovieEntry.CONTENT_URI);
                 }

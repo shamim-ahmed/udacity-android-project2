@@ -6,16 +6,21 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Properties;
 
@@ -189,6 +194,13 @@ public class AppUtils {
             reviewContentView.setText(Html.fromHtml(review.toString()));
             linearLayout.addView(view);
         }
+    }
+
+    public static byte[] extractPosterContent(ImageView imageView) {
+        Bitmap bitmap = imageView.getDrawingCache();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
+        return outputStream.toByteArray();
     }
 
     // private constructor to prevent instantiation
