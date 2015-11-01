@@ -5,14 +5,12 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import edu.udacity.android.popularmovies.PopularMoviesApplication;
 import edu.udacity.android.popularmovies.R;
 import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
@@ -25,12 +23,10 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
 
     private final Movie movie;
     private final Activity activity;
-    private final PopularMoviesApplication application;
 
     public MovieIsFavoriteQueryTask(Activity activity, Movie movie) {
         this.activity = activity;
         this.movie = movie;
-        application = (PopularMoviesApplication) activity.getApplication();
     }
 
     @Override
@@ -105,39 +101,13 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     private void startTrailerDataDownload() {
-        String scheme = application.getConfigurationProperty("tmdb.api.scheme");
-        String authority = application.getConfigurationProperty("tmdb.api.authority");
-        String videoPath = application.getConfigurationProperty("tmdb.api.videos.path", movie.getMovieId().toString());
-        String apiKey = application.getConfigurationProperty("tmdb.api.key");
-
-        Uri trailerUri = new Uri.Builder().scheme(scheme)
-                .authority(authority)
-                .path(videoPath)
-                .appendQueryParameter("api_key", apiKey)
-                .build();
-
-        Log.i(TAG, String.format("The trailer Uri is : %s", trailerUri.toString()));
-
         TrailerDataDownloadTask trailerDownloadTask = new TrailerDataDownloadTask(movie, activity);
-        trailerDownloadTask.execute(trailerUri);
+        trailerDownloadTask.execute();
     }
 
     private void startReviewDataDownload() {
-        String scheme = application.getConfigurationProperty("tmdb.api.scheme");
-        String authority = application.getConfigurationProperty("tmdb.api.authority");
-        String path = application.getConfigurationProperty("tmdb.api.reviews.path", movie.getMovieId().toString());
-        String apiKey = application.getConfigurationProperty("tmdb.api.key");
-
-        Uri reviewDataUri = new Uri.Builder().scheme(scheme)
-                .authority(authority)
-                .path(path)
-                .appendQueryParameter("api_key", apiKey)
-                .build();
-
-        Log.i(TAG, String.format("The review URI is : %s", reviewDataUri.toString()));
-
         ReviewDataDownloadTask task = new ReviewDataDownloadTask(movie, activity);
-        task.execute(reviewDataUri);
+        task.execute();
     }
 
     private void loadPosterFromDatabase() {

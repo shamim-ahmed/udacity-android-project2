@@ -18,11 +18,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.udacity.android.popularmovies.PopularMoviesApplication;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.model.Review;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
-public class ReviewDataDownloadTask extends AsyncTask<Uri, Void, List<Review>> {
+public class ReviewDataDownloadTask extends AsyncTask<Void, Void, List<Review>> {
     private static final String TAG = ReviewDataDownloadTask.class.getSimpleName();
 
     private final Movie movie;
@@ -34,13 +35,22 @@ public class ReviewDataDownloadTask extends AsyncTask<Uri, Void, List<Review>> {
     }
 
     @Override
-    protected List<Review> doInBackground(Uri... params) {
-        if (params.length == 0) {
-            Log.e(TAG, "No Uri provided for movie review download");
-            return Collections.emptyList();
-        }
+    protected List<Review> doInBackground(Void... params) {
+        PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
+        String scheme = application.getConfigurationProperty("tmdb.api.scheme");
+        String authority = application.getConfigurationProperty("tmdb.api.authority");
+        String path = application.getConfigurationProperty("tmdb.api.reviews.path", movie.getMovieId().toString());
+        String apiKey = application.getConfigurationProperty("tmdb.api.key");
 
-        String urlString = params[0].toString();
+        Uri reviewDataUri = new Uri.Builder().scheme(scheme)
+                .authority(authority)
+                .path(path)
+                .appendQueryParameter("api_key", apiKey)
+                .build();
+
+        String urlString = reviewDataUri.toString();
+        Log.i(TAG, String.format("The review URI is : %s", urlString));
+
         List<Review> reviewList = new ArrayList<>();
 
         try {

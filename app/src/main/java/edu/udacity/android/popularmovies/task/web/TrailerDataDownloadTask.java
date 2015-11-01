@@ -16,15 +16,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import edu.udacity.android.popularmovies.PopularMoviesApplication;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.model.Trailer;
 import edu.udacity.android.popularmovies.util.AppUtils;
 import edu.udacity.android.popularmovies.util.IOUtils;
 
-public class TrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Trailer>> {
+public class TrailerDataDownloadTask extends AsyncTask<Void, Void, List<Trailer>> {
     private static final String TAG = TrailerDataDownloadTask.class.getSimpleName();
 
     private final Movie movie;
@@ -36,16 +36,25 @@ public class TrailerDataDownloadTask extends AsyncTask<Uri, Void, List<Trailer>>
     }
 
     @Override
-    protected List<Trailer> doInBackground(Uri... params) {
-        if (params.length == 0) {
-            Log.e(TAG, "No Uri provided for trailer data download");
-            return Collections.emptyList();
-        }
+    protected List<Trailer> doInBackground(Void... params) {
+        PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
+        String scheme = application.getConfigurationProperty("tmdb.api.scheme");
+        String authority = application.getConfigurationProperty("tmdb.api.authority");
+        String videoPath = application.getConfigurationProperty("tmdb.api.videos.path", movie.getMovieId().toString());
+        String apiKey = application.getConfigurationProperty("tmdb.api.key");
+
+        Uri trailerUri = new Uri.Builder().scheme(scheme)
+                .authority(authority)
+                .path(videoPath)
+                .appendQueryParameter("api_key", apiKey)
+                .build();
+
+        String urlString = trailerUri.toString();
+        Log.i(TAG, String.format("The trailer Uri is : %s", urlString));
 
         BufferedReader reader = null;
         StringBuilder jsonBuilder = new StringBuilder();
         List<Trailer> trailerList = new ArrayList<>();
-        String urlString = params[0].toString();
 
         try {
             URL url = new URL(urlString);
