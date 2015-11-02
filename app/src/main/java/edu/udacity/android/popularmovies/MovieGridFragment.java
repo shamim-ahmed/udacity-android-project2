@@ -17,7 +17,7 @@ import java.util.List;
 import edu.udacity.android.popularmovies.adapter.MovieGridAdapter;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.task.db.MoviesQueryTask;
-import edu.udacity.android.popularmovies.task.web.MovieDataDownloadTask;
+import edu.udacity.android.popularmovies.task.web.MoviesDataDownloadTask;
 import edu.udacity.android.popularmovies.util.AppUtils;
 import edu.udacity.android.popularmovies.util.Constants;
 
@@ -110,7 +110,7 @@ public class MovieGridFragment extends Fragment {
     private void startMovieDataDownloadTask(PopularMoviesApplication application, GridView gridView, String sortPreference) {
         Uri searchUri = buildSearchUri(application, sortPreference);
         Uri posterBaseUri = buildImageBaseUri(application);
-        MovieDataDownloadTask task = new MovieDataDownloadTask(gridView);
+        MoviesDataDownloadTask task = new MoviesDataDownloadTask(gridView);
         task.execute(searchUri, posterBaseUri);
     }
 

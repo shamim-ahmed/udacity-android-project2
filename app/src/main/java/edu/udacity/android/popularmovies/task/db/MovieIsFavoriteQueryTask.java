@@ -15,8 +15,8 @@ import com.squareup.picasso.Picasso;
 import edu.udacity.android.popularmovies.R;
 import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
-import edu.udacity.android.popularmovies.task.web.ReviewDataDownloadTask;
-import edu.udacity.android.popularmovies.task.web.TrailerDataDownloadTask;
+import edu.udacity.android.popularmovies.task.web.ReviewsDataDownloadTask;
+import edu.udacity.android.popularmovies.task.web.TrailersDataDownloadTask;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
 public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
@@ -106,14 +106,14 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
     private void startTrailerDataDownload() {
         Log.i(TAG, String.format("starting trailer download for movie %s", movie.getTitle()));
 
-        TrailerDataDownloadTask trailerDownloadTask = new TrailerDataDownloadTask(movie, activity);
+        TrailersDataDownloadTask trailerDownloadTask = new TrailersDataDownloadTask(movie, activity);
         trailerDownloadTask.execute();
     }
 
     private void startReviewDataDownload() {
         Log.i(TAG, String.format("starting review download for movie %s", movie.getTitle()));
 
-        ReviewDataDownloadTask task = new ReviewDataDownloadTask(movie, activity);
+        ReviewsDataDownloadTask task = new ReviewsDataDownloadTask(movie, activity);
         task.execute();
     }
 

@@ -15,7 +15,6 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import edu.udacity.android.popularmovies.PopularMoviesApplication;
@@ -23,13 +22,13 @@ import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.model.Review;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
-public class ReviewDataDownloadTask extends AsyncTask<Void, Void, List<Review>> {
-    private static final String TAG = ReviewDataDownloadTask.class.getSimpleName();
+public class ReviewsDataDownloadTask extends AsyncTask<Void, Void, List<Review>> {
+    private static final String TAG = ReviewsDataDownloadTask.class.getSimpleName();
 
     private final Movie movie;
     private final Activity activity;
 
-    public ReviewDataDownloadTask(Movie movie, Activity activity) {
+    public ReviewsDataDownloadTask(Movie movie, Activity activity) {
         this.movie = movie;
         this.activity = activity;
     }

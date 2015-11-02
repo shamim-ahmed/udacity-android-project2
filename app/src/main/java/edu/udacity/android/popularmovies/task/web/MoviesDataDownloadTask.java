@@ -22,12 +22,12 @@ import edu.udacity.android.popularmovies.adapter.MovieGridAdapter;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.util.IOUtils;
 
-public class MovieDataDownloadTask extends AsyncTask<Uri, Void, List<Movie>> {
-    private static final String TAG = MovieDataDownloadTask.class.getSimpleName();
+public class MoviesDataDownloadTask extends AsyncTask<Uri, Void, List<Movie>> {
+    private static final String TAG = MoviesDataDownloadTask.class.getSimpleName();
 
     private final GridView gridView;
 
-    public MovieDataDownloadTask(GridView gridView) {
+    public MoviesDataDownloadTask(GridView gridView) {
         this.gridView = gridView;
     }
 
