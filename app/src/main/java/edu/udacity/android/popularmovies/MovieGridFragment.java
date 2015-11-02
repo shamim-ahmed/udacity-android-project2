@@ -15,9 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.udacity.android.popularmovies.adapter.MovieGridAdapter;
-import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
-import edu.udacity.android.popularmovies.task.db.MovieQueryTask;
+import edu.udacity.android.popularmovies.task.db.MoviesQueryTask;
 import edu.udacity.android.popularmovies.task.web.MovieDataDownloadTask;
 import edu.udacity.android.popularmovies.util.AppUtils;
 import edu.udacity.android.popularmovies.util.Constants;
@@ -117,7 +116,7 @@ public class MovieGridFragment extends Fragment {
 
     private void startFavoriteMovieQueryTask(GridView gridView) {
         MovieGridAdapter adapter = (MovieGridAdapter) gridView.getAdapter();
-        MovieQueryTask queryTask = new MovieQueryTask(adapter, getActivity());
+        MoviesQueryTask queryTask = new MoviesQueryTask(adapter, getActivity());
         queryTask.execute();
     }
 

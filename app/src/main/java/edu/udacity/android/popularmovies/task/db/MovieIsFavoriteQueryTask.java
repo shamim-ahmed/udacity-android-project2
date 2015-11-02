@@ -121,21 +121,21 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
         Log.i(TAG, String.format("loading poster for movie %s from database", movie.getTitle()));
 
         ImageView posterView = (ImageView) activity.findViewById(R.id.movie_details_poster);
-        PosterQueryTask task = new PosterQueryTask(movie, activity, posterView);
+        PostersQueryTask task = new PostersQueryTask(movie, activity, posterView);
         task.execute();
     }
 
     private void loadTrailersFromDatabase() {
         Log.i(TAG, String.format("loading trailer data for movie %s from database", movie.getTitle()));
 
-        TrailerQueryTask task = new TrailerQueryTask(movie, activity);
+        TrailersQueryTask task = new TrailersQueryTask(movie, activity);
         task.execute();
     }
 
     private void loadReviewsFromDatabase() {
         Log.i(TAG, String.format("loading review data for movie %s from database", movie.getTitle()));
 
-        ReviewQueryTask task = new ReviewQueryTask(movie, activity);
+        ReviewsQueryTask task = new ReviewsQueryTask(movie, activity);
         task.execute();
     }
 }

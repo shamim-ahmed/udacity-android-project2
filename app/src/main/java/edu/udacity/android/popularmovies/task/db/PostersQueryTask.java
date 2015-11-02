@@ -15,14 +15,14 @@ import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
-public class PosterQueryTask extends AsyncTask<Void, Void, byte[]> {
-    private static final String TAG = PosterQueryTask.class.getSimpleName();
+public class PostersQueryTask extends AsyncTask<Void, Void, byte[]> {
+    private static final String TAG = PostersQueryTask.class.getSimpleName();
 
     private final Movie movie;
     private final Activity activity;
     private final ImageView posterView;
 
-    public PosterQueryTask(Movie movie, Activity activity, ImageView imageView) {
+    public PostersQueryTask(Movie movie, Activity activity, ImageView imageView) {
         this.movie = movie;
         this.activity = activity;
         this.posterView = imageView;

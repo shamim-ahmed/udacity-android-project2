@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 import edu.udacity.android.popularmovies.PopularMoviesApplication;
 import edu.udacity.android.popularmovies.R;
 import edu.udacity.android.popularmovies.model.Movie;
-import edu.udacity.android.popularmovies.task.db.PosterQueryTask;
+import edu.udacity.android.popularmovies.task.db.PostersQueryTask;
 import edu.udacity.android.popularmovies.util.Constants;
 
 public class MovieGridAdapter extends ArrayAdapter<Movie> {
@@ -38,7 +38,7 @@ public class MovieGridAdapter extends ArrayAdapter<Movie> {
         String sortPreference = application.getActiveSortPreference();
 
         if (Constants.SORT_FAVORITE.equals(sortPreference)) {
-            PosterQueryTask task = new PosterQueryTask(movie, activity, imageView);
+            PostersQueryTask task = new PostersQueryTask(movie, activity, imageView);
             task.execute();
         } else {
             Picasso.with(context)

@@ -16,13 +16,13 @@ import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.model.Review;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
-public class ReviewQueryTask extends AsyncTask<Void, Void, List<Review>> {
-    private static final String TAG = ReviewQueryTask.class.getSimpleName();
+public class ReviewsQueryTask extends AsyncTask<Void, Void, List<Review>> {
+    private static final String TAG = ReviewsQueryTask.class.getSimpleName();
 
     private final Activity activity;
     private final Movie movie;
 
-    public ReviewQueryTask(Movie movie, Activity activity) {
+    public ReviewsQueryTask(Movie movie, Activity activity) {
         this.activity = activity;
         this.movie = movie;
     }
