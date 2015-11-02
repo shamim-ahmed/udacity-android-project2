@@ -1,5 +1,6 @@
 package edu.udacity.android.popularmovies.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,19 +10,23 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import edu.udacity.android.popularmovies.PopularMoviesApplication;
 import edu.udacity.android.popularmovies.R;
 import edu.udacity.android.popularmovies.model.Movie;
+import edu.udacity.android.popularmovies.task.db.PosterQueryTask;
+import edu.udacity.android.popularmovies.util.Constants;
 
 public class MovieGridAdapter extends ArrayAdapter<Movie> {
-    private final Context context;
+    private final Activity activity;
 
-    public MovieGridAdapter(Context context) {
-        super(context, R.layout.movie_poster);
-        this.context = context;
+    public MovieGridAdapter(Activity activity) {
+        super(activity.getApplicationContext(), R.layout.movie_poster);
+        this.activity = activity;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Context context = activity.getApplicationContext();
         Movie movie = getItem(position);
 
         if (convertView == null) {
@@ -29,12 +34,20 @@ public class MovieGridAdapter extends ArrayAdapter<Movie> {
         }
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.movie_poster);
-        Picasso.with(context)
-                .load(movie.getPosterUri())
-                .noFade()
-                .placeholder(R.drawable.movie_placeholder)
-                .fit()
-                .into(imageView);
+        PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
+        String sortPreference = application.getActiveSortPreference();
+
+        if (Constants.SORT_FAVORITE.equals(sortPreference)) {
+            PosterQueryTask task = new PosterQueryTask(movie, activity, imageView);
+            task.execute();
+        } else {
+            Picasso.with(context)
+                    .load(movie.getPosterUri())
+                    .noFade()
+                    .placeholder(R.drawable.movie_placeholder)
+                    .fit()
+                    .into(imageView);
+        }
 
         return convertView;
     }
