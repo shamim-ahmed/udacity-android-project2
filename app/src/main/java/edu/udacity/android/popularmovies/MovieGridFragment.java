@@ -40,7 +40,7 @@ public class MovieGridFragment extends Fragment {
             }
         });
 
-        MovieGridAdapter adapter = new MovieGridAdapter(activity.getApplicationContext());
+        MovieGridAdapter adapter = new MovieGridAdapter(activity);
         gridView.setAdapter(adapter);
         gridView.setEmptyView(activity.findViewById(R.id.empty));
 
