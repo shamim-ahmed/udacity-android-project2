@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -45,11 +46,6 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
             }
         }
 
-        return result;
-    }
-
-    @Override
-    protected void onPostExecute(Boolean result) {
         if (result) {
             loadPosterFromDatabase();
             loadTrailersFromDatabase();
@@ -60,6 +56,11 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
             startReviewDataDownload();
         }
 
+        return result;
+    }
+
+    @Override
+    protected void onPostExecute(Boolean result) {
         Button favoriteButton = (Button) activity.findViewById(R.id.favorite_button);
 
         // NOTE : occasionally an NPE is encountered when the user tries to select
@@ -82,6 +83,8 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     private void startPosterDownload() {
+        Log.i(TAG, String.format("starting poster download for movie %s", movie.getTitle()));
+
         int moviePlaceHolderId;
 
         if (AppUtils.isTablet(activity)) {
@@ -101,27 +104,37 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     private void startTrailerDataDownload() {
+        Log.i(TAG, String.format("starting trailer download for movie %s", movie.getTitle()));
+
         TrailerDataDownloadTask trailerDownloadTask = new TrailerDataDownloadTask(movie, activity);
         trailerDownloadTask.execute();
     }
 
     private void startReviewDataDownload() {
+        Log.i(TAG, String.format("starting review download for movie %s", movie.getTitle()));
+
         ReviewDataDownloadTask task = new ReviewDataDownloadTask(movie, activity);
         task.execute();
     }
 
     private void loadPosterFromDatabase() {
+        Log.i(TAG, String.format("loading poster of movie %s from database", movie.getTitle()));
+
         ImageView posterView = (ImageView) activity.findViewById(R.id.movie_details_poster);
         PosterQueryTask task = new PosterQueryTask(movie, activity, posterView);
         task.execute();
     }
 
     private void loadTrailersFromDatabase() {
+        Log.i(TAG, String.format("loading trailer data for movie %s from database", movie.getTitle()));
+
         TrailerQueryTask task = new TrailerQueryTask(movie, activity);
         task.execute();
     }
 
     private void loadReviewsFromDatabase() {
+        Log.i(TAG, String.format("loading review data for movie %s from database", movie.getTitle()));
+
         ReviewQueryTask task = new ReviewQueryTask(movie, activity);
         task.execute();
     }

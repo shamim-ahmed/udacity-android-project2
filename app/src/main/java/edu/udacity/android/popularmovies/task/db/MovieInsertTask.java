@@ -52,7 +52,7 @@ public class MovieInsertTask extends AsyncTask<Uri, Void, Uri> {
             String posterId = posterUri.getLastPathSegment();
             ContentValues posterValues = DbUtils.convertPoster(posterId, posterContent, movie.getMovieId());
             contentResolver.insert(PopularMoviesContract.PosterEntry.CONTENT_URI, posterValues);
-            Log.i(TAG, String.format("poster with id %s was inserted successfully", posterId));
+            Log.i(TAG, String.format("poster with id %s was inserted", posterId));
         }
 
         // save the trailers
