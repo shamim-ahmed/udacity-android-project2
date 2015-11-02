@@ -20,12 +20,12 @@ public class PosterQueryTask extends AsyncTask<Void, Void, byte[]> {
 
     private final Movie movie;
     private final Activity activity;
-    private final int posterCOntainerId;
+    private final ImageView posterView;
 
-    public PosterQueryTask(Movie movie, Activity activity, int posterContainerId) {
+    public PosterQueryTask(Movie movie, Activity activity, ImageView imageView) {
         this.movie = movie;
         this.activity = activity;
-        this.posterCOntainerId = posterContainerId;
+        this.posterView = imageView;
     }
 
     @Override
@@ -55,7 +55,6 @@ public class PosterQueryTask extends AsyncTask<Void, Void, byte[]> {
     @Override
     protected void onPostExecute(byte[] posterContent) {
         Bitmap bitmap = BitmapFactory.decodeByteArray(posterContent, 0, posterContent.length);
-        ImageView posterView = (ImageView) activity.findViewById(posterCOntainerId);
 
         if (posterView != null) {
             posterView.setImageBitmap(bitmap);
