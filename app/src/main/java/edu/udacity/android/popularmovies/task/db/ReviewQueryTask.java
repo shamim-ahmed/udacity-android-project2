@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,5 +54,7 @@ public class ReviewQueryTask extends AsyncTask<Void, Void, List<Review>> {
     protected void onPostExecute(List<Review> reviewList) {
         movie.setReviewList(reviewList);
         AppUtils.displayReviewsForMovie(movie, activity);
+
+        Log.i(TAG, String.format("%d reviews for movie %s were loaded from database", reviewList.size(), movie.getTitle()));
     }
 }

@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,8 @@ public class TrailerQueryTask extends AsyncTask<Void, Void, List<Trailer>> {
     protected void onPostExecute(List<Trailer> trailerList) {
         movie.setTrailerList(trailerList);
         AppUtils.displayTrailersForMovie(movie, activity);
+
+        Log.i(TAG, String.format("%d trailers for movie %s were loaded from database", trailerList.size(), movie.getTitle()));
 
         if (trailerList.size() > 0) {
             Trailer firstTrailer = trailerList.get(0);

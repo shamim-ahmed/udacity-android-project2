@@ -45,6 +45,8 @@ public class MovieInsertTask extends AsyncTask<Uri, Void, Uri> {
         ContentValues movieValues = DbUtils.convertMovie(movie);
         Uri resultUri = contentResolver.insert(targetUri, movieValues);
 
+        Log.i(TAG, String.format("movie %s was saved to database", movie.getTitle()));
+
         // save the poster
         Uri posterUri = movie.getPosterUri();
 
@@ -52,7 +54,7 @@ public class MovieInsertTask extends AsyncTask<Uri, Void, Uri> {
             String posterId = posterUri.getLastPathSegment();
             ContentValues posterValues = DbUtils.convertPoster(posterId, posterContent, movie.getMovieId());
             contentResolver.insert(PopularMoviesContract.PosterEntry.CONTENT_URI, posterValues);
-            Log.i(TAG, String.format("poster with id %s was inserted", posterId));
+            Log.i(TAG, String.format("poster with id %s was saved to database", posterId));
         }
 
         // save the trailers
@@ -61,7 +63,7 @@ public class MovieInsertTask extends AsyncTask<Uri, Void, Uri> {
         if (trailerList.size() > 0) {
             ContentValues[] trailerValues = DbUtils.convertTrailers(trailerList);
             int trailerCount = contentResolver.bulkInsert(PopularMoviesContract.TrailerEntry.CONTENT_URI, trailerValues);
-            Log.i(TAG, String.format("%d trailers were inserted", trailerCount));
+            Log.i(TAG, String.format("%d trailers were saved to database", trailerCount));
         }
 
         // save the reviews
@@ -70,7 +72,7 @@ public class MovieInsertTask extends AsyncTask<Uri, Void, Uri> {
         if (reviewList.size() > 0) {
             ContentValues[] reviewValues = DbUtils.convertReviews(reviewList);
             int reviewCount = contentResolver.bulkInsert(PopularMoviesContract.ReviewEntry.CONTENT_URI, reviewValues);
-            Log.i(TAG, String.format("%d reviews were inserted", reviewCount));
+            Log.i(TAG, String.format("%d reviews were saved to database", reviewCount));
         }
 
         return resultUri;

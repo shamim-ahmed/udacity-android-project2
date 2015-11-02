@@ -58,7 +58,7 @@ public class PosterQueryTask extends AsyncTask<Void, Void, byte[]> {
 
         if (posterView != null) {
             posterView.setImageBitmap(bitmap);
-            Log.i(TAG, String.format("poster for movie id %d was successfully loaded from database", movie.getMovieId()));
+            Log.i(TAG, String.format("poster for movie %s was loaded from database", movie.getTitle()));
         }
     }
 }

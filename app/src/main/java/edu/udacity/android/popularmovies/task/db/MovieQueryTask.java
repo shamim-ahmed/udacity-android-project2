@@ -10,14 +10,13 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
-public class MovieQueryTask extends AsyncTask<Uri, Void, List<Movie>> {
+public class MovieQueryTask extends AsyncTask<Void, Void, List<Movie>> {
     private static final String TAG = MovieQueryTask.class.getSimpleName();
 
     private final Activity activity;
@@ -29,15 +28,10 @@ public class MovieQueryTask extends AsyncTask<Uri, Void, List<Movie>> {
     }
 
     @Override
-    protected List<Movie> doInBackground(Uri... params) {
-        if (params.length == 0) {
-            Log.e(TAG, "no uri provided");
-            return Collections.emptyList();
-        }
-
+    protected List<Movie> doInBackground(Void... params) {
         List<Movie> movieList = new ArrayList<>();
         ContentResolver contentResolver = activity.getContentResolver();
-        Uri targetUri = params[0];
+        Uri targetUri = PopularMoviesContract.MovieEntry.CONTENT_URI;
         Cursor cursor = null;
 
         try {
@@ -60,5 +54,7 @@ public class MovieQueryTask extends AsyncTask<Uri, Void, List<Movie>> {
     protected void onPostExecute(List<Movie> movieList) {
         adapter.clear();
         adapter.addAll(movieList);
+
+        Log.i(TAG, String.format("%d favorite movies were loaded from database", movieList.size()));
     }
 }
