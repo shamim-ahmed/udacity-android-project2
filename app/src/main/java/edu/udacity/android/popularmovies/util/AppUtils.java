@@ -198,6 +198,7 @@ public class AppUtils {
         if (shareMenuItem != null) {
             ShareActionProvider shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareMenuItem);
             shareActionProvider.setShareIntent(null);
+            shareMenuItem.setEnabled(false);
         }
     }
 
