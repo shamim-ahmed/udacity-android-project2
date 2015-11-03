@@ -17,7 +17,7 @@ public class TestDb extends AndroidTestCase {
 
     private void deleteDataFromTable() {
         PopularMoviesDbHelper dbHelper = new PopularMoviesDbHelper(mContext);
-        SQLiteDatabase db =  dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         try {
             db.execSQL("DELETE FROM " + PopularMoviesContract.MovieEntry.TABLE_NAME);
@@ -28,7 +28,7 @@ public class TestDb extends AndroidTestCase {
 
     public void testCreateTable() throws Throwable {
         PopularMoviesDbHelper dbHelper = new PopularMoviesDbHelper(mContext);
-        SQLiteDatabase db =  dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         assertEquals(true, db.isOpen());
 
         // have we created the tables we want?
@@ -68,7 +68,7 @@ public class TestDb extends AndroidTestCase {
         do {
             String columnName = c.getString(columnNameIndex);
             movieColumnHashSet.remove(columnName);
-        } while(c.moveToNext());
+        } while (c.moveToNext());
 
         // if this fails, it means that your database doesn't contain all of the required location
         // entry columns
@@ -90,7 +90,7 @@ public class TestDb extends AndroidTestCase {
         long _id = db.insert(PopularMoviesContract.MovieEntry.TABLE_NAME, null, values);
         assertTrue("insert in Movie table failed", _id != -1);
 
-        Cursor c = db.query(PopularMoviesContract.MovieEntry.TABLE_NAME, null, "_ID = ?", new String[] {Long.toString(_id)}, null, null, null, null);
+        Cursor c = db.query(PopularMoviesContract.MovieEntry.TABLE_NAME, null, "_ID = ?", new String[]{Long.toString(_id)}, null, null, null, null);
         assertTrue("the row from Movie table could not be retrieved", c.moveToFirst());
         TestUtilities.validateCurrentRecord("retrieved values do not match inserted values", c, values);
 

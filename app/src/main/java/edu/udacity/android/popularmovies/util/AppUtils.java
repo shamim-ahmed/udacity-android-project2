@@ -219,7 +219,7 @@ public class AppUtils {
     }
 
     public static byte[] extractPosterContent(ImageView imageView) {
-        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
         return outputStream.toByteArray();

@@ -34,7 +34,7 @@ public class MovieTestCase extends ProviderTestCase2<PopularMoviesProvider> {
         long expectedId = (Long) values.get("movie_id");
         assertTrue("movieId is different than expected", movieId == expectedId);
 
-        int count = provider.delete(PopularMoviesContract.MovieEntry.CONTENT_URI, "movie_id = ?", new String[] {Long.toString(movieId)});
+        int count = provider.delete(PopularMoviesContract.MovieEntry.CONTENT_URI, "movie_id = ?", new String[]{Long.toString(movieId)});
         assertTrue("inserted movie was not deleted successfully", count == 1);
     }
 
