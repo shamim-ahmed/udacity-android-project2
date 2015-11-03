@@ -69,7 +69,7 @@ public class AppUtils {
         int releaseDateIndex = cursor.getColumnIndex(PopularMoviesContract.MovieEntry.COLUMN_RELEASE_DATE);
         int posterUriIndex = cursor.getColumnIndex(PopularMoviesContract.MovieEntry.COLUMN_POSTER_URI);
         int voteAverageIndex = cursor.getColumnIndex(PopularMoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE);
-        int synopsisIndex = cursor.getColumnIndex(PopularMoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE);
+        int synopsisIndex = cursor.getColumnIndex(PopularMoviesContract.MovieEntry.COLUMN_SYNOPSIS);
 
         ContentValues values = new ContentValues();
         values.put(PopularMoviesContract.MovieEntry.COLUMN_MOVIE_ID, cursor.getLong(movieIdIndex));

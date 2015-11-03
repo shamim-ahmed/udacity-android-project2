@@ -46,6 +46,11 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
             }
         }
 
+        return result;
+    }
+
+    @Override
+    protected void onPostExecute(Boolean result) {
         if (result) {
             loadPosterFromDatabase();
             loadTrailersFromDatabase();
@@ -56,11 +61,6 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
             startReviewDataDownload();
         }
 
-        return result;
-    }
-
-    @Override
-    protected void onPostExecute(Boolean result) {
         Button favoriteButton = (Button) activity.findViewById(R.id.favorite_button);
 
         // NOTE : occasionally an NPE is encountered when the user tries to select

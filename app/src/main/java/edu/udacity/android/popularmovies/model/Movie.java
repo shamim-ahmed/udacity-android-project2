@@ -67,7 +67,7 @@ public class Movie implements Parcelable {
 
     @SuppressWarnings("unchecked")
     public Movie(Parcel in) {
-        Object[] values = in.readArray(ClassLoader.getSystemClassLoader());
+        Object[] values = in.readArray(Movie.class.getClassLoader());
         movieId = (Long) values[0];
         title = (String) values[1];
         releaseDate = (String) values[2];
