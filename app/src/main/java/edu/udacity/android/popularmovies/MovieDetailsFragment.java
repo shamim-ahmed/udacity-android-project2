@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
