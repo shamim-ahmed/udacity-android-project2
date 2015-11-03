@@ -41,6 +41,8 @@ public class MoviesQueryTask extends AsyncTask<Void, Void, List<Movie>> {
                 ContentValues values = AppUtils.readMovieFromCursor(cursor);
                 movieList.add(new Movie(values));
             }
+
+            Log.i(TAG, String.format("%d favorite movies were loaded from database", movieList.size()));
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -54,7 +56,5 @@ public class MoviesQueryTask extends AsyncTask<Void, Void, List<Movie>> {
     protected void onPostExecute(List<Movie> movieList) {
         adapter.clear();
         adapter.addAll(movieList);
-
-        Log.i(TAG, String.format("%d favorite movies were loaded from database", movieList.size()));
     }
 }
