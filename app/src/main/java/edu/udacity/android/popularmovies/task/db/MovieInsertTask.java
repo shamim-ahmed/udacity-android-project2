@@ -19,7 +19,7 @@ import edu.udacity.android.popularmovies.model.Trailer;
 import edu.udacity.android.popularmovies.util.Constants;
 import edu.udacity.android.popularmovies.util.DbUtils;
 
-public class MovieInsertTask extends AsyncTask<Uri, Void, Uri> {
+public class MovieInsertTask extends AsyncTask<Void, Void, Uri> {
     private static final String TAG = MovieInsertTask.class.getSimpleName();
 
     private final PopularMoviesApplication application;
@@ -35,12 +35,8 @@ public class MovieInsertTask extends AsyncTask<Uri, Void, Uri> {
     }
 
     @Override
-    protected Uri doInBackground(Uri... params) {
-        if (params.length == 0) {
-            Log.e(TAG, "no uri provided for insert operation");
-        }
-
-        Uri targetUri = params[0];
+    protected Uri doInBackground(Void... params) {
+        Uri targetUri = PopularMoviesContract.MovieEntry.CONTENT_URI;
         ContentResolver contentResolver = activity.getContentResolver();
         ContentValues movieValues = DbUtils.convertMovie(movie);
         Uri resultUri = contentResolver.insert(targetUri, movieValues);

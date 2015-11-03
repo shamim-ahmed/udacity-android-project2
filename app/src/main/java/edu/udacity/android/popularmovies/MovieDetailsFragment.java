@@ -18,7 +18,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.task.db.MovieInsertTask;
 import edu.udacity.android.popularmovies.task.db.MovieIsFavoriteQueryTask;
@@ -95,7 +94,7 @@ public class MovieDetailsFragment extends Fragment {
                 if (!selected) {
                     byte[] posterContent = AppUtils.extractPosterContent(posterView);
                     MovieInsertTask insertTask = new MovieInsertTask(selectedMovie, posterContent, activity, application);
-                    insertTask.execute(PopularMoviesContract.MovieEntry.CONTENT_URI);
+                    insertTask.execute();
                 }
             }
         });
