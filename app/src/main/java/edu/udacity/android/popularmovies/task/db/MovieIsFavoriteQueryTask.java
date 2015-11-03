@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,8 +19,6 @@ import edu.udacity.android.popularmovies.task.web.TrailersDataDownloadTask;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
 public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
-    private static final String TAG = MovieIsFavoriteQueryTask.class.getSimpleName();
-
     private final Movie movie;
     private final Activity activity;
 
@@ -83,8 +80,6 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     private void startPosterDownload() {
-        Log.i(TAG, String.format("starting poster download for movie %s", movie.getTitle()));
-
         int moviePlaceHolderId;
 
         if (AppUtils.isTablet(activity)) {
@@ -104,37 +99,27 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     private void startTrailerDataDownload() {
-        Log.i(TAG, String.format("starting trailer download for movie %s", movie.getTitle()));
-
         TrailersDataDownloadTask trailerDownloadTask = new TrailersDataDownloadTask(movie, activity);
         trailerDownloadTask.execute();
     }
 
     private void startReviewDataDownload() {
-        Log.i(TAG, String.format("starting review download for movie %s", movie.getTitle()));
-
         ReviewsDataDownloadTask task = new ReviewsDataDownloadTask(movie, activity);
         task.execute();
     }
 
     private void loadPosterFromDatabase() {
-        Log.i(TAG, String.format("loading poster for movie %s from database", movie.getTitle()));
-
         ImageView posterView = (ImageView) activity.findViewById(R.id.movie_details_poster);
         PosterQueryTask task = new PosterQueryTask(movie, activity, posterView);
         task.execute();
     }
 
     private void loadTrailersFromDatabase() {
-        Log.i(TAG, String.format("loading trailer data for movie %s from database", movie.getTitle()));
-
         TrailersQueryTask task = new TrailersQueryTask(movie, activity);
         task.execute();
     }
 
     private void loadReviewsFromDatabase() {
-        Log.i(TAG, String.format("loading review data for movie %s from database", movie.getTitle()));
-
         ReviewsQueryTask task = new ReviewsQueryTask(movie, activity);
         task.execute();
     }
