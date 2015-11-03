@@ -126,13 +126,9 @@ public class MovieDetailsFragment extends Fragment {
             return;
         }
 
-        // populate the trailer list
+        // populate the trailer and review list
         if (savedStateFlag) {
             AppUtils.displayTrailersForMovie(selectedMovie, activity);
-        }
-
-        // populate the review list
-        if (savedStateFlag) {
             AppUtils.displayReviewsForMovie(selectedMovie, activity);
         }
     }
