@@ -21,10 +21,12 @@ import edu.udacity.android.popularmovies.util.AppUtils;
 public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
     private final Movie movie;
     private final Activity activity;
+    private final boolean savedStateFlag;
 
-    public MovieIsFavoriteQueryTask(Activity activity, Movie movie) {
+    public MovieIsFavoriteQueryTask(Activity activity, Movie movie, boolean savedStateFlag) {
         this.activity = activity;
         this.movie = movie;
+        this.savedStateFlag = savedStateFlag;
     }
 
     @Override
@@ -50,12 +52,22 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
     protected void onPostExecute(Boolean result) {
         if (result) {
             loadPosterFromDatabase();
-            loadTrailersFromDatabase();
-            loadReviewsFromDatabase();
+
+            // this check ensures that trailers and reviews do not appear twice
+            // upon rotation
+            if (!savedStateFlag) {
+                loadTrailersFromDatabase();
+                loadReviewsFromDatabase();
+            }
         } else {
             startPosterDownload();
-            startTrailerDataDownload();
-            startReviewDataDownload();
+
+            // this check ensures that trailers and reviews do not appear twice
+            // upon rotation
+            if (!savedStateFlag) {
+                startTrailerDataDownload();
+                startReviewDataDownload();
+            }
         }
 
         Button favoriteButton = (Button) activity.findViewById(R.id.favorite_button);

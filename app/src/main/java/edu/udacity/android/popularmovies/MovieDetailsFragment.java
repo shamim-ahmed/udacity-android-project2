@@ -41,7 +41,7 @@ public class MovieDetailsFragment extends Fragment {
         TextView ratingView = (TextView) rootView.findViewById(R.id.movie_details_rating);
         TextView synopsisView = (TextView) rootView.findViewById(R.id.movie_details_synopsis);
 
-        boolean savedStateFlag = savedInstanceState != null;
+        boolean savedStateFlag = (savedInstanceState != null);
 
         // find the movie
         Movie movie;
@@ -76,7 +76,7 @@ public class MovieDetailsFragment extends Fragment {
 
         // check if the movie has been marked as favorite
         final PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
-        MovieIsFavoriteQueryTask queryTask = new MovieIsFavoriteQueryTask(activity, selectedMovie);
+        MovieIsFavoriteQueryTask queryTask = new MovieIsFavoriteQueryTask(activity, selectedMovie, savedStateFlag);
         queryTask.execute();
 
         Button favoriteButton = (Button) rootView.findViewById(R.id.favorite_button);
