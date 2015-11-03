@@ -15,14 +15,14 @@ import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.util.AppUtils;
 
-public class PostersQueryTask extends AsyncTask<Void, Void, byte[]> {
-    private static final String TAG = PostersQueryTask.class.getSimpleName();
+public class PosterQueryTask extends AsyncTask<Void, Void, byte[]> {
+    private static final String TAG = PosterQueryTask.class.getSimpleName();
 
     private final Movie movie;
     private final Activity activity;
     private final ImageView posterView;
 
-    public PostersQueryTask(Movie movie, Activity activity, ImageView imageView) {
+    public PosterQueryTask(Movie movie, Activity activity, ImageView imageView) {
         this.movie = movie;
         this.activity = activity;
         this.posterView = imageView;
@@ -42,6 +42,7 @@ public class PostersQueryTask extends AsyncTask<Void, Void, byte[]> {
             if (cursor.moveToNext()) {
                 ContentValues values = AppUtils.readPosterFromCursor(cursor);
                 posterContent = values.getAsByteArray(PopularMoviesContract.PosterEntry.COLUMN_CONTENT);
+                Log.i(TAG, String.format("poster for movie %s was loaded from database", movie.getTitle()));
             }
         } finally {
             if (cursor != null) {
@@ -58,7 +59,6 @@ public class PostersQueryTask extends AsyncTask<Void, Void, byte[]> {
 
         if (posterView != null) {
             posterView.setImageBitmap(bitmap);
-            Log.i(TAG, String.format("poster for movie %s was loaded from database", movie.getTitle()));
         }
     }
 }

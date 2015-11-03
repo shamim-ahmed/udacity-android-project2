@@ -41,6 +41,8 @@ public class TrailersQueryTask extends AsyncTask<Void, Void, List<Trailer>> {
                 ContentValues values = AppUtils.readTrailerFromCursor(cursor);
                 trailerList.add(new Trailer(values));
             }
+
+            Log.i(TAG, String.format("%d trailers for movie %s were loaded from database", trailerList.size(), movie.getTitle()));
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -54,8 +56,6 @@ public class TrailersQueryTask extends AsyncTask<Void, Void, List<Trailer>> {
     protected void onPostExecute(List<Trailer> trailerList) {
         movie.setTrailerList(trailerList);
         AppUtils.displayTrailersForMovie(movie, activity);
-
-        Log.i(TAG, String.format("%d trailers for movie %s were loaded from database", trailerList.size(), movie.getTitle()));
 
         if (trailerList.size() > 0) {
             Trailer firstTrailer = trailerList.get(0);

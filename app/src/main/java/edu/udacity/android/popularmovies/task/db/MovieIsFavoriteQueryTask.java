@@ -121,7 +121,7 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
         Log.i(TAG, String.format("loading poster for movie %s from database", movie.getTitle()));
 
         ImageView posterView = (ImageView) activity.findViewById(R.id.movie_details_poster);
-        PostersQueryTask task = new PostersQueryTask(movie, activity, posterView);
+        PosterQueryTask task = new PosterQueryTask(movie, activity, posterView);
         task.execute();
     }
 

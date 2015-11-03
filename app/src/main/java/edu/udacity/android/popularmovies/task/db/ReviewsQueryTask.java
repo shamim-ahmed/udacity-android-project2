@@ -41,6 +41,8 @@ public class ReviewsQueryTask extends AsyncTask<Void, Void, List<Review>> {
                 ContentValues values = AppUtils.readReviewFromCursor(cursor);
                 reviewList.add(new Review(values));
             }
+
+            Log.i(TAG, String.format("%d reviews for movie %s were loaded from database", reviewList.size(), movie.getTitle()));
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -54,7 +56,5 @@ public class ReviewsQueryTask extends AsyncTask<Void, Void, List<Review>> {
     protected void onPostExecute(List<Review> reviewList) {
         movie.setReviewList(reviewList);
         AppUtils.displayReviewsForMovie(movie, activity);
-
-        Log.i(TAG, String.format("%d reviews for movie %s were loaded from database", reviewList.size(), movie.getTitle()));
     }
 }
