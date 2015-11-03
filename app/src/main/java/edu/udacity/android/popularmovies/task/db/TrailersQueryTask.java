@@ -62,6 +62,8 @@ public class TrailersQueryTask extends AsyncTask<Void, Void, List<Trailer>> {
             String trailerTitle = String.format("%s : %s", movie.getTitle(), firstTrailer.getName());
             String trailerKey = firstTrailer.getKey();
             AppUtils.updateShareMenuItem(trailerTitle, trailerKey, activity);
+        } else {
+            AppUtils.disableShareMenuItem(activity);
         }
     }
 }

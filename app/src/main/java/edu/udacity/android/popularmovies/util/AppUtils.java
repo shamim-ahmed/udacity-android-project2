@@ -192,6 +192,15 @@ public class AppUtils {
         }
     }
 
+    public static void disableShareMenuItem(Activity activity) {
+        MenuItem shareMenuItem = ((ShareMenuItemAware) activity).getShareMenuItem();
+
+        if (shareMenuItem != null) {
+            ShareActionProvider shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareMenuItem);
+            shareActionProvider.setShareIntent(null);
+        }
+    }
+
     public static void displayReviewsForMovie(Movie movie, Activity activity) {
         LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.movie_reviews);
 
