@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -80,6 +81,10 @@ public class MovieInsertTask extends AsyncTask<Void, Void, Uri> {
             Log.e(TAG, "favorite movie insertion failed");
             return;
         }
+
+        // show a toast message
+        CharSequence toastMessage = activity.getResources().getText(R.string.favorite_movie_toast_text);
+        Toast.makeText(activity, toastMessage, Toast.LENGTH_SHORT).show();
 
         // set the state of the favorite button to selected
         Button favoriteButton = (Button) activity.findViewById(R.id.favorite_button);
