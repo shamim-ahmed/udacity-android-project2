@@ -94,6 +94,13 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
     private void startPosterDownload() {
         ImageView posterView = (ImageView) activity.findViewById(R.id.movie_details_poster);
 
+        // NOTE : occasionally an NPE is encountered when the user tries to select
+        // a movie from the grid while the screen is getting rotated. In order to prevent
+        // the NPE, we include a check.
+        if (posterView == null) {
+            return;
+        }
+
         DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
         float height = 1.6f * width;
