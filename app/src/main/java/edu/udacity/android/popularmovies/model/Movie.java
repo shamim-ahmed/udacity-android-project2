@@ -27,6 +27,11 @@ public class Movie implements Parcelable {
     private final List<Trailer> trailerList = new ArrayList<>();
     private final List<Review> reviewList = new ArrayList<>();
 
+    // these boolean fields indicate whether the trailers and reviews
+    // associated with this movie have been loaded
+    private boolean trailersLoaded = false;
+    private boolean reviewsLoaded = false;
+
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
 
         @Override
@@ -113,6 +118,7 @@ public class Movie implements Parcelable {
 
         trailerList.clear();
         trailerList.addAll(list);
+        trailersLoaded = true;
     }
 
     public synchronized List<Review> getReviewList() {
@@ -126,6 +132,7 @@ public class Movie implements Parcelable {
 
         reviewList.clear();
         reviewList.addAll(list);
+        reviewsLoaded = true;
     }
 
     @Override
@@ -141,5 +148,13 @@ public class Movie implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeArray(new Object[]{movieId, title, releaseDate, posterUri, voteAverage, synopsis, trailerList, reviewList});
+    }
+
+    public synchronized boolean isTrailersLoaded() {
+        return trailersLoaded;
+    }
+
+    public synchronized boolean isReviewsLoaded() {
+        return reviewsLoaded;
     }
 }
