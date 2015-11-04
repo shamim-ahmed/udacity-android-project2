@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,7 +17,6 @@ import edu.udacity.android.popularmovies.db.PopularMoviesContract;
 import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.task.web.ReviewsDataDownloadTask;
 import edu.udacity.android.popularmovies.task.web.TrailersDataDownloadTask;
-import edu.udacity.android.popularmovies.util.AppUtils;
 
 public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
     private final Movie movie;
@@ -92,23 +92,18 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     private void startPosterDownload() {
-        int moviePlaceHolderId;
-
-        if (AppUtils.isTablet(activity)) {
-            moviePlaceHolderId = R.drawable.movie_placeholder;
-        } else {
-            moviePlaceHolderId = R.drawable.movie_placeholder_small;
-        }
-
         ImageView posterView = (ImageView) activity.findViewById(R.id.movie_details_poster);
+
+        DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        float height = 1.6f * width;
 
         // display the poster
         Picasso.with(activity)
                 .load(movie.getPosterUri())
                 .noFade()
-                .placeholder(moviePlaceHolderId)
-                .fit()
-                .centerInside()
+                .placeholder(R.drawable.movie_placeholder)
+                .resize((int) width, (int) height)
                 .into(posterView);
     }
 
