@@ -76,7 +76,7 @@ public class MovieDetailsFragment extends Fragment {
 
         // check if the movie has been marked as favorite
         final PopularMoviesApplication application = (PopularMoviesApplication) activity.getApplication();
-        MovieIsFavoriteQueryTask queryTask = new MovieIsFavoriteQueryTask(activity, selectedMovie);
+        MovieIsFavoriteQueryTask queryTask = new MovieIsFavoriteQueryTask(activity, selectedMovie, savedStateFlag);
         queryTask.execute();
 
         Button favoriteButton = (Button) rootView.findViewById(R.id.favorite_button);
