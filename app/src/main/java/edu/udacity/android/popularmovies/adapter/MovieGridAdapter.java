@@ -46,6 +46,7 @@ public class MovieGridAdapter extends ArrayAdapter<Movie> {
                     .noFade()
                     .placeholder(R.drawable.movie_placeholder)
                     .fit()
+                    .centerInside()
                     .into(imageView);
         }
 

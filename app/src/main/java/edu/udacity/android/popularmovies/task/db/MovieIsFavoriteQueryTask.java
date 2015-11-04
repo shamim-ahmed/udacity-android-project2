@@ -107,6 +107,8 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
                 .load(movie.getPosterUri())
                 .noFade()
                 .placeholder(moviePlaceHolderId)
+                .fit()
+                .centerInside()
                 .into(posterView);
     }
 
