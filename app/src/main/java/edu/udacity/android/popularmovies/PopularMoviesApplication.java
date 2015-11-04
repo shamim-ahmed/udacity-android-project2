@@ -81,13 +81,13 @@ public class PopularMoviesApplication extends Application {
         return configValue;
     }
 
-    public void addBitmapToMemoryCache(String posterId, Bitmap bitmap) {
+    public synchronized void addBitmapToMemoryCache(String posterId, Bitmap bitmap) {
         if (getBitmapFromMemCache(posterId) == null) {
             posterCache.put(posterId, bitmap);
         }
     }
 
-    public Bitmap getBitmapFromMemCache(String posterId) {
+    public synchronized Bitmap getBitmapFromMemCache(String posterId) {
         return posterCache.get(posterId);
     }
 }

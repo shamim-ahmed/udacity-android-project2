@@ -21,7 +21,7 @@
     <string-array name="sort_option_labels" translatable="false">
         <item>Most Popular</item>
         <item>Highest Rated</item>
-        <item>Favorite Movies</item>
+        <item>Favorites</item>
     </string-array>
 
     <string-array name="sort_option_values" translatable="false">
