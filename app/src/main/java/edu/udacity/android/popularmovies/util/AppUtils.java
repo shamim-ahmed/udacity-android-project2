@@ -255,9 +255,9 @@ public class AppUtils {
         float width;
 
         if (isTablet(activity)) {
-            width = displayWidth / 4;
-        } else {
             width = displayWidth / 2;
+        } else {
+            width = displayWidth;
         }
 
         float height = ((float) bitmap.getHeight() / (float) bitmap.getWidth()) * width;
