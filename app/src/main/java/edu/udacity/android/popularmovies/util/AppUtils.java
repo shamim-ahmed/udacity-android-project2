@@ -252,11 +252,20 @@ public class AppUtils {
     public static void renderBitmap(Bitmap bitmap, ImageView posterView, Activity activity) {
         if (posterView != null) {
             DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
-            float width = displayMetrics.widthPixels / displayMetrics.density;
+            float displayWidth = displayMetrics.widthPixels / displayMetrics.density;
+            float width;
+
+            if (AppUtils.isTablet(activity)) {
+                width = displayWidth / 4;
+            } else {
+                width = displayWidth / 2;
+            }
+
             float height = ((float) bitmap.getHeight() / (float) bitmap.getWidth()) * width;
 
             Bitmap result = Bitmap.createScaledBitmap(bitmap, (int) width, (int) height, false);
             posterView.setImageBitmap(result);
+            //bitmap.recycle();
         }
     }
 
