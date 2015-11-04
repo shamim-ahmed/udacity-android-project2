@@ -21,12 +21,10 @@ import edu.udacity.android.popularmovies.util.AppUtils;
 public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
     private final Movie movie;
     private final Activity activity;
-    private final boolean savedStateFlag;
 
-    public MovieIsFavoriteQueryTask(Activity activity, Movie movie, boolean savedStateFlag) {
+    public MovieIsFavoriteQueryTask(Activity activity, Movie movie) {
         this.activity = activity;
         this.movie = movie;
-        this.savedStateFlag = savedStateFlag;
     }
 
     @Override
@@ -55,8 +53,11 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
 
             // this check ensures that trailers and reviews do not appear twice
             // upon rotation
-            if (!savedStateFlag) {
+            if (!movie.isTrailersLoaded()) {
                 loadTrailersFromDatabase();
+            }
+
+            if (!movie.isReviewsLoaded()) {
                 loadReviewsFromDatabase();
             }
         } else {
@@ -64,8 +65,11 @@ public class MovieIsFavoriteQueryTask extends AsyncTask<Void, Void, Boolean> {
 
             // this check ensures that trailers and reviews do not appear twice
             // upon rotation
-            if (!savedStateFlag) {
+            if (!movie.isTrailersLoaded()) {
                 startTrailerDataDownload();
+            }
+
+            if (!movie.isReviewsLoaded()) {
                 startReviewDataDownload();
             }
         }
