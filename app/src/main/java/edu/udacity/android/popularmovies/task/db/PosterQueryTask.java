@@ -51,11 +51,18 @@ public class PosterQueryTask extends AsyncTask<Void, Void, Bitmap> {
             if (cursor.moveToNext()) {
                 ContentValues values = AppUtils.readPosterFromCursor(cursor);
                 byte[] posterContent = values.getAsByteArray(PopularMoviesContract.PosterEntry.COLUMN_CONTENT);
-                posterBitmap = BitmapFactory.decodeByteArray(posterContent, 0, posterContent.length);
-                Log.i(TAG, String.format("poster for movie %s was loaded from database", movie.getTitle()));
+                Bitmap tempBitmap = BitmapFactory.decodeByteArray(posterContent, 0, posterContent.length);
 
-                // put the bitmap in cache for future retrieval
+                // perform scaling
+                posterBitmap = AppUtils.generateScaledBitmap(tempBitmap, activity);
+
+                // release the source bit map for better memory utilization
+                tempBitmap.recycle();
+
+                // put the scaled bitmap in cache for future retrieval
                 application.addBitmapToMemoryCache(posterId, posterBitmap);
+
+                Log.i(TAG, String.format("poster for movie %s was loaded from database", movie.getTitle()));
             }
         } finally {
             if (cursor != null) {
@@ -68,6 +75,8 @@ public class PosterQueryTask extends AsyncTask<Void, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        AppUtils.renderBitmap(bitmap, posterView, activity);
+        if (posterView != null) {
+            posterView.setImageBitmap(bitmap);
+        }
     }
 }

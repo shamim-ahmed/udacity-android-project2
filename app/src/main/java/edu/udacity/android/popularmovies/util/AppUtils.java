@@ -249,24 +249,20 @@ public class AppUtils {
                 .build();
     }
 
-    public static void renderBitmap(Bitmap bitmap, ImageView posterView, Activity activity) {
-        if (posterView != null) {
-            DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
-            float displayWidth = displayMetrics.widthPixels / displayMetrics.density;
-            float width;
+    public static Bitmap generateScaledBitmap(Bitmap bitmap, Activity activity) {
+        DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
+        float displayWidth = displayMetrics.widthPixels / displayMetrics.density;
+        float width;
 
-            if (AppUtils.isTablet(activity)) {
-                width = displayWidth / 4;
-            } else {
-                width = displayWidth / 2;
-            }
-
-            float height = ((float) bitmap.getHeight() / (float) bitmap.getWidth()) * width;
-
-            Bitmap result = Bitmap.createScaledBitmap(bitmap, (int) width, (int) height, false);
-            posterView.setImageBitmap(result);
-            //bitmap.recycle();
+        if (isTablet(activity)) {
+            width = displayWidth / 4;
+        } else {
+            width = displayWidth / 2;
         }
+
+        float height = ((float) bitmap.getHeight() / (float) bitmap.getWidth()) * width;
+
+        return Bitmap.createScaledBitmap(bitmap, (int) width, (int) height, false);
     }
 
     // private constructor to prevent instantiation
