@@ -14,6 +14,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
 import android.text.Html;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -246,6 +247,17 @@ public class AppUtils {
                 .path(path)
                 .appendQueryParameter("v", trailerKey)
                 .build();
+    }
+
+    public static void renderBitmap(Bitmap bitmap, ImageView posterView, Activity activity) {
+        if (posterView != null) {
+            DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
+            float width = displayMetrics.widthPixels / displayMetrics.density;
+            float height = ((float) bitmap.getHeight() / (float) bitmap.getWidth()) * width;
+
+            Bitmap result = Bitmap.createScaledBitmap(bitmap, (int) width, (int) height, false);
+            posterView.setImageBitmap(result);
+        }
     }
 
     // private constructor to prevent instantiation

@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -68,8 +69,6 @@ public class PosterQueryTask extends AsyncTask<Void, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        if (posterView != null) {
-            posterView.setImageBitmap(bitmap);
-        }
+        AppUtils.renderBitmap(bitmap, posterView, activity);
     }
 }
