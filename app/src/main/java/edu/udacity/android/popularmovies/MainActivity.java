@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,6 +14,8 @@ import edu.udacity.android.popularmovies.model.Movie;
 import edu.udacity.android.popularmovies.util.Constants;
 
 public class MainActivity extends AppCompatActivity implements MovieGridFragment.Callback, ShareMenuItemAware {
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private boolean twoPaneRenderMode;
     private MenuItem shareMenuItem;
 
@@ -99,12 +102,18 @@ public class MainActivity extends AppCompatActivity implements MovieGridFragment
             arguments.putParcelable(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME, selectedMovie);
             detailsFragment.setArguments(arguments);
 
-            // NOTE: I had to invoke commitAllowingStateLoss() as I was getting an occasional IllegalStateException
-            // when I was trying to select a movie while screen rotation was taking place. Invocation of this
-            // method does not seem to be recommended, but it prevents the app from crashing
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.movie_detail_container, detailsFragment, Constants.MOVIE_DETAILS_FRAGMENT_TAG)
-                    .commitAllowingStateLoss();
+            // Sometimes the app throws IllegalStateException while replacing the movie details fragment.
+            // This happens particularly when movie selection and rotation happens at the same time.
+            // The following logic was added in order to circumvent the problem.
+            if (!isDestroyed()) {
+                try {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.movie_detail_container, detailsFragment, Constants.MOVIE_DETAILS_FRAGMENT_TAG)
+                            .commit();
+                } catch (IllegalStateException ex) {
+                    Log.e(TAG, "Error while replacing details fragment", ex);
+                }
+            }
         } else {
             Intent intent = new Intent(this, MovieDetailsActivity.class);
             intent.putExtra(Constants.SELECTED_MOVIE_ATTRIBUTE_NAME, selectedMovie);
