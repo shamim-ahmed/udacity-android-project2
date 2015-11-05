@@ -229,11 +229,16 @@ public class AppUtils {
         }
     }
 
-    public static byte[] extractPosterContent(ImageView imageView) {
-        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+    public static byte[] extractPosterContent(ImageView imageView, Activity activity) {
+        Bitmap srcBitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        Bitmap scaledBitmap = generateScaledBitmap(srcBitmap, activity);
+
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
-        return outputStream.toByteArray();
+        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
+        byte[] resultBytes = outputStream.toByteArray();
+        scaledBitmap.recycle();
+
+        return resultBytes;
     }
 
     public static Uri createTrailerUri(String trailerKey, PopularMoviesApplication application) {

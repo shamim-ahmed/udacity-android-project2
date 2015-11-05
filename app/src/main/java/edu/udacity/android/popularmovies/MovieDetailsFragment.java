@@ -92,7 +92,7 @@ public class MovieDetailsFragment extends Fragment {
                 boolean selected = btn.isSelected();
 
                 if (!selected) {
-                    byte[] posterContent = AppUtils.extractPosterContent(posterView);
+                    byte[] posterContent = AppUtils.extractPosterContent(posterView, activity);
                     MovieInsertTask insertTask = new MovieInsertTask(selectedMovie, posterContent, activity, application);
                     insertTask.execute();
                 }
