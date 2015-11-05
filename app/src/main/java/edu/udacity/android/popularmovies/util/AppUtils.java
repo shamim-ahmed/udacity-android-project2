@@ -236,6 +236,8 @@ public class AppUtils {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
         byte[] resultBytes = outputStream.toByteArray();
+
+        // as we don't need the scaled bitmap immediately, we recycle it to free up memory
         scaledBitmap.recycle();
 
         return resultBytes;
