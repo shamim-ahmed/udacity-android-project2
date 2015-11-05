@@ -105,14 +105,12 @@ public class MainActivity extends AppCompatActivity implements MovieGridFragment
             // Sometimes the app throws IllegalStateException while replacing the movie details fragment.
             // This happens particularly when movie selection and rotation happens at the same time.
             // The following logic was added in order to circumvent the problem.
-            if (!isDestroyed()) {
-                try {
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.movie_detail_container, detailsFragment, Constants.MOVIE_DETAILS_FRAGMENT_TAG)
-                            .commit();
-                } catch (IllegalStateException ex) {
-                    Log.e(TAG, "Error while replacing details fragment", ex);
-                }
+            try {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.movie_detail_container, detailsFragment, Constants.MOVIE_DETAILS_FRAGMENT_TAG)
+                        .commitAllowingStateLoss();
+            } catch (IllegalStateException ex) {
+                Log.e(TAG, "Error while replacing details fragment", ex);
             }
         } else {
             Intent intent = new Intent(this, MovieDetailsActivity.class);
